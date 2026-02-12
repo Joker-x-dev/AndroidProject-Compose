@@ -51,33 +51,33 @@ AndroidProject-Compose is a **single-module Jetpack Compose scaffold** that ship
 
 ### Core Technologies
 
-| Category              | Technology          | Version    | Description                  |
-|-----------------------|---------------------|------------|------------------------------|
-| Programming Language  | Kotlin              | 2.2.21     | 100% Kotlin                  |
-| UI Framework          | Jetpack Compose     | 2025.11.01 | Declarative UI framework     |
-| Dependency Injection  | Hilt                | 2.57.2     | Dagger-based DI framework    |
+| Category              | Technology          | Description                  |
+|-----------------------|---------------------|------------------------------|
+| Programming Language  | Kotlin              | 100% Kotlin                  |
+| UI Framework          | Jetpack Compose     | Declarative UI framework     |
+| Dependency Injection  | Hilt                | Dagger-based DI framework    |
 
 ### Feature Modules
 
-| Category   | Technology             | Version       | Description               |
-|------------|------------------------|---------------|---------------------------|
-| Navigation | Navigation Compose     | 2.9.6         | Compose navigation        |
-| Network    | Retrofit + OkHttp      | 3.0.0 + 5.3.2 | HTTP client               |
+| Category   | Technology             | Description               |
+|------------|------------------------|---------------------------|
+| Navigation | Navigation Compose     | Compose navigation        |
+| Network    | Retrofit + OkHttp      | HTTP client               |
 
 ### Data Storage
 
-| Category      | Technology | Version | Description                      |
-|---------------|------------|---------|----------------------------------|
-| Database      | Room       | 2.8.4   | SQLite database                  |
-| Local Storage | MMKV       | 2.2.4   | High-performance key-value store |
+| Category      | Technology | Description                      |
+|---------------|------------|----------------------------------|
+| Database      | Room       | SQLite database                  |
+| Local Storage | MMKV       | High-performance key-value store |
 
 ### Development Tools
 
-| Category          | Technology | Version | Description            |
-|-------------------|------------|---------|------------------------|
-| Logging           | Timber     | 5.0.1   | Log management         |
-| Network Debugging | Chucker    | 4.2.0   | Network request monitor|
-| Memory Leak Check | LeakCanary | 2.14    | Memory leak detection  |
+| Category          | Technology | Description            |
+|-------------------|------------|------------------------|
+| Logging           | Timber     | Log management         |
+| Network Debugging | Chucker    | Network request monitor|
+| Memory Leak Check | LeakCanary | Memory leak detection  |
 
 ## 📱 Feature Module Directory
 
@@ -105,7 +105,6 @@ AndroidProject-Compose is a **single-module Jetpack Compose scaffold** that ship
 ## Project Structure
 
 ```
-├── app/                  # App entry
 ├── core/                 # Core
 │   ├── base/             # Base abstractions
 │   ├── data/             # Data layer

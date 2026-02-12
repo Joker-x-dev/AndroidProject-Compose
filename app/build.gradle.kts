@@ -1,10 +1,6 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     // Android 应用构建插件
     alias(libs.plugins.android.application)
-    // Kotlin Android 支持
-    alias(libs.plugins.kotlin.android)
     // Compose 编译插件
     alias(libs.plugins.kotlin.compose)
     // Kotlin 序列化插件
@@ -21,7 +17,9 @@ android {
     namespace = "com.joker.kit"
     // 编译期使用的 SDK 版本
     compileSdk {
-        version = release(36)
+        version = release(36) {
+            minorApiLevel = 1
+        }
     }
 
     defaultConfig {
@@ -136,13 +134,6 @@ android {
     }
 }
 
-kotlin {
-    compilerOptions {
-        // Kotlin 编译生成的 JVM 字节码版本
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
-}
-
 dependencies {
     // AndroidX Core 基础
     implementation(libs.androidx.core.ktx)
@@ -190,7 +181,6 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.android.compiler)
-    compileOnly(libs.ksp.gradlePlugin)
 
     // 数据库 (Room)
     implementation(libs.androidx.room.runtime)
