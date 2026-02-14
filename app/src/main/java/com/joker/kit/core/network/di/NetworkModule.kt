@@ -3,8 +3,8 @@ package com.joker.kit.core.network.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.joker.kit.core.network.interceptor.AuthInterceptor
 import com.joker.kit.BuildConfig
+import com.joker.kit.core.network.interceptor.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

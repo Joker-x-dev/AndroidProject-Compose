@@ -4,31 +4,25 @@ import androidx.lifecycle.viewModelScope
 import com.joker.kit.core.base.viewmodel.BaseViewModel
 import com.joker.kit.core.data.repository.UserInfoStoreRepository
 import com.joker.kit.core.model.entity.User
-import com.joker.kit.core.state.UserState
-import com.joker.kit.navigation.AppNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * 本地存储示例页 ViewModel
  *
  * 通过本地仓库 (UserInfoStoreRepository) 演示“用户信息” 的保存 / 读取 / 清除。
  *
- * @param navigator 导航管理器
- * @param userState 用户状态管理
  * @param userInfoStoreRepository 用户信息本地存储仓库
  * @author Joker.X
  */
 @HiltViewModel
 class LocalStorageViewModel @Inject constructor(
-    navigator: AppNavigator,
-    userState: UserState,
     private val userInfoStoreRepository: UserInfoStoreRepository
-) : BaseViewModel(navigator, userState) {
+) : BaseViewModel() {
 
     /** 用户 id 输入 */
     private val _userId = MutableStateFlow("1")

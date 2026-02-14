@@ -39,6 +39,7 @@ import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalSmall
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.divider.Divider
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
@@ -75,7 +76,7 @@ internal fun DatabaseRoute(
         onAddClick = viewModel::addItem,
         onDeleteItem = viewModel::deleteItem,
         onClearAll = viewModel::clearAll,
-        onBackClick = viewModel::navigateBack
+        onBackClick = ::navigateBack
     )
 }
 

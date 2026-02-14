@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.auth.viewmodel.LoginViewModel
@@ -27,7 +28,7 @@ internal fun LoginRoute(
 ) {
     LoginScreen(
         onLoginClick = viewModel::login,
-        onBackClick = viewModel::navigateBack
+        onBackClick = ::navigateBack
     )
 }
 

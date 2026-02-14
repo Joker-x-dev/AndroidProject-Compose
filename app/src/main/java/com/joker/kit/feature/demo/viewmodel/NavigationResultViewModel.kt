@@ -1,28 +1,20 @@
 package com.joker.kit.feature.demo.viewmodel
 
 import com.joker.kit.core.base.viewmodel.BaseViewModel
-import com.joker.kit.core.state.UserState
-import com.joker.kit.navigation.AppNavigator
-import com.joker.kit.navigation.results.DemoResult
-import com.joker.kit.navigation.results.DemoResultKey
+import com.joker.kit.core.navigation.demo.DemoResult
+import com.joker.kit.core.navigation.demo.DemoResultKey
+import com.joker.kit.core.navigation.popBackStackWithResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
  * 结果回传示例页 ViewModel
  *
- * @param navigator 导航管理器
- * @param userState 用户状态
  * @author Joker.X
  */
 @HiltViewModel
 class NavigationResultViewModel @Inject constructor(
-    navigator: AppNavigator,
-    userState: UserState
-) : BaseViewModel(
-    navigator = navigator,
-    userState = userState
-) {
+) : BaseViewModel() {
     /**
      * 回传结果并返回上一页
      *

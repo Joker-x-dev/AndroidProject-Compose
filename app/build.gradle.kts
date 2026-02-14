@@ -150,7 +150,9 @@ dependencies {
     implementation(libs.coil.compose)
 
     // 导航组件
-    implementation(libs.navigation.compose)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     // 序列化
     implementation(libs.kotlinx.serialization.json)
@@ -178,7 +180,7 @@ dependencies {
     // 依赖注入 (Hilt + Navigation)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.lifecycle.viewmodel.compose)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.android.compiler)
 

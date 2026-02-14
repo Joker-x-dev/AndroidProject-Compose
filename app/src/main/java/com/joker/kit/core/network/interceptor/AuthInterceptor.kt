@@ -6,7 +6,6 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.text.isNotBlank
 
 /**
  * 认证拦截器 - 添加授权头信息

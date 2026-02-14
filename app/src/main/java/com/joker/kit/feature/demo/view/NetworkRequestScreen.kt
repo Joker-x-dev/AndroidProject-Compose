@@ -18,6 +18,7 @@ import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.model.entity.Goods
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.viewmodel.NetworkRequestViewModel
@@ -37,7 +38,7 @@ internal fun NetworkRequestRoute(
 
     NetworkRequestScreen(
         goods = goods,
-        onBackClick = viewModel::navigateBack,
+        onBackClick = ::navigateBack,
         onRequestClick = viewModel::onRequestClick
     )
 }

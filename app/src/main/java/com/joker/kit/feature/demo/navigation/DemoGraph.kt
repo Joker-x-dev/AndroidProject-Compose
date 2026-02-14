@@ -1,28 +1,45 @@
 package com.joker.kit.feature.demo.navigation
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import com.joker.kit.core.navigation.demo.DemoRoutes
+import com.joker.kit.feature.demo.view.DatabaseRoute
+import com.joker.kit.feature.demo.view.LocalStorageRoute
+import com.joker.kit.feature.demo.view.NavigationResultRoute
+import com.joker.kit.feature.demo.view.NavigationWithArgsRoute
+import com.joker.kit.feature.demo.view.NetworkDemoRoute
+import com.joker.kit.feature.demo.view.NetworkListDemoRoute
+import com.joker.kit.feature.demo.view.NetworkRequestRoute
+import com.joker.kit.feature.demo.view.StateManagementRoute
 
 /**
  * Demo 模块导航图
  *
- * @param navController 导航控制器
- * @param sharedTransitionScope 共享转场作用域
  * @author Joker.X
  */
-@OptIn(ExperimentalSharedTransitionApi::class)
-fun NavGraphBuilder.demoGraph(
-    navController: NavHostController,
-    sharedTransitionScope: SharedTransitionScope
-) {
-    networkDemoScreen(sharedTransitionScope)
-    networkListDemoScreen(sharedTransitionScope)
-    databaseScreen(sharedTransitionScope)
-    localStorageScreen(sharedTransitionScope)
-    stateManagementScreen(sharedTransitionScope)
-    networkRequestScreen(sharedTransitionScope)
-    navigationWithArgsScreen(sharedTransitionScope)
-    navigationResultScreen(sharedTransitionScope)
+fun EntryProviderScope<NavKey>.demoGraph() {
+    entry<DemoRoutes.NetworkDemo> {
+        NetworkDemoRoute()
+    }
+    entry<DemoRoutes.NetworkListDemo> {
+        NetworkListDemoRoute()
+    }
+    entry<DemoRoutes.Database> {
+        DatabaseRoute()
+    }
+    entry<DemoRoutes.LocalStorage> {
+        LocalStorageRoute()
+    }
+    entry<DemoRoutes.StateManagement> {
+        StateManagementRoute()
+    }
+    entry<DemoRoutes.NetworkRequest> {
+        NetworkRequestRoute()
+    }
+    entry<DemoRoutes.NavigationWithArgs> { key ->
+        NavigationWithArgsRoute(navKey = key)
+    }
+    entry<DemoRoutes.NavigationResult> {
+        NavigationResultRoute()
+    }
 }

@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.joker.kit.core.base.state.BaseNetWorkListUiState
 import com.joker.kit.core.ui.component.empty.EmptyData
 import com.joker.kit.core.ui.component.empty.EmptyNetwork
 import com.joker.kit.core.ui.component.loading.PageLoading
-import com.joker.kit.core.base.state.BaseNetWorkListUiState
 
 /**
  * 基础网络列表视图组件

@@ -1,44 +1,43 @@
 package com.joker.kit.feature.demo.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.toRoute
 import com.joker.kit.core.base.viewmodel.BaseViewModel
-import com.joker.kit.core.state.UserState
-import com.joker.kit.navigation.AppNavigator
-import com.joker.kit.navigation.routes.DemoRoutes
+import com.joker.kit.core.navigation.demo.DemoRoutes
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 /**
  * 带参跳转示例页 ViewModel
  *
- * @param navigator 导航管理器
- * @param userState 用户状态
- * @param savedStateHandle 路由参数存储
+ * @param navKey 导航参数
  * @author Joker.X
  */
-@HiltViewModel
-class NavigationWithArgsViewModel @Inject constructor(
-    navigator: AppNavigator,
-    userState: UserState,
-    savedStateHandle: SavedStateHandle
-) : BaseViewModel(
-    navigator = navigator,
-    userState = userState
-) {
+@HiltViewModel(assistedFactory = NavigationWithArgsViewModel.Factory::class)
+class NavigationWithArgsViewModel @AssistedInject constructor(
+    @Assisted private val navKey: DemoRoutes.NavigationWithArgs
+) : BaseViewModel() {
     /**
-     * 路由参数
+     * 当前商品 ID（用于请求商品详情）
      *
-     * @return 路由解析结果
      * @author Joker.X
      */
-    private val route = savedStateHandle.toRoute<DemoRoutes.NavigationWithArgs>()
+    val goodsId: Long = navKey.goodsId
 
     /**
-     * 商品ID
+     * Assisted Factory
      *
-     * @return 传递的商品 ID
      * @author Joker.X
      */
-    val goodsId: Long = route.goodsId
+    @AssistedFactory
+    interface Factory {
+        /**
+         * 创建 ViewModel 实例
+         *
+         * @param navKey 导航参数
+         * @return ViewModel 实例
+         * @author Joker.X
+         */
+        fun create(navKey: DemoRoutes.NavigationWithArgs): NavigationWithArgsViewModel
+    }
 }

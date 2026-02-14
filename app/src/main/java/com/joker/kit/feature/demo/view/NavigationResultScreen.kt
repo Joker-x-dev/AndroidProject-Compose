@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.viewmodel.NavigationResultViewModel
@@ -26,7 +27,7 @@ internal fun NavigationResultRoute(
     viewModel: NavigationResultViewModel = hiltViewModel()
 ) {
     NavigationResultScreen(
-        onBackClick = viewModel::navigateBack,
+        onBackClick = ::navigateBack,
         onSendResult = viewModel::sendResultAndBack
     )
 }

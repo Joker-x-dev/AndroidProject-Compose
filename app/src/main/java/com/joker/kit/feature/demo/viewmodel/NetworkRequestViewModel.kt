@@ -6,8 +6,6 @@ import com.joker.kit.core.data.repository.GoodsRepository
 import com.joker.kit.core.model.entity.Goods
 import com.joker.kit.core.result.ResultHandler
 import com.joker.kit.core.result.asResult
-import com.joker.kit.core.state.UserState
-import com.joker.kit.navigation.AppNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,20 +15,13 @@ import javax.inject.Inject
 /**
  * 网络请求示例页 ViewModel
  *
- * @param navigator 导航管理器
- * @param userState 用户状态
  * @param goodsRepository 商品仓库
  * @author Joker.X
  */
 @HiltViewModel
 class NetworkRequestViewModel @Inject constructor(
-    navigator: AppNavigator,
-    userState: UserState,
     private val goodsRepository: GoodsRepository
-) : BaseViewModel(
-    navigator = navigator,
-    userState = userState
-) {
+) : BaseViewModel() {
 
     /**
      * 商品信息

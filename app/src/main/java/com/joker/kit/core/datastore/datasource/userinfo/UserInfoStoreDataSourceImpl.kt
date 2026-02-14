@@ -57,7 +57,7 @@ class UserInfoStoreDataSourceImpl @Inject constructor() : UserInfoStoreDataSourc
      * @author Joker.X
      */
     override suspend fun updateUserInfo(updates: Map<String, Any?>) {
-        val currentUser = getUserInfo() ?: return
+        getUserInfo() ?: return
         val userJson = MMKVUtils.getString(KEY_USER_INFO, "")
         if (userJson.isEmpty()) return
 

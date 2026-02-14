@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.joker.kit.core.designsystem.theme.AppTheme
-import com.joker.kit.navigation.AppNavHost
-import com.joker.kit.navigation.AppNavigator
+import com.joker.kit.core.navigation.AppNavHost
+import com.joker.kit.core.navigation.AppNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

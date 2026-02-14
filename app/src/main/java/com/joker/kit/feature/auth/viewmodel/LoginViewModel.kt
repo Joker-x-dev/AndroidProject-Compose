@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.joker.kit.core.base.viewmodel.BaseViewModel
 import com.joker.kit.core.model.entity.Auth
 import com.joker.kit.core.model.entity.User
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.state.UserState
 import com.joker.kit.core.util.toast.ToastUtils
-import com.joker.kit.navigation.AppNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,12 +20,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    navigator: AppNavigator,
-    userState: UserState
-) : BaseViewModel(
-    navigator = navigator,
-    userState = userState
-) {
+    private val userState: UserState
+) : BaseViewModel() {
 
     /**
      * 模拟登录：构造假的 Auth/User，写入 UserState，演示路由拦截放行。

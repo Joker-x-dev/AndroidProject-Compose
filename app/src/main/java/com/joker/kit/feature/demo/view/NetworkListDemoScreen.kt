@@ -15,6 +15,7 @@ import com.joker.kit.core.base.state.LoadMoreState
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.ShapeMedium
 import com.joker.kit.core.model.entity.Goods
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.network.BaseNetWorkListView
 import com.joker.kit.core.ui.component.refresh.RefreshLayout
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
@@ -48,7 +49,7 @@ internal fun NetworkListDemoRoute(
         onRefresh = viewModel::onRefresh,
         onLoadMore = viewModel::onLoadMore,
         shouldTriggerLoadMore = viewModel::shouldTriggerLoadMore,
-        onBackClick = viewModel::navigateBack,
+        onBackClick = ::navigateBack,
         onRetry = viewModel::retryRequest,
     )
 }

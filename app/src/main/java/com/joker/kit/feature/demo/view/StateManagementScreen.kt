@@ -27,6 +27,7 @@ import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.core.ui.component.text.TextSize
@@ -51,7 +52,7 @@ internal fun StateManagementRoute(
         onIncrease = viewModel::increase,
         onDecrease = viewModel::decrease,
         onReset = viewModel::reset,
-        onBackClick = viewModel::navigateBack
+        onBackClick = ::navigateBack
     )
 }
 

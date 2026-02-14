@@ -244,7 +244,7 @@ fun AppText(
 }
 
 /**
- * 通用文本组件 - AnnotatedString版本
+ * 通用文本组件 - AnnotatedString 重载
  *
  * @param text 富文本内容
  * @param modifier 修饰符
@@ -369,7 +369,7 @@ fun AppText(
 }
 
 /**
- * 基础文本组件 - 字符串版本
+ * 基础文本组件 - 字符串重载
  *
  * 该组件是对 Material3 Text 的轻量封装，主要用于设置ContentColor
  *
@@ -411,7 +411,7 @@ private fun BasicText(
 }
 
 /**
- * 基础文本组件 - AnnotatedString版本
+ * 基础文本组件 - AnnotatedString 重载
  *
  * 该组件是对 Material3 Text 的轻量封装，主要用于设置ContentColor
  *

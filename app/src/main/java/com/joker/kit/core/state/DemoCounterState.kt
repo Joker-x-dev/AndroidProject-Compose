@@ -1,13 +1,13 @@
 package com.joker.kit.core.state
 
 import com.joker.kit.core.state.di.ApplicationScope
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Demo 计数器状态

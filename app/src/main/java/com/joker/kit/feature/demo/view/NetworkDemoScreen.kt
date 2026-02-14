@@ -13,6 +13,7 @@ import com.joker.kit.core.base.state.BaseNetWorkUiState
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.model.entity.Goods
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.network.BaseNetWorkView
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
@@ -33,7 +34,7 @@ internal fun NetworkDemoRoute(
 
     NetworkDemoScreen(
         uiState = uiState,
-        onBackClick = viewModel::navigateBack,
+        onBackClick = ::navigateBack,
         onRetry = viewModel::retryRequest
     )
 }

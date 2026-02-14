@@ -2,9 +2,9 @@ package com.joker.kit.feature.user.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.joker.kit.core.base.viewmodel.BaseViewModel
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.state.UserState
 import com.joker.kit.core.util.toast.ToastUtils
-import com.joker.kit.navigation.AppNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,12 +18,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class UserInfoViewModel @Inject constructor(
-    navigator: AppNavigator,
-    userState: UserState
-) : BaseViewModel(
-    navigator = navigator,
-    userState = userState
-) {
+    private val userState: UserState
+) : BaseViewModel() {
 
     /**
      * 一键退出登录（本地清空）

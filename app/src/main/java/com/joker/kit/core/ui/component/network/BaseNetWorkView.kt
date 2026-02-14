@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.joker.kit.core.base.state.BaseNetWorkUiState
 import com.joker.kit.core.ui.component.empty.EmptyNetwork
 import com.joker.kit.core.ui.component.loading.PageLoading
-import com.joker.kit.core.base.state.BaseNetWorkUiState
 
 /**
  * 基础网络视图组件，用于处理网络请求的三种状态：加载中、错误和成功

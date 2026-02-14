@@ -1,7 +1,7 @@
 [versions]
 # 构建工具版本
 # Android Gradle Plugin: https://developer.android.com/studio/releases/gradle-plugin
-agp = "9.0.0"
+agp = "9.0.1"
 # Kotlin 编译器: https://kotlinlang.org/docs/releases.html
 kotlin = "2.3.10"
 
@@ -9,7 +9,7 @@ kotlin = "2.3.10"
 # AndroidX Core KTX: https://developer.android.com/jetpack/androidx/releases/core
 coreKtx = "1.17.0"
 # AndroidX Activity Compose: https://developer.android.com/jetpack/androidx/releases/activity
-activityCompose = "1.12.3"
+activityCompose = "1.12.4"
 # AndroidX Lifecycle Runtime KTX: https://developer.android.com/jetpack/androidx/releases/lifecycle
 lifecycleRuntimeKtx = "2.10.0"
 
@@ -24,11 +24,13 @@ espressoCore = "3.7.0"
 # Jetpack Compose 相关版本
 # Compose BOM: https://developer.android.com/jetpack/compose/bom
 # 说明: BOM 统一管理所有 Compose 库版本，确保兼容性
-composeBom = "2026.01.01"
+composeBom = "2026.02.00"
 
 # 导航相关版本
-# Navigation Compose: https://developer.android.com/jetpack/androidx/releases/navigation
-navigationCompose = "2.9.7"
+# AndroidX Navigation3: https://developer.android.com/jetpack/androidx/releases/navigation3
+navigation3 = "1.0.1"
+# AndroidX Lifecycle: https://developer.android.com/jetpack/androidx/releases/lifecycle
+lifecycleViewModelNavigation3 = "2.10.0"
 
 # 序列化相关版本
 # Kotlinx Serialization JSON: https://github.com/Kotlin/kotlinx.serialization
@@ -56,8 +58,8 @@ timber = "5.0.1"
 # GitHub: https://github.com/google/dagger
 # 说明: 基于 Dagger 的 Android 依赖注入库
 hilt = "2.59.1"
-# Hilt Navigation Compose: https://developer.android.com/jetpack/androidx/releases/hilt
-hiltNavigationCompose = "1.3.0"
+# Hilt Lifecycle ViewModel Compose: https://developer.android.com/jetpack/androidx/releases/hilt
+hiltLifecycleViewModelCompose = "1.3.0"
 # KSP (Kotlin Symbol Processing): https://github.com/google/ksp
 # 说明: Kotlin 注解处理器，用于代码生成
 ksp = "2.3.4"
@@ -115,7 +117,9 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
 # 导航
-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3" }
+androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewModelNavigation3" }
 
 # 序列化
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
@@ -134,7 +138,7 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+hilt-lifecycle-viewmodel-compose = { module = "androidx.hilt:hilt-lifecycle-viewmodel-compose", version.ref = "hiltLifecycleViewModelCompose" }
 
 # 图片加载
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }

@@ -1,11 +1,11 @@
 package com.joker.kit.feature.main.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.ListItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.clickable
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.ShapeMedium
 import com.joker.kit.core.ui.component.text.AppText
@@ -53,7 +53,7 @@ private fun DemoCardPreview() {
             info = DemoCardInfo(
                 title = "示例组件",
                 description = "预览展示 Demo 卡片默认样式。",
-                route = null
+                navigateAction = null
             )
         )
     }

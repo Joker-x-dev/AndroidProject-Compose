@@ -11,4 +11,4 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-) : ViewModel() {}
+) : ViewModel()

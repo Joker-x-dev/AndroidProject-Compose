@@ -16,30 +16,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
+import com.joker.kit.core.navigation.demo.DemoResult
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.main.component.DemoCard
 import com.joker.kit.feature.main.data.DemoCardData
 import com.joker.kit.feature.main.model.DemoCardInfo
 import com.joker.kit.feature.main.viewmodel.NavigationDemoViewModel
-import com.joker.kit.navigation.extension.observeResult
-import com.joker.kit.navigation.results.DemoResult
-import com.joker.kit.navigation.results.DemoResultKey
 
 /**
  * Navigation Demo 路由
  *
  * @param viewModel Navigation Demo ViewModel
- * @param navController 用于监听结果的 NavController
  * @author Joker.X
  */
 @Composable
 internal fun NavigationDemoRoute(
-    viewModel: NavigationDemoViewModel = hiltViewModel(),
-    navController: NavController
+    viewModel: NavigationDemoViewModel = hiltViewModel()
 ) {
     val cards by viewModel.cards.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
@@ -49,12 +44,8 @@ internal fun NavigationDemoRoute(
         cards = cards,
         isLoggedIn = isLoggedIn,
         demoResult = demoResult,
-        onCardClick = viewModel::onCardClick
+        onCardClick = { info -> info.navigateAction?.invoke() }
     )
-
-    navController.observeResult(DemoResultKey) { result ->
-        viewModel.onResultReceived(result)
-    }
 }
 
 /**

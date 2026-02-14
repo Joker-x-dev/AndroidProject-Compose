@@ -1,22 +1,17 @@
 package com.joker.kit.feature.main.navigation
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import com.joker.kit.core.navigation.main.MainRoutes
+import com.joker.kit.feature.main.view.MainRoute
 
 /**
  * 主模块导航图
  *
- * @param navController 导航控制器
- * @param sharedTransitionScope 共享转场作用域
  * @author Joker.X
  */
-@OptIn(ExperimentalSharedTransitionApi::class)
-fun NavGraphBuilder.mainGraph(
-    navController: NavHostController,
-    sharedTransitionScope: SharedTransitionScope
-) {
-    // 只调用页面级导航函数，不包含其他逻辑
-     mainScreen(navController, sharedTransitionScope)
+fun EntryProviderScope<NavKey>.mainGraph() {
+    entry<MainRoutes.Main> {
+        MainRoute()
+    }
 }

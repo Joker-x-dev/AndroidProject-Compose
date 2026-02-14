@@ -1,21 +1,17 @@
 package com.joker.kit.feature.auth.navigation
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import com.joker.kit.core.navigation.auth.AuthRoutes
+import com.joker.kit.feature.auth.view.LoginRoute
 
 /**
  * 认证模块导航图
  *
- * @param navController 导航控制器
- * @param sharedTransitionScope 共享转场作用域
  * @author Joker.X
  */
-@OptIn(ExperimentalSharedTransitionApi::class)
-fun NavGraphBuilder.authGraph(
-    navController: NavHostController,
-    sharedTransitionScope: SharedTransitionScope
-) {
-    loginScreen(sharedTransitionScope)
+fun EntryProviderScope<NavKey>.authGraph() {
+    entry<AuthRoutes.Login> {
+        LoginRoute()
+    }
 }

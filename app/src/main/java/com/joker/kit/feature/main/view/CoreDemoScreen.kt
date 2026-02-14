@@ -40,7 +40,7 @@ internal fun CoreDemoRoute(
     CoreDemoScreen(
         cards = cards,
         counter = count,
-        onCardClick = viewModel::onCardClick
+        onCardClick = { info -> info.navigateAction?.invoke() }
     )
 }
 

@@ -11,8 +11,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -32,6 +32,7 @@ import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.model.entity.User
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.core.ui.component.text.TextSize
@@ -68,7 +69,7 @@ internal fun LocalStorageRoute(
         onSaveUser = viewModel::saveUser,
         onClearUser = viewModel::clearUser,
         onReloadUser = viewModel::loadUser,
-        onBackClick = viewModel::navigateBack
+        onBackClick = ::navigateBack
     )
 }
 
@@ -253,7 +254,7 @@ private fun UserCard(
                 }
             }
 
-            Divider()
+            HorizontalDivider()
 
             val userText = user?.let {
                 val name = it.nickName ?: "未设置昵称"

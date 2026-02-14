@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
+import com.joker.kit.core.navigation.demo.DemoRoutes
+import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.viewmodel.NavigationWithArgsViewModel
@@ -12,16 +14,22 @@ import com.joker.kit.feature.demo.viewmodel.NavigationWithArgsViewModel
 /**
  * 带参跳转示例路由
  *
+ * @param navKey 导航参数
  * @param viewModel Hilt 注入的 NavigationWithArgsViewModel
  * @author Joker.X
  */
 @Composable
 internal fun NavigationWithArgsRoute(
-    viewModel: NavigationWithArgsViewModel = hiltViewModel()
+    navKey: DemoRoutes.NavigationWithArgs,
+    viewModel: NavigationWithArgsViewModel = hiltViewModel<NavigationWithArgsViewModel, NavigationWithArgsViewModel.Factory>(
+        creationCallback = { factory ->
+            factory.create(navKey)
+        }
+    )
 ) {
     NavigationWithArgsScreen(
         goodsId = viewModel.goodsId,
-        onBackClick = viewModel::navigateBack
+        onBackClick = ::navigateBack
     )
 }
 

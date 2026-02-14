@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import com.joker.kit.core.state.UserState
 import com.joker.kit.core.util.storage.MMKVUtils
 import com.joker.kit.core.util.toast.ToastUtils
-import com.joker.kit.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject

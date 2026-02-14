@@ -19,12 +19,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.core.ui.component.text.TextSize
@@ -40,14 +38,12 @@ import com.joker.kit.feature.main.viewmodel.MainViewModel
  */
 @Composable
 internal fun MainRoute(
-    viewModel: MainViewModel = hiltViewModel(),
-    navController: NavController
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     MainScreen(
         uiState = uiState,
-        onTabSelected = viewModel::selectTab,
-        navController = navController
+        onTabSelected = viewModel::selectTab
     )
 }
 
@@ -62,13 +58,11 @@ internal fun MainRoute(
 @Composable
 internal fun MainScreen(
     uiState: MainUiState = MainUiState(),
-    onTabSelected: (MainTab) -> Unit,
-    navController: NavController = NavController(LocalContext.current)
+    onTabSelected: (MainTab) -> Unit
 ) {
     MainScreenContent(
         uiState = uiState,
-        onTabSelected = onTabSelected,
-        navController = navController
+        onTabSelected = onTabSelected
     )
 }
 
@@ -77,15 +71,13 @@ internal fun MainScreen(
  *
  * @param uiState UI 状态
  * @param onTabSelected Tab 切换回调
- * @param navController 导航控制器
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun MainScreenContent(
     uiState: MainUiState,
-    onTabSelected: (MainTab) -> Unit,
-    navController: NavController
+    onTabSelected: (MainTab) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = { MainTab.allTabs.size })
     val currentPage = pagerState.currentPage
@@ -121,9 +113,7 @@ private fun MainScreenContent(
         ) { page ->
             when (MainTab.fromIndex(page)) {
                 MainTab.Core -> CoreDemoRoute()
-                MainTab.Navigation -> NavigationDemoRoute(
-                    navController = navController
-                )
+                MainTab.Navigation -> NavigationDemoRoute()
             }
         }
     }

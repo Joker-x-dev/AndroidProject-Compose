@@ -4,8 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.joker.kit.core.base.viewmodel.BaseViewModel
 import com.joker.kit.core.data.repository.DemoRepository
 import com.joker.kit.core.database.entity.DemoEntity
-import com.joker.kit.core.state.UserState
-import com.joker.kit.navigation.AppNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,17 +16,13 @@ import javax.inject.Inject
 /**
  * 数据库示例页 ViewModel
  *
- * @param navigator 导航管理器
- * @param userState 用户状态管理
  * @param demoRepository Demo 仓库，封装 DemoDataSource 的增删改查
  * @author Joker.X
  */
 @HiltViewModel
 class DatabaseViewModel @Inject constructor(
-    navigator: AppNavigator,
-    userState: UserState,
     private val demoRepository: DemoRepository
-) : BaseViewModel(navigator, userState) {
+) : BaseViewModel() {
 
     /** 标题输入 */
     private val _title = MutableStateFlow("")

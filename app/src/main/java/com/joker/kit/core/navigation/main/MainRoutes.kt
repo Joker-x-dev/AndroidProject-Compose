@@ -1,5 +1,6 @@
-package com.joker.kit.navigation.routes
+package com.joker.kit.core.navigation.main
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 /**
@@ -8,13 +9,12 @@ import kotlinx.serialization.Serializable
  * @author Joker.X
  */
 object MainRoutes {
+
     /**
-     * 主框架路由
-     *
-     * 应用的主框架，包含底部导航栏
+     * 主框架页路由
      *
      * @author Joker.X
      */
     @Serializable
-    data object Main
+    data object Main : NavKey
 }
