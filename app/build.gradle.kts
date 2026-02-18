@@ -30,9 +30,9 @@ android {
         // Play 建议的目标 Android 版本
         targetSdk = 36
         // 递增的内部版本号
-        versionCode = 1
+        versionCode = 2
         // 显示给用户的版本名称
-        versionName = "1.0.0"
+        versionName = "1.1.0"
 
         // Instrumentation 测试入口
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
