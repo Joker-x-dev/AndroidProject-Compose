@@ -14,7 +14,6 @@ import javax.inject.Inject
 /**
  * 登录页 ViewModel
  *
- * @param navigator 导航管理器
  * @param userState 全局用户状态
  * @author Joker.X
  */

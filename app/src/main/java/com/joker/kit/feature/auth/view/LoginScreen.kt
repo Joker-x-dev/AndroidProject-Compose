@@ -27,27 +27,24 @@ internal fun LoginRoute(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     LoginScreen(
-        onLoginClick = viewModel::login,
-        onBackClick = ::navigateBack
+        onLoginClick = viewModel::login
     )
 }
 
 /**
  * 登录页面
  *
- * @param onBackClick 返回按钮回调
  * @param onLoginClick 登录按钮回调
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun LoginScreen(
-    onBackClick: () -> Unit = {},
     onLoginClick: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "登录",
-        onBackClick = onBackClick,
+        onBackClick = { navigateBack() },
     ) {
         LoginContentView(
             onLoginClick = onLoginClick

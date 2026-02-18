@@ -1,7 +1,5 @@
 package com.joker.kit.core.navigation
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 
@@ -13,14 +11,11 @@ import androidx.navigation3.runtime.NavKey
  * @return BackStack 导航控制器
  * @author Joker.X
  */
-@Composable
-internal fun rememberBackStackNavigationController(
+fun createBackStackNavigationController(
     backStack: NavBackStack<NavKey>,
     navigator: AppNavigator,
 ): NavigationController {
-    return remember(backStack, navigator) {
-        BackStackNavigationController(backStack = backStack, navigator = navigator)
-    }
+    return BackStackNavigationController(backStack = backStack, navigator = navigator)
 }
 
 /**
@@ -49,7 +44,11 @@ private class BackStackNavigationController(
     override fun navigateTo(route: NavKey, navOptions: NavigationOptions?) {
         val popUpToRoute = navOptions?.popUpToRoute
         if (popUpToRoute != null) {
-            backStack.popUpTo(route = popUpToRoute, inclusive = navOptions.inclusive)
+            backStack.popUpTo(
+                route = popUpToRoute,
+                inclusive = navOptions.inclusive,
+                allowPopToEmpty = navOptions.allowPopToEmpty,
+            )
         }
         backStack.add(route)
     }
@@ -94,9 +93,14 @@ private class BackStackNavigationController(
  *
  * @param route 目标路由
  * @param inclusive 是否包含目标路由
+ * @param allowPopToEmpty 当目标路由是栈底时，是否允许清空整个返回栈
  * @author Joker.X
  */
-private fun NavBackStack<NavKey>.popUpTo(route: NavKey, inclusive: Boolean) {
+private fun NavBackStack<NavKey>.popUpTo(
+    route: NavKey,
+    inclusive: Boolean,
+    allowPopToEmpty: Boolean = false,
+) {
     val targetIndex = indexOfLast { it == route }
     if (targetIndex == -1) return
 
@@ -104,7 +108,9 @@ private fun NavBackStack<NavKey>.popUpTo(route: NavKey, inclusive: Boolean) {
     if (removeFromIndex >= size) return
 
     if (removeFromIndex == 0) {
-        if (size > 1) {
+        if (allowPopToEmpty) {
+            clear()
+        } else if (size > 1) {
             subList(1, size).clear()
         }
         return

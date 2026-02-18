@@ -68,8 +68,7 @@ internal fun LocalStorageRoute(
         onAvatarChange = viewModel::onAvatarChange,
         onSaveUser = viewModel::saveUser,
         onClearUser = viewModel::clearUser,
-        onReloadUser = viewModel::loadUser,
-        onBackClick = ::navigateBack
+        onReloadUser = viewModel::loadUser
     )
 }
 
@@ -86,7 +85,6 @@ internal fun LocalStorageRoute(
  * @param onSaveUser 保存用户信息
  * @param onClearUser 清除用户信息
  * @param onReloadUser 重新读取用户信息
- * @param onBackClick 返回按钮回调
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,11 +100,10 @@ internal fun LocalStorageScreen(
     onSaveUser: () -> Unit = {},
     onClearUser: () -> Unit = {},
     onReloadUser: () -> Unit = {},
-    onBackClick: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "本地存储",
-        onBackClick = onBackClick,
+        onBackClick = { navigateBack() },
     ) {
         LocalStorageContent(
             userId = userId,

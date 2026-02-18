@@ -27,7 +27,6 @@ internal fun NavigationResultRoute(
     viewModel: NavigationResultViewModel = hiltViewModel()
 ) {
     NavigationResultScreen(
-        onBackClick = ::navigateBack,
         onSendResult = viewModel::sendResultAndBack
     )
 }
@@ -36,18 +35,16 @@ internal fun NavigationResultRoute(
  * 结果回传示例界面
  *
  * @param onSendResult 发送结果并返回回调
- * @param onBackClick 返回按钮回调
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NavigationResultScreen(
-    onBackClick: () -> Unit = {},
     onSendResult: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "结果回传",
-        onBackClick = onBackClick
+        onBackClick = { navigateBack() }
     ) {
         NavigationResultContent(onSendResult = onSendResult)
     }

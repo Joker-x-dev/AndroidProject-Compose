@@ -9,7 +9,7 @@ import androidx.navigation3.runtime.NavKey
  *
  * @author Joker.X
  */
-internal interface NavigationController {
+interface NavigationController {
     /**
      * 导航到目标路由
      *

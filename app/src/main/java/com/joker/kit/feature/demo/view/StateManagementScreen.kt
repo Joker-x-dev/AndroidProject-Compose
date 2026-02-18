@@ -51,8 +51,7 @@ internal fun StateManagementRoute(
         count = count,
         onIncrease = viewModel::increase,
         onDecrease = viewModel::decrease,
-        onReset = viewModel::reset,
-        onBackClick = ::navigateBack
+        onReset = viewModel::reset
     )
 }
 
@@ -63,7 +62,6 @@ internal fun StateManagementRoute(
  * @param onIncrease +1 回调
  * @param onDecrease -1 回调
  * @param onReset 重置回调
- * @param onBackClick 返回按钮回调
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,11 +71,10 @@ internal fun StateManagementScreen(
     onIncrease: () -> Unit = {},
     onDecrease: () -> Unit = {},
     onReset: () -> Unit = {},
-    onBackClick: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "状态管理",
-        onBackClick = onBackClick,
+        onBackClick = { navigateBack() },
     ) {
         StateManagementContent(
             count = count,

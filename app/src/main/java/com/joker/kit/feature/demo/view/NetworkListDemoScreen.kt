@@ -49,7 +49,6 @@ internal fun NetworkListDemoRoute(
         onRefresh = viewModel::onRefresh,
         onLoadMore = viewModel::onLoadMore,
         shouldTriggerLoadMore = viewModel::shouldTriggerLoadMore,
-        onBackClick = ::navigateBack,
         onRetry = viewModel::retryRequest,
     )
 }
@@ -64,7 +63,6 @@ internal fun NetworkListDemoRoute(
  * @param onRefresh 刷新回调
  * @param onLoadMore 加载更多回调
  * @param shouldTriggerLoadMore 是否触发加载更多
- * @param onBackClick 返回回调
  * @param onRetry 重试回调
  * @author Joker.X
  */
@@ -78,12 +76,11 @@ internal fun NetworkListDemoScreen(
     onRefresh: () -> Unit = {},
     onLoadMore: () -> Unit = {},
     shouldTriggerLoadMore: (lastIndex: Int, totalCount: Int) -> Boolean = { _, _ -> false },
-    onBackClick: () -> Unit = {},
     onRetry: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "Network List Demo",
-        onBackClick = onBackClick
+        onBackClick = { navigateBack() }
     ) {
         BaseNetWorkListView(
             uiState = uiState,

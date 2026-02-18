@@ -75,8 +75,7 @@ internal fun DatabaseRoute(
         onDescriptionChange = viewModel::onDescriptionChange,
         onAddClick = viewModel::addItem,
         onDeleteItem = viewModel::deleteItem,
-        onClearAll = viewModel::clearAll,
-        onBackClick = ::navigateBack
+        onClearAll = viewModel::clearAll
     )
 }
 
@@ -91,7 +90,6 @@ internal fun DatabaseRoute(
  * @param onAddClick 点击新增记录
  * @param onDeleteItem 删除指定记录
  * @param onClearAll 清空所有记录
- * @param onBackClick 返回按钮回调
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,11 +103,10 @@ internal fun DatabaseScreen(
     onAddClick: () -> Unit = {},
     onDeleteItem: (Long) -> Unit = {},
     onClearAll: () -> Unit = {},
-    onBackClick: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "数据库",
-        onBackClick = onBackClick
+        onBackClick = { navigateBack() }
     ) {
         DatabaseContent(
             title = title,

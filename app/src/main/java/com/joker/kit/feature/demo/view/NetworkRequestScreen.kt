@@ -38,7 +38,6 @@ internal fun NetworkRequestRoute(
 
     NetworkRequestScreen(
         goods = goods,
-        onBackClick = ::navigateBack,
         onRequestClick = viewModel::onRequestClick
     )
 }
@@ -47,7 +46,6 @@ internal fun NetworkRequestRoute(
  * 网络请求示例界面
  *
  * @param goods 商品信息
- * @param onBackClick 返回按钮回调
  * @param onRequestClick 请求按钮回调
  * @author Joker.X
  */
@@ -55,12 +53,11 @@ internal fun NetworkRequestRoute(
 @Composable
 internal fun NetworkRequestScreen(
     goods: Goods? = null,
-    onBackClick: () -> Unit = {},
     onRequestClick: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "网络请求",
-        onBackClick = onBackClick
+        onBackClick = { navigateBack() }
     ) {
         NetworkRequestContent(
             goods = goods,

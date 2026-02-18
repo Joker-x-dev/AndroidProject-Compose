@@ -27,27 +27,24 @@ internal fun UserInfoRoute(
     viewModel: UserInfoViewModel = hiltViewModel()
 ) {
     UserInfoScreen(
-        onLogoutClick = viewModel::logout,
-        onBackClick = ::navigateBack
+        onLogoutClick = viewModel::logout
     )
 }
 
 /**
  * 用户信息页面
  *
- * @param onBackClick 返回按钮回调
  * @param onLogoutClick 退出登录回调
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun UserInfoScreen(
-    onBackClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "用户信息",
-        onBackClick = onBackClick,
+        onBackClick = { navigateBack() },
     ) {
         UserInfoContentView(
             modifier = Modifier.padding(SpacePaddingLarge),

@@ -28,8 +28,7 @@ internal fun NavigationWithArgsRoute(
     )
 ) {
     NavigationWithArgsScreen(
-        goodsId = viewModel.goodsId,
-        onBackClick = ::navigateBack
+        goodsId = viewModel.goodsId
     )
 }
 
@@ -37,18 +36,16 @@ internal fun NavigationWithArgsRoute(
  * 带参跳转示例界面
  *
  * @param goodsId 传入的商品 ID
- * @param onBackClick 返回按钮回调
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NavigationWithArgsScreen(
     goodsId: Long = 0,
-    onBackClick: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "带参跳转",
-        onBackClick = onBackClick
+        onBackClick = { navigateBack() }
     ) {
         NavigationWithArgsContent(goodsId = goodsId)
     }

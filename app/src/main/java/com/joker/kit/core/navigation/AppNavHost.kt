@@ -2,6 +2,7 @@ package com.joker.kit.core.navigation
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -9,6 +10,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -49,7 +51,9 @@ fun AppNavHost(
     // 创建应用级回退栈，首个页面固定为主页面。
     val backStack = rememberNavBackStack(MainRoutes.Main)
     // 基于当前回退栈构建导航控制器，供 AppNavigator 分发命令时使用。
-    val navigationController = rememberBackStackNavigationController(backStack, navigator)
+    val navigationController = remember(backStack, navigator) {
+        createBackStackNavigationController(backStack, navigator)
+    }
 
     // 在组合生命周期内绑定/解绑导航控制器，确保导航命令总是指向当前有效宿主。
     DisposableEffect(navigationController) {
@@ -77,7 +81,7 @@ fun AppNavHost(
             transitionSpec = { createForwardTransition() },
             popTransitionSpec = { createBackwardTransition() },
             predictivePopTransitionSpec = { createBackwardTransition() },
-            entryProvider = appEntryProvider(),
+            entryProvider = appEntryProvider(this@SharedTransitionLayout),
         )
     }
 }
@@ -118,7 +122,7 @@ private fun createBackwardTransition() = slideInHorizontally(
  * @return 应用级 EntryProvider
  * @author Joker.X
  */
-private fun appEntryProvider() = entryProvider {
+private fun appEntryProvider(scope: SharedTransitionScope) = entryProvider {
     mainGraph()
     demoGraph()
     authGraph()

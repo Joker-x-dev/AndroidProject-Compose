@@ -34,7 +34,6 @@ internal fun NetworkDemoRoute(
 
     NetworkDemoScreen(
         uiState = uiState,
-        onBackClick = ::navigateBack,
         onRetry = viewModel::retryRequest
     )
 }
@@ -43,7 +42,6 @@ internal fun NetworkDemoRoute(
  * Network Demo 界面
  *
  * @param uiState UI 状态
- * @param onBackClick 返回按钮回调
  * @param onRetry 重试回调
  * @author Joker.X
  */
@@ -51,12 +49,11 @@ internal fun NetworkDemoRoute(
 @Composable
 internal fun NetworkDemoScreen(
     uiState: BaseNetWorkUiState<Goods> = BaseNetWorkUiState.Loading,
-    onBackClick: () -> Unit = {},
     onRetry: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "Network Demo",
-        onBackClick = onBackClick,
+        onBackClick = { navigateBack() },
     ) {
         BaseNetWorkView(
             uiState = uiState,
