@@ -19,43 +19,49 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
+import com.joker.kit.core.navigation.demo.DemoResult
 import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.main.component.DemoCard
 import com.joker.kit.feature.main.data.DemoCardData
 import com.joker.kit.feature.main.model.DemoCardInfo
-import com.joker.kit.feature.main.viewmodel.CoreDemoViewModel
+import com.joker.kit.feature.main.viewmodel.NavigationViewModel
 
 /**
- * Core Demo 路由
+ * Navigation 页面路由
  *
- * @param viewModel Core Demo ViewModel
+ * @param viewModel Navigation 页面 ViewModel
  * @author Joker.X
  */
 @Composable
-internal fun CoreDemoRoute(
-    viewModel: CoreDemoViewModel = hiltViewModel()
+internal fun NavigationRoute(
+    viewModel: NavigationViewModel = hiltViewModel()
 ) {
     val cards by viewModel.cards.collectAsState()
-    val count by viewModel.count.collectAsState()
-    CoreDemoScreen(
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    val demoResult by viewModel.demoResult.collectAsState()
+
+    NavigationScreen(
         cards = cards,
-        counter = count,
+        isLoggedIn = isLoggedIn,
+        demoResult = demoResult,
         onCardClick = { info -> info.navigateAction?.invoke() }
     )
 }
 
 /**
- * Core Demo 界面
+ * Navigation 页面
  *
  * @param cards Demo 卡片列表
- * @param counter 全局计数器值，大于 0 时在列表顶部展示
+ * @param isLoggedIn 是否已登录，登录后展示提示
+ * @param demoResult 回传结果
  * @param onCardClick 卡片点击回调
  * @author Joker.X
  */
 @Composable
-internal fun CoreDemoScreen(
+internal fun NavigationScreen(
     cards: List<DemoCardInfo> = emptyList(),
-    counter: Int = 0,
+    isLoggedIn: Boolean = false,
+    demoResult: DemoResult? = null,
     onCardClick: (DemoCardInfo) -> Unit = {}
 ) {
     LazyColumn(
@@ -63,10 +69,15 @@ internal fun CoreDemoScreen(
         contentPadding = PaddingValues(SpacePaddingLarge),
         verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
     ) {
-        // 大于 0 才展示计数器
-        if (counter > 0) {
-            item(key = "counter") {
-                CounterBanner(counter = counter)
+        if (isLoggedIn) {
+            item(key = "login-status-nav") {
+                LoginStatusBanner()
+            }
+        }
+
+        demoResult?.let {
+            item(key = "demo-result") {
+                DemoResultBanner(it)
             }
         }
 
@@ -80,47 +91,62 @@ internal fun CoreDemoScreen(
 }
 
 /**
- * 主页计数器提示
+ * 登录状态提示卡片
  *
- * @param counter 当前计数器值
  * @author Joker.X
  */
 @Composable
-private fun CounterBanner(counter: Int) {
+private fun LoginStatusBanner() {
     Card(modifier = Modifier.fillMaxWidth()) {
         AppText(
             modifier = Modifier.padding(SpacePaddingLarge),
-            text = "全局计数器：$counter",
+            text = "登录状态：已登录",
         )
     }
 }
 
 /**
- * Core Demo 浅色预览
+ * 回传结果提示卡片
+ *
+ * @param result 回传结果
+ * @author Joker.X
+ */
+@Composable
+private fun DemoResultBanner(result: DemoResult) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        AppText(
+            modifier = Modifier.padding(SpacePaddingLarge),
+            text = "回传结果：id=${result.id}，message=${result.message}",
+        )
+    }
+}
+
+/**
+ * Navigation 页面浅色预览
  *
  * @author Joker.X
  */
 @Preview(showBackground = true)
 @Composable
-private fun CoreDemoPreview() {
+private fun NavigationPreview() {
     AppTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            CoreDemoScreen(cards = DemoCardData.coreCards, counter = 3)
+            NavigationScreen(cards = DemoCardData.navigationCards, isLoggedIn = true)
         }
     }
 }
 
 /**
- * Core Demo 深色预览
+ * Navigation 页面深色预览
  *
  * @author Joker.X
  */
 @Preview(showBackground = true)
 @Composable
-private fun CoreDemoPreviewDark() {
+private fun NavigationPreviewDark() {
     AppTheme(darkTheme = true) {
         Surface(color = MaterialTheme.colorScheme.background) {
-            CoreDemoScreen(cards = DemoCardData.coreCards, counter = 3)
+            NavigationScreen(cards = DemoCardData.navigationCards, isLoggedIn = true)
         }
     }
 }

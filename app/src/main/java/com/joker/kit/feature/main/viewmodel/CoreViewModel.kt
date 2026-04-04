@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 /**
- * Core Demo ViewModel
+ * Core 页面 ViewModel
  *
  * @param counterState 计数器状态
  * @author Joker.X
  */
 @HiltViewModel
-class CoreDemoViewModel @Inject constructor(
+class CoreViewModel @Inject constructor(
     counterState: DemoCounterState
 ) : ViewModel() {
     /**

@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Navigation Demo ViewModel
+ * Navigation 页面 ViewModel
  *
  * @param userState 用户状态
  * @author Joker.X
  */
 @HiltViewModel
-class NavigationDemoViewModel @Inject constructor(
+class NavigationViewModel @Inject constructor(
     private val userState: UserState,
 ) : BaseViewModel() {
     /**
