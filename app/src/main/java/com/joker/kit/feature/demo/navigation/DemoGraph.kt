@@ -10,6 +10,7 @@ import com.joker.kit.feature.demo.view.NavigationWithArgsRoute
 import com.joker.kit.feature.demo.view.NetworkDemoRoute
 import com.joker.kit.feature.demo.view.NetworkListDemoRoute
 import com.joker.kit.feature.demo.view.NetworkRequestRoute
+import com.joker.kit.feature.demo.view.ScreenAdaptDemoRoute
 import com.joker.kit.feature.demo.view.StateManagementRoute
 
 /**
@@ -41,5 +42,8 @@ fun EntryProviderScope<NavKey>.demoGraph() {
     }
     entry<DemoRoutes.NavigationResult> {
         NavigationResultRoute()
+    }
+    entry<DemoRoutes.ScreenAdaptDemo> {
+        ScreenAdaptDemoRoute()
     }
 }

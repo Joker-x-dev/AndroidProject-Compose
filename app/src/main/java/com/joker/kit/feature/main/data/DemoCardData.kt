@@ -70,4 +70,17 @@ object DemoCardData {
             navigateAction = { UserNavigator.toUserInfo() }
         )
     )
+
+    /**
+     * Expand 页签下的演示卡片
+     *
+     * @author Joker.X
+     */
+    val expandCards: List<DemoCardInfo> = listOf(
+        DemoCardInfo(
+            title = "屏幕适配",
+            description = "展示断点与窗口宽度，便于响应式布局适配。",
+            navigateAction = { DemoNavigator.toScreenAdaptDemo() }
+        )
+    )
 }

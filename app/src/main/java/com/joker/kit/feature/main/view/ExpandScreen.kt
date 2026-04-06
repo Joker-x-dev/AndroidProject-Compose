@@ -1,13 +1,24 @@
 package com.joker.kit.feature.main.view
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
-import com.joker.kit.core.ui.component.text.AppText
+import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
+import com.joker.kit.feature.main.component.DemoCard
+import com.joker.kit.feature.main.data.DemoCardData
+import com.joker.kit.feature.main.model.DemoCardInfo
 import com.joker.kit.feature.main.viewmodel.ExpandViewModel
 
 /**
@@ -16,40 +27,42 @@ import com.joker.kit.feature.main.viewmodel.ExpandViewModel
  * @param viewModel Expand 页面 ViewModel
  * @author Joker.X
  */
-@Suppress("UNUSED_PARAMETER")
 @Composable
 internal fun ExpandRoute(
     viewModel: ExpandViewModel = hiltViewModel()
 ) {
-    ExpandScreen()
+    val cards by viewModel.cards.collectAsState()
+
+    ExpandScreen(
+        cards = cards,
+        onCardClick = { info -> info.navigateAction?.invoke() }
+    )
 }
 
 /**
  * Expand 页面
  *
+ * @param cards Demo 卡片列表
+ * @param onCardClick 卡片点击回调
  * @author Joker.X
  */
 @Composable
-internal fun ExpandScreen() {
-    ExpandContentView(
-        modifier = Modifier.padding(SpacePaddingLarge)
-    )
-}
-
-/**
- * Expand 页面内容视图
- *
- * @param modifier 修饰符
- * @author Joker.X
- */
-@Composable
-private fun ExpandContentView(
-    modifier: Modifier = Modifier
+internal fun ExpandScreen(
+    cards: List<DemoCardInfo> = emptyList(),
+    onCardClick: (DemoCardInfo) -> Unit = {}
 ) {
-    AppText(
-        text = "扩展页面内容占位",
-        modifier = modifier
-    )
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(SpacePaddingLarge),
+        verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
+    ) {
+        itemsIndexed(cards) { _, info ->
+            DemoCard(
+                info = info,
+                onClick = { onCardClick(info) }
+            )
+        }
+    }
 }
 
 /**
@@ -61,7 +74,9 @@ private fun ExpandContentView(
 @Composable
 private fun ExpandPreview() {
     AppTheme {
-        ExpandScreen()
+        Surface(color = MaterialTheme.colorScheme.background) {
+            ExpandScreen(cards = DemoCardData.expandCards)
+        }
     }
 }
 
@@ -74,6 +89,8 @@ private fun ExpandPreview() {
 @Composable
 private fun ExpandPreviewDark() {
     AppTheme(darkTheme = true) {
-        ExpandScreen()
+        Surface(color = MaterialTheme.colorScheme.background) {
+            ExpandScreen(cards = DemoCardData.expandCards)
+        }
     }
 }

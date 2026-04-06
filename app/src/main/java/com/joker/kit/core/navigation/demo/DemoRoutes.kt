@@ -75,4 +75,12 @@ object DemoRoutes {
      */
     @Serializable
     data object NavigationResult : NavKey
+
+    /**
+     * 屏幕适配示例页路由
+     *
+     * @author Joker.X
+     */
+    @Serializable
+    data object ScreenAdaptDemo : NavKey
 }

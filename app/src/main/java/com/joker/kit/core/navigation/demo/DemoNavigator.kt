@@ -84,4 +84,13 @@ object DemoNavigator {
     fun toNavigationResult() {
         navigate(DemoRoutes.NavigationResult)
     }
+
+    /**
+     * 跳转到屏幕适配示例页
+     *
+     * @author Joker.X
+     */
+    fun toScreenAdaptDemo() {
+        navigate(DemoRoutes.ScreenAdaptDemo)
+    }
 }
