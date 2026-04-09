@@ -2,7 +2,6 @@ package com.joker.kit.core.base.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.joker.kit.core.base.state.BaseNetWorkListUiState
-import com.joker.kit.core.base.state.LoadMoreState
 import com.joker.kit.core.model.network.NetworkPageData
 import com.joker.kit.core.model.network.NetworkResponse
 import com.joker.kit.core.navigation.NavigationResultKey
@@ -11,6 +10,7 @@ import com.joker.kit.core.navigation.RefreshResultKey
 import com.joker.kit.core.navigation.resultEvents
 import com.joker.kit.core.result.ResultHandler
 import com.joker.kit.core.result.asResult
+import com.joker.kit.core.util.time.TimeUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -45,7 +45,7 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
     /**
      * 每页数量
      */
-    protected val pageSize = 10
+    protected open val pageSize = 10
 
     /**
      * 网络请求UI状态
@@ -60,19 +60,25 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
     val listData: StateFlow<List<T>> = _listData.asStateFlow()
 
     /**
-     * 加载更多状态
+     * 下拉刷新状态
      */
-    protected val _loadMoreState = MutableStateFlow<LoadMoreState>(LoadMoreState.PullToLoad)
-    val loadMoreState: StateFlow<LoadMoreState> = _loadMoreState.asStateFlow()
-
-    /**
-     * 下拉刷新状态 (仅用于PullToRefresh组件)
-     */
-    val _isRefreshing = MutableStateFlow(false)
+    protected val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     /**
-     * 是否启用最少加载时间（240毫秒）
+     * 上拉加载状态
+     */
+    protected val _isLoadingMore = MutableStateFlow(false)
+    val isLoadingMore: StateFlow<Boolean> = _isLoadingMore.asStateFlow()
+
+    /**
+     * 是否还有更多数据
+     */
+    protected val _hasMoreData = MutableStateFlow(false)
+    val hasMoreData: StateFlow<Boolean> = _hasMoreData.asStateFlow()
+
+    /**
+     * 是否启用最少加载时间（320毫秒）
      * 子类可重写此属性以启用最少加载时间功能
      */
     protected open val enableMinLoadingTime: Boolean = false
@@ -81,6 +87,16 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
      * 请求开始时间，用于计算最少加载时间（仅首次加载）
      */
     private var requestStartTime: Long = 0
+
+    /**
+     * 刷新开始时间，用于控制刷新完成态的最短展示时长
+     */
+    private var refreshStartTime: Long = 0
+
+    /**
+     * 加载更多开始时间，用于控制加载更多完成态的最短展示时长
+     */
+    private var loadMoreStartTime: Long = 0
 
     /**
      * 子类必须实现此方法，提供分页API请求的Flow
@@ -100,8 +116,8 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
      * 加载列表数据
      */
     protected fun loadListData() {
-
-        val isFirstLoading = _loadMoreState.value == LoadMoreState.Loading && currentPage == 1
+        val isFirstLoading =
+            currentPage == 1 && _listData.value.isEmpty() && !_isRefreshing.value
 
         // 记录请求开始时间（仅首次加载）并且启用最少加载时间功能
         if (isFirstLoading && enableMinLoadingTime) {
@@ -111,6 +127,7 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
         // 设置UI状态 - 仅首次加载显示加载中状态
         if (isFirstLoading) {
             _uiState.value = BaseNetWorkListUiState.Loading
+            _isLoadingMore.value = false
         }
 
         ResultHandler.handleResult(
@@ -149,17 +166,29 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
             currentPage == 1 -> {
                 // 刷新或首次加载 - 重置列表
                 _listData.value = newList
-                _isRefreshing.value = false
 
-                // 判断是否需要最少加载时间延迟
-                if (enableMinLoadingTime) {
-                    val elapsedTime = System.currentTimeMillis() - requestStartTime
-                    val minLoadingTime = 240L
+                // 下拉刷新成功时，保持最短展示时长，避免刷新态一闪而过
+                if (_isRefreshing.value) {
+                    val remainingDuration =
+                        TimeUtils.calculateRemainingDuration(refreshStartTime, 500L)
+                    if (remainingDuration > 0) {
+                        viewModelScope.launch {
+                            delay(remainingDuration)
+                            setFirstLoadSuccessState(newList, hasNextPage)
+                        }
+                    } else {
+                        setFirstLoadSuccessState(newList, hasNextPage)
+                    }
+                } else if (enableMinLoadingTime) {
+                    // 判断是否需要最少加载时间延迟
+                    val minLoadingTime = 320L
+                    val remainingDuration =
+                        TimeUtils.calculateRemainingDuration(requestStartTime, minLoadingTime)
 
-                    if (elapsedTime < minLoadingTime) {
+                    if (remainingDuration > 0) {
                         // 延迟设置成功状态
                         viewModelScope.launch {
-                            delay(minLoadingTime - elapsedTime)
+                            delay(remainingDuration)
                             setFirstLoadSuccessState(newList, hasNextPage)
                         }
                     } else {
@@ -171,13 +200,16 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
             }
 
             else -> {
-                // 加载更多 - 先显示加载成功，延迟更新数据
+                val remainingDuration =
+                    TimeUtils.calculateRemainingDuration(loadMoreStartTime, 500L)
+
                 viewModelScope.launch {
-                    _loadMoreState.value = LoadMoreState.Success
-                    delay(400)
+                    if (remainingDuration > 0) {
+                        delay(remainingDuration)
+                    }
                     _listData.value += newList
-                    _loadMoreState.value =
-                        if (hasNextPage) LoadMoreState.PullToLoad else LoadMoreState.NoMore
+                    _isLoadingMore.value = false
+                    _hasMoreData.value = hasNextPage
                 }
             }
         }
@@ -187,18 +219,21 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
      * 处理错误响应
      */
     protected open fun handleError(message: String?, exception: Throwable?) {
-        _isRefreshing.value = false
-
         if (currentPage == 1) {
             // 首次加载或刷新失败
+            _isRefreshing.value = false
+            _isLoadingMore.value = false
+            _hasMoreData.value = false
+
             if (_listData.value.isEmpty()) {
                 _uiState.value = BaseNetWorkListUiState.Error
+            } else {
+                _uiState.value = BaseNetWorkListUiState.Success
             }
-            _loadMoreState.value = LoadMoreState.PullToLoad
         } else {
             // 加载更多失败，回退页码
             currentPage--
-            _loadMoreState.value = LoadMoreState.Error
+            _isLoadingMore.value = false
         }
     }
 
@@ -207,7 +242,10 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
      */
     fun retryRequest() {
         currentPage = 1
-        _loadMoreState.value = LoadMoreState.Loading
+        _uiState.value = BaseNetWorkListUiState.Loading
+        _isRefreshing.value = false
+        _isLoadingMore.value = false
+        _hasMoreData.value = false
         loadListData()
     }
 
@@ -216,10 +254,11 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
      */
     open fun onRefresh() {
         // 如果正在加载中，则不重复请求
-        if (_loadMoreState.value == LoadMoreState.Loading) {
+        if (_isLoadingMore.value) {
             return
         }
 
+        refreshStartTime = System.currentTimeMillis()
         _isRefreshing.value = true
         currentPage = 1
         loadListData()
@@ -229,45 +268,30 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
      * 加载更多数据
      */
     open fun onLoadMore() {
-        // 只有在可加载更多和加载失败状态下才能触发加载
-        if (_loadMoreState.value == LoadMoreState.Loading ||
-            _loadMoreState.value == LoadMoreState.NoMore ||
-            _loadMoreState.value == LoadMoreState.Success
+        if (_isLoadingMore.value ||
+            !_hasMoreData.value ||
+            _listData.value.isEmpty()
         ) {
             return
         }
 
-        _loadMoreState.value = LoadMoreState.Loading
+        loadMoreStartTime = System.currentTimeMillis()
+        _isLoadingMore.value = true
         currentPage++
         loadListData()
-    }
-
-    /**
-     * 判断是否应该触发加载更多
-     * 显示的最后一项索引接近列表末尾（倒数第3个）
-     *
-     * @param lastIndex 当前可见的最后一项索引
-     * @param totalCount 列表总项数
-     * @return 是否应该触发加载更多
-     */
-    fun shouldTriggerLoadMore(lastIndex: Int, totalCount: Int): Boolean {
-        return lastIndex >= totalCount - 3 &&
-                loadMoreState.value != LoadMoreState.Loading &&
-                loadMoreState.value != LoadMoreState.NoMore &&
-                listData.value.isNotEmpty()
     }
 
     /**
      * 设置首次加载成功状态
      */
     private fun setFirstLoadSuccessState(newList: List<T>, hasNextPage: Boolean) {
-        // 更新加载状态
-        if (newList.isEmpty()) {
-            _uiState.value = BaseNetWorkListUiState.Empty
+        _isRefreshing.value = false
+        _isLoadingMore.value = false
+        _hasMoreData.value = hasNextPage
+        _uiState.value = if (newList.isEmpty()) {
+            BaseNetWorkListUiState.Empty
         } else {
-            _uiState.value = BaseNetWorkListUiState.Success
-            _loadMoreState.value =
-                if (hasNextPage) LoadMoreState.PullToLoad else LoadMoreState.NoMore
+            BaseNetWorkListUiState.Success
         }
     }
 

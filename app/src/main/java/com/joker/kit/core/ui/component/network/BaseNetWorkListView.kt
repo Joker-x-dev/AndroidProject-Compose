@@ -54,7 +54,7 @@ fun BaseNetWorkListView(
             label = "ListStateAnimation"
         ) { state ->
             when (state) {
-                is BaseNetWorkListUiState.Loading -> {
+                BaseNetWorkListUiState.Loading -> {
                     if (customLoading != null) {
                         customLoading()
                     } else {
@@ -62,7 +62,7 @@ fun BaseNetWorkListView(
                     }
                 }
 
-                is BaseNetWorkListUiState.Error -> {
+                BaseNetWorkListUiState.Error -> {
                     if (customError != null) {
                         customError()
                     } else {
@@ -70,7 +70,7 @@ fun BaseNetWorkListView(
                     }
                 }
 
-                is BaseNetWorkListUiState.Empty -> {
+                BaseNetWorkListUiState.Empty -> {
                     if (customEmpty != null) {
                         customEmpty()
                     } else {
@@ -78,8 +78,8 @@ fun BaseNetWorkListView(
                     }
                 }
 
-                is BaseNetWorkListUiState.Success -> content()
+                BaseNetWorkListUiState.Success -> content()
             }
         }
     }
-} 
+}

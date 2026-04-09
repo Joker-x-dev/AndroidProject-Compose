@@ -2,6 +2,8 @@ package com.joker.kit
 
 import android.app.Application
 import android.content.res.Configuration
+import com.king.ultraswiperefresh.NestedScrollMode
+import com.king.ultraswiperefresh.theme.UltraSwipeRefreshTheme
 import com.joker.kit.core.state.UserState
 import com.joker.kit.core.util.storage.MMKVUtils
 import com.joker.kit.core.util.toast.ToastUtils
@@ -26,6 +28,7 @@ class Application : Application() {
         initToast()
         initLog()
         initMMKV()
+        initRefresh()
 
         // 由于 UserState 依赖 MMKV
         // 所以等待 MMKV 初始化完成以后再初始化 UserState
@@ -64,6 +67,20 @@ class Application : Application() {
      */
     private fun initMMKV() {
         MMKVUtils.init(this)
+    }
+
+    /**
+     * 初始化刷新组件配置
+     *
+     * 统一列表页下拉刷新与上拉加载的交互模式。
+     *
+     * @author Joker.X
+     */
+    private fun initRefresh() {
+        UltraSwipeRefreshTheme.config = UltraSwipeRefreshTheme.config.copy(
+            headerScrollMode = NestedScrollMode.Translate,
+            footerScrollMode = NestedScrollMode.Translate
+        )
     }
 
     /**

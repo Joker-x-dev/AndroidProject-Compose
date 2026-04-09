@@ -22,6 +22,10 @@ class NetworkListDemoViewModel @Inject constructor(
 ) : BaseNetWorkListViewModel<Goods>(
 ) {
 
+    override val enableMinLoadingTime: Boolean get() = true
+
+    override val pageSize: Int get() = 15
+
     init {
         initLoad()
     }

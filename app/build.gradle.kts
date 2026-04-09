@@ -195,6 +195,13 @@ dependencies {
     testImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.room.testing)
 
+    // 下拉刷新
+    implementation(libs.ultra.swipe.refresh)
+    implementation(libs.ultra.swipe.refresh.indicator.classic)
+
+    // 骨架屏
+    implementation(libs.compose.shimmer)
+
     // 调试工具
     debugImplementation(libs.leakcanary.android)
 

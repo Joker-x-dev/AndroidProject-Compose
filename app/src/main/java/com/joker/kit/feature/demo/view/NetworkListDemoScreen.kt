@@ -11,7 +11,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.base.state.BaseNetWorkListUiState
-import com.joker.kit.core.base.state.LoadMoreState
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.ShapeMedium
 import com.joker.kit.core.model.entity.Goods
@@ -20,6 +19,7 @@ import com.joker.kit.core.ui.component.network.BaseNetWorkListView
 import com.joker.kit.core.ui.component.refresh.RefreshLayout
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.core.ui.component.text.AppText
+import com.joker.kit.feature.demo.skeleton.NetworkListLoadingSkeleton
 import com.joker.kit.feature.demo.viewmodel.NetworkListDemoViewModel
 
 /**
@@ -32,23 +32,25 @@ import com.joker.kit.feature.demo.viewmodel.NetworkListDemoViewModel
 internal fun NetworkListDemoRoute(
     viewModel: NetworkListDemoViewModel = hiltViewModel()
 ) {
-    // 收集 ui 状态
+    // 收集页面状态
     val uiState by viewModel.uiState.collectAsState()
     // 收集列表数据
     val listData by viewModel.listData.collectAsState()
-    // 收集刷新状态
+    // 收集下拉刷新状态
     val isRefreshing by viewModel.isRefreshing.collectAsState()
-    // 收集加载更多状态
-    val loadMoreState by viewModel.loadMoreState.collectAsState()
+    // 收集上拉加载状态
+    val isLoadingMore by viewModel.isLoadingMore.collectAsState()
+    // 收集是否还有更多数据
+    val hasMoreData by viewModel.hasMoreData.collectAsState()
 
     NetworkListDemoScreen(
         uiState = uiState,
         list = listData,
         isRefreshing = isRefreshing,
-        loadMoreState = loadMoreState,
+        isLoadingMore = isLoadingMore,
+        hasMoreData = hasMoreData,
         onRefresh = viewModel::onRefresh,
         onLoadMore = viewModel::onLoadMore,
-        shouldTriggerLoadMore = viewModel::shouldTriggerLoadMore,
         onRetry = viewModel::retryRequest,
     )
 }
@@ -56,13 +58,13 @@ internal fun NetworkListDemoRoute(
 /**
  * Network List Demo 界面
  *
- * @param uiState 网络列表 UI 状态
+ * @param uiState 列表页状态
  * @param list 商品列表数据
  * @param isRefreshing 是否正在刷新
- * @param loadMoreState 加载更多状态
+ * @param isLoadingMore 是否正在加载更多
+ * @param hasMoreData 是否还有更多数据
  * @param onRefresh 刷新回调
  * @param onLoadMore 加载更多回调
- * @param shouldTriggerLoadMore 是否触发加载更多
  * @param onRetry 重试回调
  * @author Joker.X
  */
@@ -72,10 +74,10 @@ internal fun NetworkListDemoScreen(
     uiState: BaseNetWorkListUiState = BaseNetWorkListUiState.Loading,
     list: List<Goods> = emptyList(),
     isRefreshing: Boolean = false,
-    loadMoreState: LoadMoreState = LoadMoreState.PullToLoad,
+    isLoadingMore: Boolean = false,
+    hasMoreData: Boolean = false,
     onRefresh: () -> Unit = {},
     onLoadMore: () -> Unit = {},
-    shouldTriggerLoadMore: (lastIndex: Int, totalCount: Int) -> Boolean = { _, _ -> false },
     onRetry: () -> Unit = {},
 ) {
     AppScaffold(
@@ -84,15 +86,18 @@ internal fun NetworkListDemoScreen(
     ) {
         BaseNetWorkListView(
             uiState = uiState,
-            onRetry = onRetry
+            onRetry = onRetry,
+            customLoading = {
+                NetworkListLoadingSkeleton()
+            }
         ) {
             NetworkListDemoContent(
                 list = list,
                 isRefreshing = isRefreshing,
-                loadMoreState = loadMoreState,
+                isLoadingMore = isLoadingMore,
+                hasMoreData = hasMoreData,
                 onRefresh = onRefresh,
-                onLoadMore = onLoadMore,
-                shouldTriggerLoadMore = shouldTriggerLoadMore
+                onLoadMore = onLoadMore
             )
         }
     }
@@ -103,10 +108,10 @@ internal fun NetworkListDemoScreen(
  *
  * @param list 商品列表数据
  * @param isRefreshing 是否正在刷新
- * @param loadMoreState 加载更多状态
+ * @param isLoadingMore 是否正在加载更多
+ * @param hasMoreData 是否还有更多数据
  * @param onRefresh 刷新回调
  * @param onLoadMore 加载更多回调
- * @param shouldTriggerLoadMore 是否触发加载更多
  * @author Joker.X
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,17 +119,18 @@ internal fun NetworkListDemoScreen(
 private fun NetworkListDemoContent(
     list: List<Goods>,
     isRefreshing: Boolean,
-    loadMoreState: LoadMoreState,
+    isLoadingMore: Boolean,
+    hasMoreData: Boolean,
     onRefresh: () -> Unit,
     onLoadMore: () -> Unit,
-    shouldTriggerLoadMore: (lastIndex: Int, totalCount: Int) -> Boolean
 ) {
     RefreshLayout(
+        list = list,
         isRefreshing = isRefreshing,
-        loadMoreState = loadMoreState,
+        isLoadingMore = isLoadingMore,
+        hasMoreData = hasMoreData,
         onRefresh = onRefresh,
-        onLoadMore = onLoadMore,
-        shouldTriggerLoadMore = shouldTriggerLoadMore
+        onLoadMore = onLoadMore
     ) {
         itemsIndexed(list) { _, item ->
             GoodsListItem(goods = item)
@@ -162,7 +168,7 @@ private fun NetworkListDemoPreview() {
         NetworkListDemoScreen(
             uiState = BaseNetWorkListUiState.Success,
             list = previewGoodsList(),
-            loadMoreState = LoadMoreState.PullToLoad
+            hasMoreData = true
         )
     }
 }
@@ -179,7 +185,7 @@ private fun NetworkListDemoPreviewDark() {
         NetworkListDemoScreen(
             uiState = BaseNetWorkListUiState.Success,
             list = previewGoodsList(),
-            loadMoreState = LoadMoreState.PullToLoad
+            hasMoreData = true
         )
     }
 }

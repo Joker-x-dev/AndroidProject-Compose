@@ -97,6 +97,14 @@ xxpermissions = "28.0"
 # 腾讯 MMKV 高性能存储: https://github.com/Tencent/MMKV
 mmkv = "2.4.0"
 
+# 下拉刷新
+# UltraSwipeRefresh Compose 刷新组件: https://github.com/jenly1314/UltraSwipeRefresh
+ultraSwipeRefresh = "1.5.0"
+
+# 骨架屏
+# https://github.com/valentinilk/compose-shimmer
+composeShimmer = "1.3.3"
+
 [libraries]
 # AndroidX 基础组件
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -169,6 +177,13 @@ mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 
 # 权限相关库
 xxpermissions = { module = "com.github.getActivity:XXPermissions", version.ref = "xxpermissions" }
+
+# 下拉刷新
+ultra-swipe-refresh = { module = "com.github.jenly1314.UltraSwipeRefresh:refresh", version.ref = "ultraSwipeRefresh" }
+ultra-swipe-refresh-indicator-classic = { module = "com.github.jenly1314.UltraSwipeRefresh:refresh-indicator-classic", version.ref = "ultraSwipeRefresh" }
+
+# 骨架屏
+compose-shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "composeShimmer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

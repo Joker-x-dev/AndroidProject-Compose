@@ -11,20 +11,20 @@ sealed class BaseNetWorkListUiState {
     /**
      * 加载中状态
      */
-    object Loading : BaseNetWorkListUiState()
+    data object Loading : BaseNetWorkListUiState()
 
     /**
      * 成功状态
      */
-    object Success : BaseNetWorkListUiState()
+    data object Success : BaseNetWorkListUiState()
 
     /**
      * 错误状态
      */
-    object Error : BaseNetWorkListUiState()
+    data object Error : BaseNetWorkListUiState()
 
     /**
      * 空数据状态
      */
-    object Empty : BaseNetWorkListUiState()
+    data object Empty : BaseNetWorkListUiState()
 }
