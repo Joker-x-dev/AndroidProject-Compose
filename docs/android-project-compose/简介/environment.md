@@ -17,7 +17,7 @@
 | Navigation 3 | 1.1.6 | `gradle/libs.versions.toml`。 |
 | `compileSdk` | 37 | `app/build.gradle.kts`。 |
 | `targetSdk` | 37 | `app/build.gradle.kts`。 |
-| `minSdk` | 23 | `app/build.gradle.kts`，最低支持 Android 6.0。 |
+| `minSdk` | 24 | `app/build.gradle.kts`，最低支持 Android 7.0；Miuix Preference 要求 API 24+。 |
 
 项目没有锁定具体 Android Studio 版本。所选 IDE 必须支持 Android Gradle Plugin 9.3.1，并能安装 Android SDK Platform 37。
 
@@ -55,8 +55,8 @@ Build Tools 版本未在项目中固定，由 Android Gradle Plugin 根据构建
 
 ## 四、准备运行设备
 
-- **真机**：Android 6.0（API 23）或更高版本，并开启开发者选项与 USB 调试。
-- **模拟器**：创建 API 23 或更高版本的虚拟设备；验证 `targetSdk` 相关行为时，优先使用 API 37 系统镜像。
+- **真机**：Android 7.0（API 24）或更高版本，并开启开发者选项与 USB 调试。
+- **模拟器**：创建 API 24 或更高版本的虚拟设备；验证 `targetSdk` 相关行为时，优先使用 API 37 系统镜像。
 - **ABI**：项目配置了 `armeabi-v7a`、`arm64-v8a` 分包，并额外生成通用 APK。
 
 ## 五、检查依赖网络
@@ -94,9 +94,9 @@ Build Tools 版本未在项目中固定，由 Android Gradle Plugin 根据构建
 
 优先比较命令行 JVM 与 Android Studio Gradle JDK 是否一致，再检查 IDE 使用的 Android SDK 路径和已安装平台。
 
-### API 23 设备无法验证 API 37 行为
+### API 24 设备无法验证 API 37 行为
 
-`minSdk = 23` 只表示应用可以安装的最低版本。与 `targetSdk = 37` 相关的行为变更需要在 API 37 设备或模拟器上验证。
+`minSdk = 24` 只表示应用可以安装的最低版本。与 `targetSdk = 37` 相关的行为变更需要在 API 37 设备或模拟器上验证。
 
 ## 官方文档
 

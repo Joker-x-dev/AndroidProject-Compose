@@ -21,6 +21,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Miuix 依赖的 Maven Central 镜像，保障当前网络环境下可解析组件。
+        maven { url = uri("https://repo1.maven.org/maven2") }
         // JitPack 远程仓库：https://jitpack.io
         maven { url = uri("https://jitpack.io") }
     }

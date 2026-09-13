@@ -21,8 +21,8 @@ android {
     defaultConfig {
         // 最终安装包 ID
         applicationId = "com.joker.kit"
-        // 支持的最低 Android 版本
-        minSdk = 23
+        // 支持的最低 Android 版本；Miuix Preference 要求 API 24+
+        minSdk = 24
         // Play 建议的目标 Android 版本
         targetSdk = 37
         // 递增的内部版本号
@@ -197,6 +197,11 @@ dependencies {
 
     // 骨架屏
     implementation(libs.compose.shimmer)
+
+    // Miuix 主题、基础组件与模糊效果
+    implementation(libs.miuix.ui)
+    implementation(libs.miuix.preference)
+    implementation(libs.miuix.blur)
 
     // 调试工具
     debugImplementation(libs.leakcanary.android)

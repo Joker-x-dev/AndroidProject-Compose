@@ -10,7 +10,7 @@
 - Gradle daemon 使用 JDK 21；项目的 Java source/target compatibility 为 17。
 - 已安装项目要求的 Android SDK Platform 37。
 - 已安装 Git，并能访问 Google Maven、Maven Central 和 JitPack。
-- 准备 Android 6.0（API 23）或更高版本的真机或模拟器。
+- 准备 Android 7.0（API 24）或更高版本的真机或模拟器。
 
 环境版本和检查方法参见[环境要求](./environment.md)。
 
@@ -70,7 +70,7 @@ BUILD SUCCESSFUL
 ## 四、运行示例
 
 1. 在 Android Studio 工具栏选择 `app` 运行配置。
-2. 连接 API 23 或更高版本的真机，或启动符合要求的模拟器。
+2. 连接 API 24 或更高版本的真机，或启动符合要求的模拟器。
 3. 选择 Debug 构建并点击 **Run**。
 4. 等待应用启动，确认主页底部显示核心、导航、扩展和关于入口。
 
