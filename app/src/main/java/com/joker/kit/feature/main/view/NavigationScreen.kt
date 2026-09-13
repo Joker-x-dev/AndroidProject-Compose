@@ -1,5 +1,6 @@
 package com.joker.kit.feature.main.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +22,6 @@ import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.navigation.demo.DemoResult
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.main.component.DemoCard
 import com.joker.kit.feature.main.data.DemoCardData
 import com.joker.kit.feature.main.model.DemoCardInfo
@@ -128,7 +128,7 @@ private fun NavigationContent(
 @Composable
 private fun LoginStatusBanner() {
     Card(modifier = Modifier.fillMaxWidth()) {
-        AppText(
+        Text(
             modifier = Modifier.padding(SpacePaddingLarge),
             text = "登录状态：已登录",
         )
@@ -144,7 +144,7 @@ private fun LoginStatusBanner() {
 @Composable
 private fun DemoResultBanner(result: DemoResult) {
     Card(modifier = Modifier.fillMaxWidth()) {
-        AppText(
+        Text(
             modifier = Modifier.padding(SpacePaddingLarge),
             text = "回传结果：id=${result.id}，message=${result.message}",
         )

@@ -20,7 +20,7 @@
 | --- | --- | --- |
 | `base/` | `BaseViewModel`、网络请求基类和 UI 状态 | [ViewModel 基类](./base.md) |
 | `annotation/` | 项目级通用注解；当前已实现 Compose 预览注解 | [注解](./annotation.md) |
-| `designsystem/` | 颜色、Typography、圆角、尺寸和布局封装 | [设计系统](./designsystem.md)、[主题系统](./theme.md) |
+| `designsystem/` | Miuix Miuix 颜色、TextStyles、圆角、尺寸和布局封装 | [设计系统](./designsystem.md)、[主题系统](./theme.md) |
 | `ui/` | Scaffold、AppBar、网络容器、空态、加载态和窗口断点 | [UI 组件](./ui.md)、[屏幕适配](./screen-adaptation.md) |
 | `model/` | 网络响应、分页、请求、实体和通用 ID 模型 | [数据模型](./model.md) |
 | `result/` | Flow 结果转换、业务成功码和错误回调 | [请求结果处理](./result.md) |

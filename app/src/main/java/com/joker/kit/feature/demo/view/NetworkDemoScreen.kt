@@ -1,5 +1,6 @@
 package com.joker.kit.feature.demo.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,7 +17,6 @@ import com.joker.kit.core.model.entity.Goods
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.network.BaseNetWorkView
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.viewmodel.NetworkDemoViewModel
 
 /**
@@ -73,10 +73,10 @@ internal fun NetworkDemoScreen(
 @Composable
 private fun NetworkDemoContent(data: Goods) {
     Column(modifier = Modifier.padding(SpacePaddingMedium)) {
-        AppText(text = "商品名称：${data.title}")
-        AppText(text = "副标题：${data.subTitle ?: "暂无"}")
-        AppText(text = "价格：¥${data.price}")
-        AppText(text = "已售：${data.sold} 件")
+        Text(text = "商品名称：${data.title}")
+        Text(text = "副标题：${data.subTitle ?: "暂无"}")
+        Text(text = "价格：¥${data.price}")
+        Text(text = "已售：${data.sold} 件")
     }
 }
 

@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -19,8 +15,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.joker.kit.core.ui.component.appbar.CenterTopAppBar
-import com.joker.kit.core.ui.component.appbar.LargeTopAppBar
+import com.joker.kit.core.designsystem.theme.AppColors
+import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.SnackbarHost
+import top.yukonga.miuix.kmp.basic.SnackbarHostState
 
 /**
  * 应用通用Scaffold组件
@@ -37,7 +35,7 @@ import com.joker.kit.core.ui.component.appbar.LargeTopAppBar
  * @param showBackIcon 是否显示返回按钮，默认为true
  * @param onBackClick 点击返回按钮时的回调函数
  * @param snackbarHostState Snackbar宿主状态
- * @param backgroundColor 页面背景颜色，默认为 MaterialTheme 的 surface 颜色
+ * @param backgroundColor 页面背景颜色，默认为 Miuix 的 background 颜色
  * @param bottomBar 底部导航栏的内容，默认为null
  * @param floatingActionButton 浮动操作按钮的内容，默认为null
  * @param topBar 自定义顶部应用栏，如果提供则优先使用此应用栏
@@ -60,13 +58,13 @@ fun AppScaffold(
     showBackIcon: Boolean = true,
     onBackClick: () -> Unit = {},
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    backgroundColor: Color = AppColors.background,
     bottomBar: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     topBar: @Composable (() -> Unit)? = null,
     useLargeTopBar: Boolean = false,
-    largeTopBarExpandedBackgroundColor: Color = MaterialTheme.colorScheme.background,
-    largeTopBarCollapsedBackgroundColor: Color = MaterialTheme.colorScheme.background,
+    largeTopBarExpandedBackgroundColor: Color = AppColors.background,
+    largeTopBarCollapsedBackgroundColor: Color = AppColors.background,
     contentShouldConsumePadding: Boolean = false, // New parameter
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -80,29 +78,29 @@ fun AppScaffold(
 
     Scaffold(
         topBar = {
-            if (topBar != null) {
-                topBar()
-            } else if (useLargeTopBar) {
-                LargeTopAppBar(
-                    title = title,
-                    titleText = titleText,
-                    actions = topBarActions,
-                    onBackClick = onBackClick,
-                    showBackIcon = showBackIcon,
-                    scrollBehavior = scrollBehavior,
-                    expandedBackgroundColor = largeTopBarExpandedBackgroundColor,
-                    collapsedBackgroundColor = largeTopBarCollapsedBackgroundColor
-                )
-            } else {
-                CenterTopAppBar(
-                    title = title,
-                    titleText = titleText,
-                    colors = topBarColors,
-                    actions = topBarActions,
-                    onBackClick = onBackClick,
-                    showBackIcon = showBackIcon
-                )
-            }
+            /* if (topBar != null) {
+                 topBar()
+             } else if (useLargeTopBar) {
+                 LargeTopAppBar(
+                     title = title,
+                     titleText = titleText,
+                     actions = topBarActions,
+                     onBackClick = onBackClick,
+                     showBackIcon = showBackIcon,
+                     scrollBehavior = scrollBehavior,
+                     expandedBackgroundColor = largeTopBarExpandedBackgroundColor,
+                     collapsedBackgroundColor = largeTopBarCollapsedBackgroundColor
+                 )
+             } else {
+                 CenterTopAppBar(
+                     title = title,
+                     titleText = titleText,
+                     colors = topBarColors,
+                     actions = topBarActions,
+                     onBackClick = onBackClick,
+                     showBackIcon = showBackIcon
+                 )
+             }*/
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = bottomBar,

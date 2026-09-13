@@ -1,5 +1,6 @@
 package com.joker.kit.feature.auth.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +14,6 @@ import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.auth.viewmodel.LoginViewModel
 
 /**
@@ -69,7 +69,7 @@ private fun LoginContent(
             onClick = onLoginClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            AppText(text = "一键登录")
+            Text(text = "一键登录")
         }
     }
 }

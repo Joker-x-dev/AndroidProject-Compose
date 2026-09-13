@@ -198,7 +198,7 @@ private fun CatalogContent(
 - 当前 `XS / SM / MD / LG` 断点编码。
 - 网格列数从 2 列调整为 3 列或 4 列。
 - 普通列表从一列调整为两列。
-- `AppText` 的 `TextSize` 随断点变化。
+- `AppTextStyles` 的文字样式随断点变化。
 - 示例方块尺寸从 80dp 调整为 96dp 或 120dp。
 
 `ScreenAdaptDemoViewModel` 当前没有业务状态，Route 获取它只是为了保持 Demo 页面的统一结构。真实的纯展示页面无需为了使用 `bp()` 创建空 ViewModel。

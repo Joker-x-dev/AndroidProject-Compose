@@ -57,7 +57,7 @@ import com.joker.kit.core.annotation.ScreenPreviewDark
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
+import top.yukonga.miuix.kmp.basic.Text
 import com.joker.kit.feature.${FEATURE_NAME}.viewmodel.${PAGE_NAME}ViewModel
 
 /**
@@ -93,7 +93,7 @@ internal fun ${PAGE_NAME}Screen() {
 @Composable
 private fun ${PAGE_NAME}Content() {
     // Content 只负责成功后的业务布局。
-    AppText(text = "${CN_NAME}")
+    Text(text = "${CN_NAME}")
 }
 
 /**

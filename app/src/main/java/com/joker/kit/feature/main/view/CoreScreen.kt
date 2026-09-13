@@ -1,5 +1,6 @@
 package com.joker.kit.feature.main.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.main.component.DemoCard
 import com.joker.kit.feature.main.data.DemoCardData
 import com.joker.kit.feature.main.model.DemoCardInfo
@@ -115,7 +115,7 @@ private fun CoreContent(
 @Composable
 private fun CounterBanner(counter: Int) {
     Card(modifier = Modifier.fillMaxWidth()) {
-        AppText(
+        Text(
             modifier = Modifier.padding(SpacePaddingLarge),
             text = "全局计数器：$counter",
         )

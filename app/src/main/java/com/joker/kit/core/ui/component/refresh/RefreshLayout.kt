@@ -1,5 +1,7 @@
 package com.joker.kit.core.ui.component.refresh
 
+import com.joker.kit.core.designsystem.theme.AppColors
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,8 +26,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.joker.kit.R
 import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
-import com.joker.kit.core.ui.component.text.AppText
-import com.joker.kit.core.ui.component.text.TextType
 import com.king.ultraswiperefresh.UltraSwipeRefresh
 import com.king.ultraswiperefresh.UltraSwipeRefreshState
 import com.king.ultraswiperefresh.indicator.classic.ClassicRefreshFooter
@@ -76,9 +76,9 @@ fun <T> RefreshLayout(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            AppText(
+            Text(
                 text = stringResource(R.string.load_more_no_more),
-                type = TextType.SECONDARY,
+                color = AppColors.onSurfaceSecondary,
                 modifier = Modifier.padding(vertical = SpaceVerticalLarge)
             )
         }

@@ -1,5 +1,8 @@
 package com.joker.kit.feature.demo.view
 
+import com.joker.kit.core.designsystem.theme.AppColors
+import com.joker.kit.core.designsystem.theme.AppTextStyles
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,25 +29,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
-import com.joker.kit.core.designsystem.theme.BgPurpleLight
 import com.joker.kit.core.designsystem.theme.ShapeSmall
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.designsystem.theme.SpacePaddingSmall
 import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalSmall
-import com.joker.kit.core.designsystem.theme.TextSubtitleLight
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.adaptive.bp
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
-import com.joker.kit.core.ui.component.text.TextSize
 import com.joker.kit.feature.demo.viewmodel.ScreenAdaptDemoViewModel
 import kotlin.math.ceil
 
@@ -90,11 +90,11 @@ private fun ScreenAdaptDemoContent() {
     // 列表示例在当前断点使用的列数
     val listColumns = bp(xs = 1, sm = 1, md = 2, lg = 2)
     // 文本示例在当前断点使用的字号
-    val sampleTextSize = bp(
-        xs = TextSize.BODY_LARGE,
-        sm = TextSize.BODY_LARGE,
-        md = TextSize.TITLE_LARGE,
-        lg = TextSize.DISPLAY_LARGE
+    val sampleTextStyle = bp(
+        xs = AppTextStyles.body1,
+        sm = AppTextStyles.body1,
+        md = AppTextStyles.title3,
+        lg = AppTextStyles.title1
     )
     // 尺寸示例在当前断点使用的边长
     val sampleBoxSize = bp(xs = 80.dp, sm = 80.dp, md = 96.dp, lg = 120.dp)
@@ -137,7 +137,7 @@ private fun ScreenAdaptDemoContent() {
             AdaptSectionTitle(title = "文本/大小适配")
         }
         item {
-            TextAdaptSection(sampleTextSize = sampleTextSize)
+            TextAdaptSection(sampleTextStyle = sampleTextStyle)
         }
         item {
             AdaptSectionTitle(title = "大小适配")
@@ -158,9 +158,9 @@ private fun ScreenAdaptDemoContent() {
 private fun AdaptSectionTitle(
     title: String
 ) {
-    AppText(
+    Text(
         text = title,
-        size = TextSize.TITLE_LARGE
+        style = AppTextStyles.title3
     )
 }
 
@@ -263,12 +263,12 @@ private fun AdaptiveListSection(
 /**
  * 文本适配示例
  *
- * @param sampleTextSize 示例文字大小
+ * @param sampleTextStyle 示例文字大小
  * @author Joker.X
  */
 @Composable
 private fun TextAdaptSection(
-    sampleTextSize: TextSize
+    sampleTextStyle: TextStyle
 ) {
     AdaptiveCard(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -283,9 +283,9 @@ private fun TextAdaptSection(
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.size(SpacePaddingSmall))
-            AppText(
+            Text(
                 text = "示例文字会随屏幕变化",
-                size = sampleTextSize,
+                style = sampleTextStyle,
                 textAlign = TextAlign.Center
             )
         }
@@ -324,7 +324,7 @@ private fun SizeAdaptSection(
             Box(
                 modifier = Modifier
                     .size(sampleBoxSize)
-                    .background(color = BgPurpleLight, shape = ShapeSmall)
+                    .background(color = AppColors.secondaryContainer, shape = ShapeSmall)
             )
         }
     }
@@ -423,9 +423,9 @@ private fun CardTitle(
     modifier: Modifier = Modifier,
     textAlign: TextAlign? = null
 ) {
-    AppText(
+    Text(
         text = title,
-        size = TextSize.BODY_LARGE,
+        style = AppTextStyles.body1,
         modifier = modifier,
         textAlign = textAlign
     )
@@ -445,10 +445,10 @@ private fun CardDesc(
     modifier: Modifier = Modifier,
     textAlign: TextAlign? = null
 ) {
-    AppText(
+    Text(
         text = text,
-        size = TextSize.BODY_MEDIUM,
-        color = TextSubtitleLight,
+        style = AppTextStyles.body2,
+        color = AppColors.onBackgroundVariant,
         modifier = modifier,
         textAlign = textAlign
     )

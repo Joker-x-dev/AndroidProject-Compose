@@ -196,7 +196,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
+import top.yukonga.miuix.kmp.basic.Text
 
 /**
  * 带参跳转页面
@@ -225,7 +225,7 @@ internal fun NavigationWithArgsScreen(
 private fun NavigationWithArgsContent(
     goodsId: Long,
 ) {
-    AppText(text = "传递的商品 ID：$goodsId")
+    Text(text = "传递的商品 ID：$goodsId")
 }
 ```
 

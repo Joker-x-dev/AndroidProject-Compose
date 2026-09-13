@@ -1,5 +1,6 @@
 package com.joker.kit.feature.demo.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -8,7 +9,6 @@ import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.navigation.demo.DemoRoutes
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.viewmodel.NavigationWithArgsViewModel
 
 /**
@@ -59,7 +59,7 @@ internal fun NavigationWithArgsScreen(
  */
 @Composable
 private fun NavigationWithArgsContent(goodsId: Long) {
-    AppText(text = "传递的商品ID：$goodsId")
+    Text(text = "传递的商品ID：$goodsId")
 }
 
 /**

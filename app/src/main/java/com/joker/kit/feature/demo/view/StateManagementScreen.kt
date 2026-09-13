@@ -1,5 +1,7 @@
 package com.joker.kit.feature.demo.view
 
+import com.joker.kit.core.designsystem.theme.AppColors
+import com.joker.kit.core.designsystem.theme.AppTextStyles
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -29,9 +31,6 @@ import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
-import com.joker.kit.core.ui.component.text.TextSize
-import com.joker.kit.core.ui.component.text.TextType
 import com.joker.kit.feature.demo.viewmodel.StateManagementViewModel
 
 /**
@@ -132,15 +131,14 @@ private fun IntroCard() {
             modifier = Modifier.padding(SpacePaddingLarge),
             verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
         ) {
-            AppText(
+            Text(
                 text = "为什么要有 DemoCounterState?",
-                size = TextSize.TITLE_LARGE,
-                type = TextType.PRIMARY
+                style = AppTextStyles.title3,
             )
-            AppText(
+            Text(
                 text = "它是一个 @Singleton + ApplicationScope 的 StateFlow，任意页面都能订阅同一份 count 并保持同步。这里的计数器示例演示了“状态放在状态持有者里，UI 只收集 StateFlow”。",
-                type = TextType.SECONDARY,
-                size = TextSize.BODY_MEDIUM
+                color = AppColors.onSurfaceSecondary,
+                style = AppTextStyles.body2
             )
         }
     }
@@ -168,14 +166,13 @@ private fun CounterCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
         ) {
-            AppText(
+            Text(
                 text = "全局计数器",
-                size = TextSize.TITLE_LARGE
+                style = AppTextStyles.title3
             )
-            AppText(
+            Text(
                 text = count.toString(),
-                size = TextSize.DISPLAY_LARGE,
-                type = TextType.PRIMARY
+                style = AppTextStyles.title1,
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -198,10 +195,10 @@ private fun CounterCard(
                     Text(text = "+1")
                 }
             }
-            AppText(
+            Text(
                 text = "操作委托给 DemoCounterState，UI 不直接改值，这样多个页面共享同一份状态也能保持一致。",
-                type = TextType.TERTIARY,
-                size = TextSize.BODY_SMALL,
+                color = AppColors.onSurfaceContainerVariant,
+                style = AppTextStyles.footnote1,
                 textAlign = TextAlign.Center
             )
         }

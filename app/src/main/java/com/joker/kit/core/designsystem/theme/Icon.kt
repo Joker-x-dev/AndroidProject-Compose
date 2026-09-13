@@ -158,7 +158,7 @@ fun ArrowLeftIcon(
 fun ArrowRightIcon(
     modifier: Modifier = Modifier,
     size: Dp? = 24.dp,
-    tint: Color = TextTertiaryLight
+    tint: Color = AppColors.onSurfaceContainerVariant
 ) {
     CommonIcon(
         resId = R.drawable.ic_right,

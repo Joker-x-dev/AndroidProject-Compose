@@ -82,7 +82,7 @@ import com.joker.kit.core.annotation.ScreenPreviewDark
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
+import top.yukonga.miuix.kmp.basic.Text
 import com.joker.kit.feature.demo.viewmodel.GoodsDetailViewModel
 
 /**
@@ -117,7 +117,7 @@ internal fun GoodsDetailScreen() {
  */
 @Composable
 private fun GoodsDetailContent() {
-    AppText(text = "商品详情")
+    Text(text = "商品详情")
 }
 
 /** 商品详情页面浅色预览。 */

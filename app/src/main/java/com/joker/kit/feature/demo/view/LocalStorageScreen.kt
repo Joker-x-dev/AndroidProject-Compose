@@ -1,5 +1,7 @@
 package com.joker.kit.feature.demo.view
 
+import com.joker.kit.core.designsystem.theme.AppColors
+import com.joker.kit.core.designsystem.theme.AppTextStyles
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,9 +36,6 @@ import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.model.entity.User
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
-import com.joker.kit.core.ui.component.text.TextSize
-import com.joker.kit.core.ui.component.text.TextType
 import com.joker.kit.feature.demo.viewmodel.LocalStorageViewModel
 
 /**
@@ -206,11 +205,11 @@ private fun UserCard(
             modifier = Modifier.padding(SpacePaddingLarge),
             verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
         ) {
-            AppText(text = "UserInfoStoreDataSource 示例", size = TextSize.TITLE_MEDIUM)
-            AppText(
+            Text(text = "UserInfoStoreDataSource 示例", style = AppTextStyles.headline2)
+            Text(
                 text = "保存用户 id / 昵称 / 头像，并可随时清理与重读。",
-                type = TextType.TERTIARY,
-                size = TextSize.BODY_MEDIUM
+                color = AppColors.onSurfaceContainerVariant,
+                style = AppTextStyles.body2
             )
 
             OutlinedTextField(
@@ -262,10 +261,10 @@ private fun UserCard(
                 "当前用户: id=${it.id}, 昵称=$name\n头像=$avatarUrl"
             } ?: "暂无本地用户信息"
 
-            AppText(
+            Text(
                 text = userText,
-                type = TextType.SECONDARY,
-                size = TextSize.BODY_MEDIUM
+                color = AppColors.onSurfaceSecondary,
+                style = AppTextStyles.body2
             )
         }
     }

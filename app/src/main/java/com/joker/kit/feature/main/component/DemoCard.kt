@@ -1,19 +1,15 @@
 package com.joker.kit.feature.main.component
 
-import androidx.compose.foundation.clickable
-import androidx.compose.material3.ListItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import com.joker.kit.core.designsystem.theme.AppTheme
-import com.joker.kit.core.designsystem.theme.ShapeMedium
-import com.joker.kit.core.ui.component.text.AppText
-import com.joker.kit.core.ui.component.text.TextSize
+import com.joker.kit.core.designsystem.theme.ArrowRightIcon
 import com.joker.kit.feature.main.model.DemoCardInfo
+import top.yukonga.miuix.kmp.basic.BasicComponent
 
 /**
- * Demo 卡片组件，统一 ListItem 样式
+ * Demo 列表项组件，使用 Miuix BasicComponent 展示标题、描述和导航箭头。
  *
  * @param info 卡片数据
  * @param modifier 修饰符
@@ -26,22 +22,14 @@ fun DemoCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    ListItem(
-        modifier = modifier
-            .clip(ShapeMedium)
-            .clickable(onClick = onClick),
-        headlineContent = {
-            AppText(
-                text = info.title,
-                size = TextSize.TITLE_MEDIUM
-            )
+    BasicComponent(
+        modifier = modifier,
+        title = info.title,
+        summary = info.description,
+        endActions = {
+            ArrowRightIcon()
         },
-        supportingContent = {
-            AppText(
-                text = info.description,
-                size = TextSize.BODY_MEDIUM
-            )
-        }
+        onClick = onClick,
     )
 }
 

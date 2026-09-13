@@ -1,5 +1,8 @@
 package com.joker.kit.feature.main.view
 
+import com.joker.kit.core.designsystem.theme.AppColors
+import com.joker.kit.core.designsystem.theme.AppTextStyles
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.animation.core.EaseOutCubic
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -55,20 +58,13 @@ import com.joker.kit.R
 import com.joker.kit.core.designsystem.component.CenterColumn
 import com.joker.kit.core.designsystem.component.FullScreenBox
 import com.joker.kit.core.designsystem.theme.AppTheme
+import com.joker.kit.core.designsystem.theme.ArrowRightIcon
 import com.joker.kit.core.designsystem.theme.LogoIcon
 import com.joker.kit.core.designsystem.theme.ShapeExtraLarge
-import com.joker.kit.core.designsystem.theme.SpaceHorizontalLarge
-import com.joker.kit.core.designsystem.theme.SpaceHorizontalMedium
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
-import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalSmall
 import com.joker.kit.core.designsystem.theme.SpaceVerticalXLarge
-import com.joker.kit.core.ui.component.list.AppListItem
-import com.joker.kit.core.ui.component.text.AppText
-import com.joker.kit.core.ui.component.text.TextSize
-import com.joker.kit.core.ui.component.text.TextType
-import com.joker.kit.core.ui.component.title.TitleWithLine
 import com.joker.kit.core.util.`package`.PackageUtils
 import com.joker.kit.feature.main.model.LinkItem
 import com.joker.kit.feature.main.viewmodel.AboutViewModel
@@ -76,6 +72,9 @@ import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import top.yukonga.miuix.kmp.basic.BasicComponent
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
+import top.yukonga.miuix.kmp.basic.SmallTitle
 
 /**
  * About 页面路由
@@ -430,19 +429,19 @@ private fun AboutTopSection(
 
         Spacer(modifier = Modifier.height(SpaceVerticalXLarge))
 
-        AppText(
+        Text(
             text = projectName,
-            size = TextSize.DISPLAY_LARGE,
+            style = AppTextStyles.title1,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.height(SpaceVerticalSmall))
 
-        AppText(
+        Text(
             text = versionLabel,
-            size = TextSize.BODY_MEDIUM,
-            type = TextType.TERTIARY
+            style = AppTextStyles.body2,
+            color = AppColors.onSurfaceContainerVariant
         )
     }
 }
@@ -484,74 +483,55 @@ private fun AboutBottomScrollableContent(
     ) {
         Spacer(modifier = Modifier.height(360.dp))
 
-        TitleWithLine(text = "应用信息")
+        SmallTitle(text = "应用信息")
         Spacer(modifier = Modifier.height(SpaceVerticalMedium))
         Card {
-            AppListItem(
+            BasicComponent(
                 title = "应用名称",
-                trailingText = appName,
-                showArrow = false,
-                showDivider = true,
-                horizontalPadding = SpaceHorizontalLarge,
-                verticalPadding = SpaceVerticalLarge
+                endActions = {
+                    Text(text = appName, style = AppTextStyles.body2)
+                },
             )
-            AppListItem(
+            HorizontalDivider()
+            BasicComponent(
                 title = "版本名称",
-                trailingText = appVersionName,
-                showArrow = false,
-                showDivider = true,
-                horizontalPadding = SpaceHorizontalLarge,
-                verticalPadding = SpaceVerticalLarge
+                endActions = {
+                    Text(text = appVersionName, style = AppTextStyles.body2)
+                },
             )
-            AppListItem(
+            HorizontalDivider()
+            BasicComponent(
                 title = "版本号",
-                trailingText = appVersionCode,
-                showArrow = false,
-                showDivider = false,
-                horizontalPadding = SpaceHorizontalLarge,
-                verticalPadding = SpaceVerticalLarge
+                endActions = {
+                    Text(text = appVersionCode, style = AppTextStyles.body2)
+                },
             )
         }
 
         Spacer(modifier = Modifier.height(SpaceVerticalXLarge))
 
-        TitleWithLine(text = "开发者")
+        SmallTitle(text = "开发者")
         Spacer(modifier = Modifier.height(SpaceVerticalMedium))
         Card {
-            AppListItem(
-                title = "",
-                leadingContent = {
+            BasicComponent(
+                title = "Joker.X",
+                summary = "joker.x.dev@gmail.com",
+                startAction = {
                     Image(
                         painter = painterResource(id = R.drawable.ic_avatar),
                         contentDescription = "Joker.X",
                         modifier = Modifier
                             .size(36.dp)
-                            .clip(CircleShape)
+                            .clip(CircleShape),
                     )
-                    Column(
-                        modifier = Modifier.padding(start = SpaceHorizontalMedium)
-                    ) {
-                        AppText(
-                            text = "Joker.X",
-                            size = TextSize.TITLE_LARGE
-                        )
-                        AppText(
-                            text = "joker.x.dev@gmail.com",
-                            type = TextType.TERTIARY,
-                            size = TextSize.BODY_MEDIUM
-                        )
-                    }
                 },
-                showArrow = true,
-                showDivider = false,
-                horizontalPadding = SpaceHorizontalLarge,
-                onClick = { onDeveloperClick(developerLink) }
+                onClick = { onDeveloperClick(developerLink) },
             )
         }
 
         Spacer(modifier = Modifier.height(SpaceVerticalXLarge))
 
-        TitleWithLine(text = "项目地址")
+        SmallTitle(text = "项目地址")
         Spacer(modifier = Modifier.height(SpaceVerticalMedium))
         AboutLinkSection(
             links = projectLinks,
@@ -560,7 +540,7 @@ private fun AboutBottomScrollableContent(
 
         Spacer(modifier = Modifier.height(SpaceVerticalXLarge))
 
-        TitleWithLine(text = "相关资源")
+        SmallTitle(text = "相关资源")
         Spacer(modifier = Modifier.height(SpaceVerticalMedium))
         AboutLinkSection(
             links = resourceLinks,
@@ -569,10 +549,10 @@ private fun AboutBottomScrollableContent(
 
         Spacer(modifier = Modifier.height(SpaceVerticalXLarge))
 
-        AppText(
+        Text(
             text = "© 2026 Joker.X & $projectName Contributors",
-            size = TextSize.BODY_MEDIUM,
-            type = TextType.TERTIARY,
+            style = AppTextStyles.body2,
+            color = AppColors.onSurfaceContainerVariant,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
@@ -595,15 +575,15 @@ private fun AboutLinkSection(
 ) {
     Card {
         links.forEachIndexed { index, link ->
-            AppListItem(
+            BasicComponent(
                 title = link.title,
-                description = link.description,
-                showArrow = true,
-                showDivider = index != links.lastIndex,
-                horizontalPadding = SpaceHorizontalLarge,
-                verticalPadding = SpaceVerticalLarge,
-                onClick = { onLinkClick(link) }
+                summary = link.description,
+                endActions = {
+                    ArrowRightIcon()
+                },
+                onClick = { onLinkClick(link) },
             )
+            if (index != links.lastIndex) HorizontalDivider()
         }
     }
 }

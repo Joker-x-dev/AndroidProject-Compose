@@ -1,5 +1,6 @@
 package com.joker.kit.feature.demo.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
@@ -21,7 +22,6 @@ import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.network.BaseNetWorkListView
 import com.joker.kit.core.ui.component.refresh.RefreshLayout
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.skeleton.NetworkListLoadingSkeleton
 import com.joker.kit.feature.demo.viewmodel.NetworkListDemoViewModel
 
@@ -151,11 +151,11 @@ private fun NetworkListDemoContent(
 private fun GoodsListItem(goods: Goods) {
     ListItem(
         modifier = Modifier.clip(ShapeMedium),
-        headlineContent = { AppText(text = goods.title.ifBlank { "未命名商品" }) },
+        headlineContent = { Text(text = goods.title.ifBlank { "未命名商品" }) },
         supportingContent = {
-            AppText(text = goods.subTitle?.ifBlank { "暂无描述" } ?: "暂无描述")
+            Text(text = goods.subTitle?.ifBlank { "暂无描述" } ?: "暂无描述")
         },
-        trailingContent = { AppText(text = "¥${goods.price}") },
+        trailingContent = { Text(text = "¥${goods.price}") },
     )
 }
 

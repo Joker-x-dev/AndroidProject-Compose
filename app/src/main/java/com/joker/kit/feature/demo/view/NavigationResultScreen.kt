@@ -1,5 +1,6 @@
 package com.joker.kit.feature.demo.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +14,6 @@ import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.viewmodel.NavigationResultViewModel
 
 /**
@@ -63,7 +63,7 @@ private fun NavigationResultContent(onSendResult: () -> Unit) {
             onClick = onSendResult,
             modifier = Modifier.fillMaxWidth()
         ) {
-            AppText(text = "回传结果并返回")
+            Text(text = "回传结果并返回")
         }
     }
 }

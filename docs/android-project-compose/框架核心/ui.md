@@ -12,7 +12,7 @@
 | --- | --- | --- |
 | `component/scaffold` | `AppScaffold` | 统一页面背景、AppBar、Snackbar、底部栏、FAB 和安全区内边距 |
 | `component/appbar` | `CenterTopAppBar`、`LargeTopAppBar`、`BackButton` | 普通标题、大标题和返回操作 |
-| `component/text` | `AppText`、`TextType`、`TextSize` | 统一文本颜色、大小、点击和可选择行为 |
+| `component/text` | Miuix `Text`、`AppColors`、`AppTextStyles` | 使用 Miuix 官方颜色和文字样式 |
 | `component/list` | `AppListItem`、`GroupAppListItem`、`StaticAppListItem` | 设置项、分组列表和只读列表项 |
 | `component/network` | `BaseNetWorkView`、`BaseNetWorkListView` | 单对象三态和分页列表四态 |
 | `component/refresh` | `RefreshLayout`、`RefreshContent` | 下拉刷新、上拉加载、普通列表和瀑布流 |
@@ -41,7 +41,7 @@
 import androidx.compose.runtime.Composable
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
+import top.yukonga.miuix.kmp.basic.Text
 
 /**
  * 设置页面骨架。
@@ -62,24 +62,24 @@ internal fun SettingsScreen() {
  */
 @Composable
 private fun SettingsContent() {
-    AppText(text = "设置内容")
+    Text(text = "设置内容")
 }
 ```
 
 `contentShouldConsumePadding = false` 时不要再次对根内容调用 `Modifier.padding(paddingValues)`，否则顶部间距会叠加。只有显式设为 `true` 时，内容才需要消费传入的 `PaddingValues`。
 
-## 文本：`AppText`
+## 文本：`Text`
 
-`AppText` 在 Material 3 `Text` 之上补充了项目常用的颜色和尺寸语义：
+Miuix `Text` 直接使用 Miuix 官方文字样式和颜色角色：
 
-- `TextType.PRIMARY`、`SECONDARY`、`TERTIARY`：正文层级。
-- `TextType.LINK`、`SUCCESS`、`WARNING`、`ERROR`：操作与状态颜色。
-- `TextSize.DISPLAY_*`、`TITLE_*`、`BODY_*`：读取 `MaterialTheme.typography` 对应样式。
+- `AppColors.onBackground`、`AppColors.onSurfaceSecondary`、`AppColors.onSurfaceContainerVariant`：正文层级。
+- `AppColors.primary`、`AppColors.tertiaryContainer`、`AppColors.primaryVariant`、`AppColors.error`：操作与状态颜色。
+- 页面文字直接使用 `AppTextStyles` 或 `MiuixTheme.textStyles` 中的官方样式。
 - `onClick`：存在回调时文本才可点击。
 - `selectable`：需要复制文本时启用选择容器。
 - `style`：需要直接传入 `TextStyle` 时覆盖默认尺寸映射。
 
-页面优先选择 `type` 和 `size`，只有组件确实需要特殊样式时才传 `color`、`fontWeight` 或完整 `style`。
+页面优先选择 `AppColors` 和 `AppTextStyles`，只有组件确实需要特殊样式时才传入 `color`、`fontWeight` 或完整 `style`。
 
 ## 网络状态容器
 

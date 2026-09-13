@@ -1,5 +1,7 @@
 package com.joker.kit.feature.demo.view
 
+import com.joker.kit.core.designsystem.theme.AppColors
+import com.joker.kit.core.designsystem.theme.AppTextStyles
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,7 +19,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -40,11 +43,7 @@ import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalSmall
 import com.joker.kit.core.navigation.navigateBack
-import com.joker.kit.core.ui.component.divider.Divider
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
-import com.joker.kit.core.ui.component.text.TextSize
-import com.joker.kit.core.ui.component.text.TextType
 import com.joker.kit.feature.demo.viewmodel.DatabaseViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -195,14 +194,14 @@ private fun InputCard(
             modifier = Modifier.padding(SpacePaddingLarge),
             verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
         ) {
-            AppText(
+            Text(
                 text = "用 DemoRepository 做增删改查",
-                size = TextSize.TITLE_MEDIUM
+                style = AppTextStyles.headline2
             )
-            AppText(
+            Text(
                 text = "输入标题即可新增一条记录，描述可选；列表来自 DemoRepository.observeItems() 的 Flow。",
-                type = TextType.TERTIARY,
-                size = TextSize.BODY_MEDIUM
+                color = AppColors.onSurfaceContainerVariant,
+                style = AppTextStyles.body2
             )
 
             OutlinedTextField(
@@ -259,16 +258,16 @@ private fun DemoListCard(
     onDeleteItem: (Long) -> Unit
 ) {
     Card {
-        AppText(
+        Text(
             text = "Demo 表当前 ${items.size} 条",
-            size = TextSize.TITLE_MEDIUM,
+            style = AppTextStyles.headline2,
             modifier = Modifier.padding(
                 horizontal = SpacePaddingLarge,
                 vertical = SpacePaddingMedium
             )
         )
 
-        Divider()
+        HorizontalDivider()
 
         if (items.isEmpty()) {
             CenterColumn(
@@ -276,7 +275,7 @@ private fun DemoListCard(
                     .fillMaxSize()
                     .padding(SpacePaddingLarge),
             ) {
-                AppText(text = "列表为空，先添加一条吧", type = TextType.SECONDARY)
+                Text(text = "列表为空，先添加一条吧", color = AppColors.onSurfaceSecondary)
             }
         } else {
             LazyColumn(
@@ -315,9 +314,9 @@ private fun DemoListItem(
 
     ListItem(
         headlineContent = {
-            AppText(
+            Text(
                 text = item.title.ifBlank { "未命名记录" },
-                size = TextSize.TITLE_MEDIUM,
+                style = AppTextStyles.headline2,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -325,10 +324,10 @@ private fun DemoListItem(
         supportingContent = {
             // 空描述对应的默认展示文案
             val desc = item.description.ifBlank { "暂无描述" }
-            AppText(
+            Text(
                 text = "$desc · 更新于 $formattedTime",
-                type = TextType.SECONDARY,
-                size = TextSize.BODY_MEDIUM,
+                color = AppColors.onSurfaceSecondary,
+                style = AppTextStyles.body2,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )

@@ -1,5 +1,6 @@
 package com.joker.kit.feature.demo.view
 
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +21,6 @@ import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.model.entity.Goods
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import com.joker.kit.core.ui.component.text.AppText
 import com.joker.kit.feature.demo.viewmodel.NetworkRequestViewModel
 
 /**
@@ -89,7 +89,7 @@ private fun NetworkRequestContent(
             onClick = onRequestClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            AppText(text = "发起网络请求")
+            Text(text = "发起网络请求")
         }
 
         if (goods != null) {
@@ -110,10 +110,10 @@ private fun CardResult(goods: Goods) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(SpacePaddingMedium)) {
-            AppText(text = "商品名称：${goods.title}")
-            AppText(text = "副标题：${goods.subTitle ?: "暂无"}")
-            AppText(text = "价格：¥${goods.price}")
-            AppText(text = "已售：${goods.sold} 件")
+            Text(text = "商品名称：${goods.title}")
+            Text(text = "副标题：${goods.subTitle ?: "暂无"}")
+            Text(text = "价格：¥${goods.price}")
+            Text(text = "已售：${goods.sold} 件")
         }
     }
 }
