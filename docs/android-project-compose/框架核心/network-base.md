@@ -130,7 +130,7 @@ Route 负责收集状态和绑定事件，Screen 只接收状态与回调。下�
 ```kotlin
 package com.joker.kit.feature.demo.view
 
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue

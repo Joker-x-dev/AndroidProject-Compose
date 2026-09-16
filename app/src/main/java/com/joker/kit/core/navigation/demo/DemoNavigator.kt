@@ -93,4 +93,22 @@ object DemoNavigator {
     fun toScreenAdaptDemo() {
         navigate(DemoRoutes.ScreenAdaptDemo)
     }
+
+    /**
+     * 跳转到全局 Snackbar 示例页
+     *
+     * @author Joker.X
+     */
+    fun toSnackbarDemo() {
+        navigate(DemoRoutes.SnackbarDemo)
+    }
+
+    /**
+     * 跳转到全局 Dialog 示例页
+     *
+     * @author Joker.X
+     */
+    fun toDialogDemo() {
+        navigate(DemoRoutes.DialogDemo)
+    }
 }

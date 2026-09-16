@@ -50,7 +50,7 @@ private fun GoodsCardPreview() {
 }
 ```
 
-`@ComponentPreviewLightAndDark` 会生成两份 Preview，但 Composable 仍只写一次。组件内部应从 `MaterialTheme` 或项目主题令牌读取颜色，不能把浅色颜色写死。
+`@ComponentPreviewLightAndDark` 会生成两份 Preview，但 Composable 仍只写一次。组件内部应从 `AppColors`、`AppTextStyles` 或 `MiuixTheme` 读取主题值，不能把浅色颜色写死。
 
 ## 页面预览注解
 

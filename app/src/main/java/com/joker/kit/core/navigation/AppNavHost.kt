@@ -20,6 +20,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.joker.kit.core.navigation.main.MainRoutes
 import com.joker.kit.feature.auth.navigation.authGraph
+import com.joker.kit.feature.common.navigation.commonGraph
 import com.joker.kit.feature.demo.navigation.demoGraph
 import com.joker.kit.feature.main.navigation.mainGraph
 import com.joker.kit.feature.user.navigation.userGraph
@@ -64,7 +65,7 @@ fun AppNavHost(
         onDispose {
             // 宿主销毁时先解绑导航服务，避免持有失效导航器引用。
             NavigationService.unbind(navigator)
-            // 最后从 AppNavigator 注销控制器，防止后续命令误发到旧宿主。
+            // 解除失效宿主与 AppNavigator 的绑定。
             navigator.detachController(navigationController)
         }
     }
@@ -119,11 +120,13 @@ private fun createBackwardTransition() = slideInHorizontally(
  *
  * 按模块聚合 graph，避免全部 entry 混在同一个函数中。
  *
+ * @param scope 共享转场作用域
  * @return 应用级 EntryProvider
  * @author Joker.X
  */
 private fun appEntryProvider(scope: SharedTransitionScope) = entryProvider {
     mainGraph()
+    commonGraph()
     demoGraph()
     authGraph()
     userGraph()

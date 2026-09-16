@@ -43,7 +43,7 @@ description: 审查 AndroidProject-Compose 项目或指定功能域的架构边�
 
 | 审查目标 | 先读的规范 | 再查的源码 | 重点结论 |
 | --- | --- | --- | --- |
-| 布局与 View | `业务功能/view.md`、`框架核心/designsystem.md`、`theme.md`、`ui.md`、`screen-adaptation.md` | 目标 `Screen.kt`、`core/designsystem`、相关 `core/ui` | 是否复用颜色、间距、Shape、Typography、Box/Column/Row/List/Scroll/Spacer 和状态组件 |
+| 布局与 View | `业务功能/view.md`、`框架核心/miuix.md`、`designsystem.md`、`theme.md`、`ui.md`、`screen-adaptation.md` | 目标 `Screen.kt`、`core/designsystem`、相关 `core/ui` | 是否复用 Miuix 组件、颜色、间距、Shape、TextStyles、Box/Column/Row/List/Scroll/Spacer 和状态组件 |
 | ViewModel 与代码 | `业务功能/viewmodel.md`、`structure.md` | 目标 `ViewModel.kt`、Route、Repository、测试 | StateFlow 封装、状态注释、参数说明、基类选择、业务逻辑边界和失败处理 |
 | 页面模板与新增页面 | `业务功能/templates.md`、`create-page.md`、`structure.md` | Routes、Navigator、Graph、Route、Screen、Content、ViewModel | 模板是否完整、是否按 Route → ViewModel → View → Graph → Navigator 接入，是否遗漏层级 |
 | 导航 | `导航/index.md`、`router.md`、`flow.md`、`guard.md`、`result.md`、`业务功能/create-page.md` | `AppNavHost`、Navigator、Graph、回退栈、拦截器和结果 Key | 路由注册、模块 Navigator、参数、结果、登录拦截和回退行为 |

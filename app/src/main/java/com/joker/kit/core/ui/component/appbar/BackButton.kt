@@ -1,12 +1,14 @@
 package com.joker.kit.core.ui.component.appbar
 
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.joker.kit.R
+import com.joker.kit.core.designsystem.theme.ArrowLeftIcon
+import com.joker.kit.core.designsystem.theme.CommonIcon
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
 
 /**
  * 回退按钮组件
@@ -23,10 +25,6 @@ fun BackButton(
     onClick: () -> Unit = {}
 ) {
     IconButton(modifier = modifier, onClick = onClick) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_left),
-            contentDescription = "Back",
-            tint = tint
-        )
+        ArrowLeftIcon()
     }
 }

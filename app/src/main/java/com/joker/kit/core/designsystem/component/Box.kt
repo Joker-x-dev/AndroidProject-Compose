@@ -1,6 +1,7 @@
 package com.joker.kit.core.designsystem.component
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
+import com.joker.kit.core.designsystem.theme.AppColors
 import com.joker.kit.core.designsystem.theme.SpacePaddingSmall
 
 /**
@@ -265,13 +266,14 @@ fun RoundedBox(
     fillMaxWidth: Boolean = true,
     cornerRadius: Dp = 8.dp,
     padding: Dp = SpacePaddingMedium,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    backgroundColor: Color = AppColors.surface,
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
         modifier = modifier
             .let { if (fillMaxWidth) it.fillMaxWidth() else it }
             .clip(RoundedCornerShape(cornerRadius))
+            .background(backgroundColor)
             .padding(padding),
         contentAlignment = contentAlignment,
         content = content
@@ -300,7 +302,7 @@ fun BorderBox(
     cornerRadius: Dp = 8.dp,
     padding: Dp = SpacePaddingMedium,
     borderWidth: Dp = 1.dp,
-    borderColor: Color = MaterialTheme.colorScheme.outline,
+    borderColor: Color = AppColors.outline,
     shape: Shape = RoundedCornerShape(cornerRadius),
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -397,4 +399,4 @@ fun LargePaddingBox(
         padding = SpacePaddingLarge,
         content = content
     )
-} 
+}

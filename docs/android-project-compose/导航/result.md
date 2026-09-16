@@ -192,9 +192,10 @@ Screen 不读取回退栈，也不持有 `NavKey`。它只接收 Route 已经整
 ```kotlin
 package com.joker.kit.feature.demo.view
 
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import com.joker.kit.core.navigation.navigateBack
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import top.yukonga.miuix.kmp.basic.Text
 
@@ -203,7 +204,6 @@ import top.yukonga.miuix.kmp.basic.Text
  *
  * @param goodsId 商品 ID
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NavigationWithArgsScreen(
     goodsId: Long,
@@ -211,21 +211,32 @@ internal fun NavigationWithArgsScreen(
     AppScaffold(
         titleText = "带参跳转",
         onBackClick = { navigateBack() },
-    ) {
-        NavigationWithArgsContent(goodsId = goodsId)
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
+        // Content 消费 Scaffold 提供的安全区内边距。
+        NavigationWithArgsContent(
+            contentPadding = paddingValues,
+            goodsId = goodsId,
+        )
     }
 }
 
 /**
  * 带参跳转页面内容
  *
+ * @param contentPadding Scaffold 提供的安全区内边距
  * @param goodsId 商品 ID
  */
 @Composable
 private fun NavigationWithArgsContent(
+    contentPadding: PaddingValues,
     goodsId: Long,
 ) {
-    Text(text = "传递的商品 ID：$goodsId")
+    MiuixPageLazyColumn(contentPadding = contentPadding) {
+        item {
+            Text(text = "传递的商品 ID：$goodsId")
+        }
+    }
 }
 ```
 

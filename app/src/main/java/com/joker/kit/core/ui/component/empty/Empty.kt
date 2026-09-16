@@ -1,16 +1,11 @@
 package com.joker.kit.core.ui.component.empty
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +18,11 @@ import com.joker.kit.core.designsystem.component.SpaceVerticalSmall
 import com.joker.kit.core.designsystem.component.SpaceVerticalXLarge
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
+import com.joker.kit.core.designsystem.theme.AppColors
+import com.joker.kit.core.designsystem.theme.AppTextStyles
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.Text
 
 /**
  * 页面状态视图
@@ -54,7 +54,7 @@ fun Empty(
         Icon(
             painter = painterResource(id = icon),
             modifier = Modifier.size(120.dp),
-            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2F),
+            tint = AppColors.onSurface.copy(alpha = 0.2F),
             contentDescription = null,
         )
 
@@ -62,23 +62,22 @@ fun Empty(
 
         Text(
             text = stringResource(id = message),
-            style = MaterialTheme.typography.titleLarge
+            style = AppTextStyles.title2
         )
 
         subtitle?.let {
             SpaceVerticalSmall()
             Text(
                 text = stringResource(id = it),
-                style = MaterialTheme.typography.bodyMedium,
+                style = AppTextStyles.body2,
             )
         }
 
         // 如果没有传递重试方法，则不显示重试按钮
         if (onRetryClick != null) {
             SpaceVerticalXLarge()
-            OutlinedButton(
+            Button(
                 onClick = onRetryClick,
-                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.primary),
                 modifier = Modifier
                     .padding(horizontal = 50.dp)
                     .widthIn(200.dp)

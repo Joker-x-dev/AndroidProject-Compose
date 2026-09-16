@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.joker.kit.core.designsystem.theme.AppTheme
+import com.joker.kit.core.designsystem.theme.AppColors
 import com.joker.kit.core.designsystem.theme.ShapeMedium
 import com.joker.kit.core.designsystem.theme.ShapeSmall
 import com.joker.kit.core.designsystem.theme.SpaceHorizontalMedium
@@ -68,12 +68,11 @@ private val DefaultSkeletonLineFractions = listOf(0.42f, 1f, 1f, 0.64f)
  */
 @Composable
 private fun defaultSkeletonColor(): Color {
-    val colorScheme = MaterialTheme.colorScheme
-    val isDarkBackground = colorScheme.background.luminance() < 0.5f
+    val isDarkBackground = AppColors.background.luminance() < 0.5f
     return if (isDarkBackground) {
-        colorScheme.onSurface.copy(alpha = 0.14f)
+        AppColors.onSurface.copy(alpha = 0.14f)
     } else {
-        colorScheme.onSurface.copy(alpha = 0.1f)
+        AppColors.onSurface.copy(alpha = 0.1f)
     }
 }
 
@@ -139,7 +138,7 @@ fun SkeletonContent(
 @Composable
 fun SkeletonBlock(
     modifier: Modifier = Modifier,
-    shape: Shape = MaterialTheme.shapes.medium,
+    shape: Shape = ShapeMedium,
     color: Color = defaultSkeletonColor(),
     shimmerEnabled: Boolean = true,
 ) {

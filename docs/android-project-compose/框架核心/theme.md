@@ -1,105 +1,104 @@
 # 主题系统
 
-## 介绍
+## 主题链路
 
-项目主题完全采用 Miuix 官方主题系统。`core/designsystem/theme/Theme.kt` 的 `AppTheme` 负责创建 `ThemeController` 并调用 `MiuixTheme`，页面通过 `MiuixTheme.colorScheme` 读取颜色，通过 `MiuixTheme.textStyles` 读取文字样式。
+项目主题完全采用 Miuix 官方主题系统。应用入口 `MainActivity` 根据 `AppSettingsState` 选择模式和 Monet 参数，`AppTheme` 创建 `ThemeController` 并调用 `MiuixTheme`，页面从 `MiuixTheme` 或项目代理入口读取当前颜色和文字样式。
 
-颜色和文字样式不在项目中重新维护固定值。`Color.kt` 与 `TextStyles.kt` 只提供响应式访问入口，实际值始终来自当前 Miuix 主题。
+```text
+AppSettingsState.uiState
+  → ColorSchemeMode、keyColor、ThemeColorSpec、ThemePaletteStyle
+  → AppTheme
+  → ThemeController
+  → MiuixTheme
+  → AppColors / AppTextStyles / MiuixTheme
+```
 
-Miuix 官方资料：
+Miuix 是颜色、文字样式和组件视觉的唯一主题来源。
 
-- [颜色系统](https://compose-miuix-ui.github.io/miuix/zh_CN/guide/colors.html)
-- [主题系统](https://compose-miuix-ui.github.io/miuix/zh_CN/guide/theme.html)
-- [组件文档](https://compose-miuix-ui.github.io/miuix/zh_CN/components/)
+## 配色模式
 
-## 主题模式
+Miuix `ColorSchemeMode` 当前支持六种模式：
 
-Miuix 官方提供六种 `ColorSchemeMode`：
-
-| 模式 | 作用 |
+| 模式 | 行为 |
 | --- | --- |
-| `System` | 跟随系统浅色或深色模式 |
-| `Light` | 固定使用浅色方案 |
-| `Dark` | 固定使用深色方案 |
-| `MonetSystem` | 使用动态颜色并跟随系统明暗 |
+| `System` | 跟随系统明暗，不启用动态配色 |
+| `Light` | 固定浅色方案 |
+| `Dark` | 固定深色方案 |
+| `MonetSystem` | 使用系统动态颜色并跟随系统明暗 |
 | `MonetLight` | 使用动态颜色并固定浅色 |
 | `MonetDark` | 使用动态颜色并固定深色 |
 
-`AppTheme` 保留 `darkTheme` 和 `dynamicColor` 作为现有调用入口，同时支持通过 `colorSchemeMode` 直接选择上述官方模式。新页面需要明确主题模式时，优先传入 `ColorSchemeMode`。
+`AppTheme` 通过 `colorSchemeMode` 选择配色模式；未显式传入时，根据 `darkTheme` 和 `dynamicColor` 计算 Light、Dark 或 Monet 模式。
 
-Monet 模式还支持以下官方配置：
+Monet 还支持：
 
-- `keyColor`：动态配色的种子颜色；为空时使用系统壁纸颜色。
+- `keyColor`：动态配色种子色，为 `null` 时使用系统壁纸颜色。
 - `ThemeColorSpec`：`Spec2021` 或 `Spec2025`。
 - `ThemePaletteStyle`：`TonalSpot`、`Neutral`、`Vibrant`、`Expressive`、`Rainbow`、`FruitSalad`、`Monochrome`、`Fidelity`、`Content`。
-- `isDark`：`System` 或 `MonetSystem` 模式下的明暗状态覆盖值。
+- `isDark`：覆盖 `System` 或 `MonetSystem` 的明暗判断。
 
-`Spec2025` 只适用于官方支持的调色板风格，其余组合由 Miuix 按官方规则降级处理。
+应用设置中的主题模式、种子色、颜色规范和调色板索引由 `AppSettingsState` 保存；`MainActivity` 将索引安全映射为 Miuix 枚举，非法值回退到默认项。
 
 ## 颜色访问
 
-`Color.kt` 中的 `AppColors` 与 Miuix 颜色角色一一对应：
+`Color.kt` 中的 `AppColors` 是 `MiuixTheme.colorScheme` 的项目代理。它覆盖主色、次要色、三级色、错误色、容器色、背景、表面、边框、分隔线、禁用态、滑块和窗口遮罩等角色。
 
 ```kotlin
-Modifier.background(AppColors.surface)
-
-Text(
-    text = "标题",
-    color = AppColors.onBackground,
-)
+@Composable
+private fun StatusLabel(isError: Boolean) {
+    Text(
+        text = if (isError) "请求失败" else "同步完成",
+        color = if (isError) AppColors.error else AppColors.primary,
+        style = AppTextStyles.body2,
+    )
+}
 ```
 
-常用颜色角色：
+常用选择：
 
-| 使用场景 | 颜色角色 |
+| 场景 | 角色 |
 | --- | --- |
-| 主操作和强调 | `primary`、`onPrimary`、`primaryContainer`、`onPrimaryContainer` |
-| 错误反馈 | `error`、`onError`、`errorContainer`、`onErrorContainer` |
-| 页面背景 | `background`、`onBackground` |
-| 表面和卡片 | `surface`、`onSurface`、`surfaceContainer` |
-| 辅助文字 | `onBackgroundVariant`、`onSurfaceSecondary`、`onSurfaceContainerVariant` |
-| 边框和分隔线 | `outline`、`dividerLine` |
+| 页面背景 | `background`、`onBackground`、`onBackgroundVariant` |
+| 卡片和表面 | `surface`、`onSurface`、`surfaceContainer` |
+| 强调和操作 | `primary`、`onPrimary`、`primaryContainer` |
+| 次级操作 | `secondary`、`secondaryContainer` |
+| 错误反馈 | `error`、`onError`、`errorContainer` |
+| 边框与分隔 | `outline`、`dividerLine` |
 | 禁用状态 | `disabledPrimary`、`disabledOnPrimary`、`disabledOnSurface` |
-| 滑块状态 | `sliderKeyPoint`、`sliderKeyPointForeground`、`sliderBackground` |
-| 窗口遮罩 | `windowDimming` |
+| 弹窗遮罩和滑块 | `windowDimming`、`sliderBackground`、`sliderKeyPoint` |
 
-完整角色、用途和浅色/深色 ARGB 数值以 Miuix 官方颜色文档为准，不在项目文档中复制一份可能失效的色值表。
+完整色值由 Miuix 当前主题计算，不在项目文档中复制固定浅色或深色色板。
 
 ## 文字样式访问
 
-`TextStyles.kt` 中的 `TextStyles` 与 Miuix 官方 `TextStyles` 对应：
+`TextStyles.kt` 中的 `AppTextStyles` 代理 Miuix 官方文字样式：`main`、`paragraph`、`body1`、`body2`、`button`、`footnote1`、`footnote2`、`headline1`、`headline2`、`subtitle`、`title1`、`title2`、`title3` 和 `title4`。
 
 ```kotlin
 Text(
     text = "页面标题",
-    style = TextStyles.title2,
+    style = AppTextStyles.title2,
+    color = AppColors.onBackground,
 )
 ```
 
-可用样式包括 `main`、`paragraph`、`body1`、`body2`、`button`、`footnote1`、`footnote2`、`headline1`、`headline2`、`subtitle`、`title1`、`title2`、`title3` 和 `title4`。
+这些属性必须在组合上下文中读取，以便主题切换时随 `MiuixTheme` 重组。不要缓存单个 `TextStyle`，也不要在页面中重新声明一套字号和字重。
 
-这些属性在组合上下文中读取当前主题。不要使用 `remember` 保存单个颜色或文字样式，也不要把主题值写入普通顶层常量。
+## 尺寸、Shape 与 Squircle
 
-## Size 与 Shape 边界
+Miuix 组件的内部尺寸和圆角优先使用各组件的 `Defaults`；项目 `Size.kt` 只维护页面间距、内边距、分割线和指示器，`Shape.kt` 只维护自定义容器的 `Radius*` 和 `Shape*`。
 
-Miuix 没有覆盖整个应用的全局 `Size`、`Spacing` 或 `Shape` 主题对象。尺寸和圆角主要由各个组件的 `Defaults` 提供，例如：
-
-- `CardDefaults.CornerRadius`
-- `SnackbarDefaults.CornerRadius`
-- `SnackbarDefaults.InsideMargin`
-- `SearchBarDefaults.InsideMargin`
-- `TooltipDefaults.PlainTooltipCornerRadius`
-- `FloatingActionButtonDefaults.MinHeight`
-
-项目继续保留 `Size.kt`，用于页面级间距和布局节奏；继续保留 `Shape.kt`，用于业务自定义容器的语义圆角。Miuix 组件优先使用官方 `Defaults`，自定义容器再使用项目令牌。
-
-`miuix-squircle` 提供平滑圆角的渲染方式，不规定全局圆角数值。`cornerRadius` 仍由具体设计决定，Android API 33 以下会回退到普通圆角渲染。
+Miuix Squircle 是可选渲染能力。应用通过 `LocalSquircleEnabled` 控制是否启用；API 受限或运行时 Shader 不可用时，相关组件回退到普通圆角或普通背景。
 
 ## 主题修改规则
 
-1. 颜色和文字优先查阅 Miuix 官方中文文档。
-2. 新增颜色角色前确认 Miuix 是否已有对应语义。
-3. 页面优先读取 `AppColors`、`TextStyles` 或 `MiuixTheme`。
-4. Miuix 组件优先使用官方默认参数。
-5. `Size.kt` 和 `Shape.kt` 只维护项目页面布局和自定义容器规则。
-6. 主题修改后验证浅色、深色、System 和 Monet 模式。
+1. 先查阅 Miuix 官方颜色、主题和组件文档，再确认源码中的实际 API。
+2. 新增颜色或文字语义前，确认 Miuix 是否已有对应角色。
+3. 页面优先使用 `AppColors`、`AppTextStyles` 或 `MiuixTheme`，禁止写固定色值和局部文字规范。
+4. Miuix 组件优先使用官方默认参数；项目令牌只补充页面级布局规则。
+5. 修改主题后验证 System、Light、Dark、MonetSystem、MonetLight 和 MonetDark，以及 Squircle 开关。
+
+## 参考资料
+
+- [Miuix 中文颜色规范](https://compose-miuix-ui.github.io/miuix/zh_CN/guide/colors.html)
+- [Miuix 中文主题系统](https://compose-miuix-ui.github.io/miuix/zh_CN/guide/theme.html)
+- [Miuix 中文组件文档](https://compose-miuix-ui.github.io/miuix/zh_CN/components/)

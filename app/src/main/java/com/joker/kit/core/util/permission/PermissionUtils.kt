@@ -6,7 +6,7 @@ import android.content.ContextWrapper
 import com.hjq.permissions.XXPermissions
 import com.hjq.permissions.permission.PermissionLists
 import com.hjq.permissions.permission.base.IPermission
-import com.joker.kit.core.util.toast.ToastUtils
+import com.joker.kit.core.state.AppSnackbar
 
 /**
  * 权限工具类，基于 XXPermissions 框架封装
@@ -44,10 +44,10 @@ object PermissionUtils {
             // 权限申请失败
             if (XXPermissions.isDoNotAskAgainPermissions(activity, deniedList)) {
                 // 用户勾选了不再询问，引导用户到设置页面
-                ToastUtils.showError("${permissionName}被永久拒绝，请手动授予")
+                AppSnackbar.show("${permissionName}被永久拒绝，请手动授予")
                 XXPermissions.startPermissionActivity(activity, *permissions)
             } else {
-                ToastUtils.showError("${permissionName}获取失败")
+                AppSnackbar.show("${permissionName}获取失败")
             }
             callback(false)
         }
@@ -67,7 +67,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }
@@ -103,7 +103,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }
@@ -137,7 +137,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }
@@ -171,7 +171,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }
@@ -205,7 +205,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }
@@ -239,7 +239,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }
@@ -274,7 +274,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }
@@ -316,7 +316,7 @@ object PermissionUtils {
     ) {
         val activity = getActivityFromContext(context)
         if (activity == null) {
-            ToastUtils.showError("无法获取Activity实例，权限申请失败")
+            AppSnackbar.show("无法获取Activity实例，权限申请失败")
             callback(false)
             return
         }

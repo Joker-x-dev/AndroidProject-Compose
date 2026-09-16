@@ -1,26 +1,261 @@
 <resources>
     <string name="app_name">AndroidProject-Compose</string>
+    <string name="about_title">About</string>
+    <string name="login_success">Login successful</string>
+    <string name="logout_success">Logged out</string>
+    <string name="about_app_name">App Name</string>
+    <string name="about_version_name">Version Name</string>
+    <string name="about_version_code">Version Code</string>
+    <string name="about_developer">Developer</string>
+    <string name="about_project_links">Project Links</string>
+    <string name="about_resources">Resources</string>
+    <string name="about_copyright">© 2026 Joker.X &amp; %1$s Contributors</string>
+    <string name="about_background_effect">Background Effect</string>
+    <string name="about_effect_variant">Effect Variant</string>
+    <string name="about_dynamic_background">Dynamic Background</string>
+    <string name="about_fullscreen_background">Full Screen Background</string>
+    <string name="about_project_documentation">Project Documentation</string>
+    <string name="about_cool_mall_github">Cool Mall GitHub</string>
+    <string name="about_cool_mall_gitee">Cool Mall Gitee</string>
+
+    <!-- Expand Demo -->
+    <string name="snackbar_demo_title">Global Snackbar</string>
+    <string name="snackbar_demo_card_description">Global lightweight messages with action, dismiss action, and duration options.</string>
+    <string name="snackbar_demo_dismiss_oldest">Dismiss oldest</string>
+    <string name="snackbar_demo_dismiss_newest">Dismiss newest</string>
+    <string name="snackbar_demo_show_short">Short (4s)</string>
+    <string name="snackbar_demo_show_long">Long (10s)</string>
+    <string name="snackbar_demo_show_custom">Custom (2s)</string>
+    <string name="snackbar_demo_show_action">Action</string>
+    <string name="snackbar_demo_show_dismissible">Dismissible</string>
+    <string name="snackbar_demo_show_indefinite">Indefinite</string>
+    <string name="snackbar_demo_show_stack">Show Three</string>
+    <string name="snackbar_demo_action_running">Action: Alive</string>
+    <string name="snackbar_demo_action_undo">Action: Undo</string>
+    <string name="snackbar_demo_action_expired">Action: Expired</string>
+    <string name="snackbar_demo_message_short">This is a short message</string>
+    <string name="snackbar_demo_message_long">This is a long message to display more text content</string>
+    <string name="snackbar_demo_message_custom">This message will last for 2 seconds</string>
+    <string name="snackbar_demo_message_action">This message has an action</string>
+    <string name="snackbar_demo_message_dismissible">This message can be removed via the close button</string>
+    <string name="snackbar_demo_message_indefinite">Indefinite message, dismiss manually</string>
+    <string name="snackbar_demo_message_stack_one">First stacked message</string>
+    <string name="snackbar_demo_message_stack_two">Second stacked message</string>
+    <string name="snackbar_demo_message_stack_three">Third stacked message</string>
+    <string name="snackbar_demo_action_label">Undo</string>
+
+    <!-- Dialog Demo -->
+    <string name="dialog_demo_title">Global Dialog</string>
+    <string name="dialog_demo_card_description">Global dialog and confirm examples covering overlay, window, and large-screen styles.</string>
+    <string name="dialog_demo_wide_title">Wide Dialog</string>
+    <string name="dialog_demo_section_title">Dialog</string>
+    <string name="dialog_demo_overlay_title">Dialog (O)</string>
+    <string name="dialog_demo_overlay_summary">Click to show an OverlayDialog</string>
+    <string name="dialog_demo_window_title">Dialog (W)</string>
+    <string name="dialog_demo_window_summary">Click to show a WindowDialog</string>
+    <string name="dialog_demo_wide_overlay_title">Wide Dialog (O)</string>
+    <string name="dialog_demo_wide_window_title">Wide Dialog (W)</string>
+    <string name="dialog_demo_wide_summary">Portrait shows a regular dialog; landscape shows a two-column dialog</string>
+    <string name="dialog_demo_centered_title">Centered Dialog (O)</string>
+    <string name="dialog_demo_centered_summary">Force the large-screen presentation with largeScreen = true</string>
+    <string name="dialog_demo_overlay_dialog_summary">A dialog component inside MiuixPopupHost.</string>
+    <string name="dialog_demo_window_dialog_summary">A window-level dialog, no MiuixPopupHost required.</string>
+    <string name="dialog_demo_centered_dialog_summary">largeScreen = true forces the centered presentation on any window size.</string>
+    <string name="dialog_demo_wide_dialog_summary">Rotate to landscape to see the effect.</string>
+    <string name="dialog_demo_confirm_section_title">Global Confirm Dialog</string>
+    <string name="dialog_demo_confirm_hint">Trigger with AppDialogState.confirm(title, summary, onConfirm); the global host renders it.</string>
+    <string name="dialog_demo_show_confirm">Confirm Exit (OK / Cancel)</string>
+    <string name="dialog_demo_show_single_action">Single Button (onCancel = null)</string>
+    <string name="dialog_demo_show_custom_action">Custom Button Text and Color</string>
+    <string name="dialog_demo_confirm_exit_title">Confirm Exit</string>
+    <string name="dialog_demo_confirm_exit_summary">Are you sure you want to log out?</string>
+    <string name="dialog_demo_done_title">Completed</string>
+    <string name="dialog_demo_done_summary">Data has been synced to the server.</string>
+    <string name="dialog_demo_delete_title">Confirm Deletion</string>
+    <string name="dialog_demo_delete_summary">This action cannot be undone.</string>
+    <string name="dialog_demo_action_delete">Delete</string>
+    <string name="dialog_demo_action_rethink">Rethink</string>
+    <string name="dialog_demo_action_cancel">Cancel</string>
+    <string name="dialog_demo_action_confirm">Confirm</string>
+    <string name="dialog_demo_action_deny">Deny</string>
+    <string name="dialog_demo_action_allow_once">Allow Once</string>
+    <string name="dialog_demo_action_always_allow">Always Allow</string>
 
     <!-- Empty States -->
-    <string name="empty_cart_btn">去逛逛</string>
-    <string name="empty_data">暂无数据</string>
-    <string name="empty_data_subtitle">暂时没有相关内容</string>
-    <string name="empty_error">加载失败</string>
-    <string name="empty_error_subtitle">页面加载出现了问题</string>
-    <string name="empty_network">网络连接失败</string>
-    <string name="empty_network_subtitle">请检查网络连接后重试</string>
-    <string name="click_retry">重新加载</string>
+    <string name="empty_data">No Data</string>
+    <string name="empty_data_subtitle">No content available</string>
+    <string name="empty_error">Load Failed</string>
+    <string name="empty_error_subtitle">Something went wrong</string>
+    <string name="empty_network">Network Error</string>
+    <string name="empty_network_subtitle">Please check your connection</string>
+    <string name="click_retry">Retry</string>
 
     <!-- Loading States -->
-    <string name="loading">加载中…</string>
-    <string name="load_more_pull">上拉加载更多</string>
-    <string name="load_more_loading">正在加载…</string>
-    <string name="load_more_success">加载成功</string>
-    <string name="load_more_error">加载失败</string>
-    <string name="load_more_error_retry">加载失败，点击重试</string>
-    <string name="load_more_no_more">没有更多了</string>
-    <string name="refresh_pull_down">下拉刷新</string>
-    <string name="refresh_release">松开刷新</string>
-    <string name="refresh_refreshing">刷新中…</string>
-    <string name="refresh_complete">刷新完成</string>
+    <string name="loading">Loading…</string>
+    <string name="load_more_no_more">No More Data</string>
+    <string name="refresh_pull_down">Pull to Refresh</string>
+    <string name="refresh_release">Release to Refresh</string>
+    <string name="refresh_refreshing">Refreshing…</string>
+    <string name="refresh_complete">Refresh Complete</string>
+
+    <string name="nav_core">Core</string>
+    <string name="nav_navigation">Navigation</string>
+    <string name="nav_expand">Expand</string>
+    <string name="nav_settings">Settings</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_about">About</string>
+    <string name="auth_login">Login</string>
+    <string name="auth_login_action">One-tap login</string>
+    <string name="storage_title">Local Storage</string>
+    <string name="storage_demo_title">UserInfoStoreDataSource Example</string>
+    <string name="storage_demo_description">Save the user ID, nickname and avatar, then clear or reload them at any time.</string>
+    <string name="storage_user_id">User ID (number)</string>
+    <string name="storage_nickname">Nickname</string>
+    <string name="storage_avatar_url">Avatar URL (optional)</string>
+    <string name="storage_reload">Reload</string>
+    <string name="storage_clear">Clear</string>
+    <string name="storage_save">Save User</string>
+    <string name="network_request_title">Network Request</string>
+    <string name="network_request_action">Send Network Request</string>
+    <string name="network_demo_title">Network Demo</string>
+    <string name="network_demo_description">Switch network states through loading, error and retry flows.</string>
+    <string name="network_list_title">Network List Demo</string>
+    <string name="network_list_description">A unified list template with pull-to-refresh, pagination, empty and retry states.</string>
+    <string name="database_card_description">Room CRUD example with list rendering and data observation.</string>
+    <string name="storage_card_description">DataStore / MMKV write and clear example for single-value CRUD.</string>
+    <string name="state_card_description">Shared counter example demonstrating StateFlow synchronization across pages.</string>
+    <string name="network_request_card_description">Generic ResultHandler request with loading and error feedback.</string>
+    <string name="navigation_args_card_description">Type-safe route arguments with required and optional values.</string>
+    <string name="navigation_result_card_description">NavigationResultKey data return with refresh signals and entities.</string>
+    <string name="navigation_guard_title">Navigation Guard</string>
+    <string name="navigation_guard_card_description">Login interception flow from sign-in to protected user details.</string>
+    <string name="screen_adaptation_card_description">Breakpoint and window-width example for responsive layouts.</string>
+    <string name="demo_card_preview_title">Sample Component</string>
+    <string name="demo_card_preview_description">Preview of the default Demo card style.</string>
+    <string name="user_info_title">User Info</string>
+    <string name="user_logout">Log Out</string>
+    <string name="navigation_login_status">Login status: Signed in</string>
+    <string name="navigation_result_format">Result: id=%1$d, message=%2$s</string>
+    <string name="navigation_result_title">Navigation Result</string>
+    <string name="navigation_result_action">Send Result and Return</string>
+    <string name="navigation_args_title">Navigation with Arguments</string>
+    <string name="screen_adaptation_title">Screen Adaptation Demo</string>
+    <string name="state_management_title">State Management</string>
+    <string name="core_counter_format">Global counter: %1$d</string>
+    <string name="database_title">Database</string>
+    <string name="database_count_format">Demo table: %1$d items</string>
+    <string name="database_crud_title">CRUD with DemoRepository</string>
+    <string name="database_crud_description">Enter a title to add a record. The description is optional; the list comes from DemoRepository.observeItems() Flow.</string>
+    <string name="database_title_required">Title (required)</string>
+    <string name="database_description_optional">Description (optional)</string>
+    <string name="database_add">Add Record</string>
+    <string name="database_empty">The list is empty. Add a record first.</string>
+    <string name="database_delete">Delete</string>
+    <string name="database_clear_all">Clear All</string>
+    <string name="state_intro_title">Why DemoCounterState?</string>
+    <string name="state_intro_description">It is a @Singleton + ApplicationScope StateFlow that any page can observe and share. The counter demonstrates separation between state ownership and UI.</string>
+    <string name="state_counter_title">Global Counter</string>
+    <string name="state_reset">Reset</string>
+    <string name="state_counter_description">Operations are delegated to DemoCounterState. The UI does not mutate values directly, allowing multiple pages to share the same state.</string>
+    <string name="screen_adaptation_grid_description">Adjust columns for screen size</string>
+    <string name="screen_adaptation_list_description">One column on small screens, two on large screens</string>
+    <string name="screen_adaptation_text_title">Adaptive Text</string>
+    <string name="screen_adaptation_text_description">Sample text changes with the screen</string>
+    <string name="screen_adaptation_size_description">Use bp to configure breakpoint sizes</string>
+    <string name="screen_adaptation_size_format">Sample size: %1$ddp</string>
+    <string name="goods_price_format">¥%1$d</string>
+    <string name="network_request_operation">Request Action</string>
+    <string name="network_request_operation_summary">Request product information and show the result in the card below.</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_subtitle">Subtitle</string>
+    <string name="product_price">Price</string>
+    <string name="product_sold">Sold</string>
+    <string name="product_price_format">¥%1$d</string>
+    <string name="product_sold_format">%1$d sold</string>
+    <string name="no_content">Not available</string>
+    <string name="navigation_result_operation_summary">Send a sample result to the previous page and return.</string>
+    <string name="navigation_goods_id">Passed Product ID</string>
+    <string name="database_no_description">No description</string>
+    <string name="database_unnamed_record">Untitled record</string>
+    <string name="database_updated_format">%1$s · Updated %2$s</string>
+    <string name="storage_no_nickname">No nickname</string>
+    <string name="storage_no_avatar">No avatar</string>
+    <string name="storage_user_info_format">Current user: id=%1$d, nickname=%2$s\nAvatar=%3$s</string>
+    <string name="storage_empty_user">No local user information</string>
+    <string name="screen_adaptation_grid_title">Grid Layout Demo</string>
+    <string name="screen_adaptation_list_title">List Layout Demo</string>
+    <string name="screen_adaptation_text_section_title">Text/Size Adaptation</string>
+    <string name="screen_adaptation_size_title">Size Adaptation</string>
+    <string name="screen_adaptation_breakpoint_title">Current Breakpoint</string>
+    <string name="screen_adaptation_grid_item">Grid Item %1$d</string>
+    <string name="screen_adaptation_list_item">List Item %1$d</string>
+    <string name="screen_adaptation_size_change_title">Size Changes with Screen</string>
+    <string name="settings_theme_mode">Theme Mode</string>
+    <string name="settings_theme_mode_summary">Choose system, light, dark or dynamic colors</string>
+    <string name="settings_key_color">Key Color</string>
+    <string name="settings_key_color_summary">Choose the dynamic theme key color</string>
+    <string name="settings_palette_style">Palette Style</string>
+    <string name="settings_palette_style_summary">Choose the dynamic color palette style</string>
+    <string name="settings_color_spec">Color Specification</string>
+    <string name="settings_color_spec_summary">Choose the dynamic color specification</string>
+    <string name="settings_fps">Show FPS Monitor</string>
+    <string name="settings_fps_summary">Show real-time and low-frame-rate data</string>
+    <string name="settings_squircle">Enable Squircle Shape</string>
+    <string name="settings_squircle_summary">Enable Miuix squircle corner effects</string>
+    <string name="settings_blur">Enable Blur</string>
+    <string name="settings_blur_summary">Enable blur effects on pages and the top bar</string>
+    <string name="settings_haptic">Enable Scroll Edge Haptics</string>
+    <string name="settings_haptic_summary">Vibrate when scrolling reaches the top or bottom</string>
+    <string name="settings_top_bar_blur">Top Bar Blur Style</string>
+    <string name="settings_top_bar_blur_summary">Choose Gaussian or progressive blur</string>
+    <string name="settings_navigation_style">Navigation Bar Style</string>
+    <string name="settings_navigation_mode">Navigation Bar Mode</string>
+    <string name="settings_floating_style">Floating Navigation Style</string>
+    <string name="settings_floating_position">Floating Navigation Position</string>
+    <string name="settings_about_summary">App information, developer and project resources</string>
+    <string-array name="settings_theme_items">
+        <item>Follow System</item>
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Dynamic Follow System</item>
+        <item>Dynamic Light</item>
+        <item>Dynamic Dark</item>
+    </string-array>
+    <string-array name="settings_navigation_style_items">
+        <item>Fixed Navigation Bar</item>
+        <item>Floating Navigation Bar</item>
+    </string-array>
+    <string-array name="settings_navigation_items">
+        <item>Icons and Labels</item>
+        <item>Icons Only</item>
+        <item>Selected Label Only</item>
+    </string-array>
+    <string-array name="settings_floating_style_items">
+        <item>Standard Floating</item>
+        <item>Liquid Glass</item>
+    </string-array>
+    <string-array name="settings_floating_position_items">
+        <item>Center</item>
+        <item>Left</item>
+        <item>Right</item>
+    </string-array>
+    <string-array name="settings_key_color_items">
+        <item>Default</item>
+        <item>Purple</item>
+        <item>Cyan</item>
+        <item>Orange</item>
+    </string-array>
+    <string-array name="settings_palette_style_items">
+        <item>TonalSpot</item>
+        <item>Neutral</item>
+        <item>Vibrant</item>
+    </string-array>
+    <string-array name="settings_color_spec_items">
+        <item>Spec2021</item>
+        <item>Spec2025</item>
+    </string-array>
+    <string-array name="settings_blur_style_items">
+        <item>Gaussian Blur</item>
+        <item>Progressive Blur</item>
+    </string-array>
 </resources>

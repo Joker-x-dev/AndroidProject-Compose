@@ -2,7 +2,7 @@
 
 ## 介绍
 
-Feature 目录按业务域组织，例如 `feature/auth/`、`feature/main/` 和 `feature/user/`。本页只说明什么时候拆分文件、文件放在哪里以及如何命名，不要求每个功能域复制完全相同的目录。
+Feature 目录按业务域组织，例如 `feature/auth/`、`feature/common/`、`feature/main/` 和 `feature/user/`。本页只说明什么时候拆分文件、文件放在哪里以及如何命名，不要求每个功能域复制完全相同的目录。
 
 当前 AndroidProject-Compose 只有一个 `:app` Gradle 模块，Feature 只是包级分层。路由类型放在 `core/navigation/<domain>/`，页面实现放在 `feature/<domain>/`。
 

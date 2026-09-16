@@ -1,7 +1,7 @@
 package com.joker.kit.core.result
 
 import com.joker.kit.core.model.network.NetworkResponse
-import com.joker.kit.core.util.toast.ToastUtils
+import com.joker.kit.core.state.AppSnackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -192,7 +192,7 @@ object ResultHandler {
         Timber.e(formatErrorLog(errorMsg, throwable, additionalInfo))
         onError(errorMsg, throwable)
         if (showToast) {
-            ToastUtils.showError(errorMsg)
+            AppSnackbar.show(errorMsg)
         }
     }
 

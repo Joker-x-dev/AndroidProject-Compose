@@ -2,8 +2,6 @@ package com.joker.kit.core.designsystem.theme
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,6 +11,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.joker.kit.R
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.theme.LocalContentColor
 
 /**
  * 为应用封装的统一图标组件，简化官方图标的使用方式
@@ -140,28 +140,6 @@ fun ArrowLeftIcon(
 ) {
     CommonIcon(
         resId = R.drawable.ic_left,
-        modifier = modifier,
-        size = size,
-        tint = tint
-    )
-}
-
-/**
- * 右箭头图标组件，通常用于更多或下一步按钮
- *
- * @param modifier 修饰符
- * @param size 图标大小，默认为24dp
- * @param tint 图标着色，默认使用当前内容颜色
- * @author Joker.X
- */
-@Composable
-fun ArrowRightIcon(
-    modifier: Modifier = Modifier,
-    size: Dp? = 24.dp,
-    tint: Color = AppColors.onSurfaceContainerVariant
-) {
-    CommonIcon(
-        resId = R.drawable.ic_right,
         modifier = modifier,
         size = size,
         tint = tint

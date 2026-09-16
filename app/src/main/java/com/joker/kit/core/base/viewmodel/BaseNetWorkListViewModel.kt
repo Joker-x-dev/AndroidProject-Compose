@@ -33,7 +33,7 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
      * 刷新结果监听任务
      *
      * 用于保证只注册一次刷新结果监听，避免重复 collect 导致重复刷新和内存浪费。
-     * 当该任务不为 null 时，表示当前 ViewModel 已经建立监听。
+     * 任务不为 null 时表示 ViewModel 持有刷新结果监听。
      */
     private var refreshObserveJob: Job? = null
 
@@ -144,7 +144,9 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
     }
 
     /**
-     * 处理成功响应
+     * 处理成功响应并更新列表及分页状态。
+     *
+     * @param data 网络返回的分页数据；为空时按空列表处理
      */
     protected open fun handleSuccess(data: NetworkPageData<T>?) {
         val newList = data?.list ?: emptyList()
@@ -216,7 +218,10 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
     }
 
     /**
-     * 处理错误响应
+     * 处理错误响应并恢复对应的列表状态。
+     *
+     * @param message 服务端返回的错误信息
+     * @param exception 请求过程中捕获的异常
      */
     protected open fun handleError(message: String?, exception: Throwable?) {
         if (currentPage == 1) {
@@ -282,7 +287,10 @@ abstract class BaseNetWorkListViewModel<T : Any> : BaseViewModel() {
     }
 
     /**
-     * 设置首次加载成功状态
+     * 设置首次加载或刷新完成后的成功状态。
+     *
+     * @param newList 首次加载得到的列表数据
+     * @param hasNextPage 是否存在下一页数据
      */
     private fun setFirstLoadSuccessState(newList: List<T>, hasNextPage: Boolean) {
         _isRefreshing.value = false

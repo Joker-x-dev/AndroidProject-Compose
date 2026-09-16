@@ -61,7 +61,7 @@ AndroidProject-Compose 是一个基于 Kotlin、Jetpack Compose 和 Navigation 3
 | `core/` | 基类、数据层、导航、状态、设计系统、通用 UI 与工具能力。 |
 | `feature/` | `auth`、`demo`、`main`、`user` 等业务页面、ViewModel 与 Graph。 |
 | `MainActivity.kt` | 创建 Compose 内容并挂载 `AppNavHost`。 |
-| `Application.kt` | 初始化 Hilt、Timber、MMKV、Toast、刷新组件和用户状态。 |
+| `Application.kt` | 初始化 Hilt、Timber、MMKV、Toast 和用户状态；Miuix 刷新组件由页面 `RefreshLayout` 管理。 |
 | `MainActivityViewModel.kt` | 预留的空 ViewModel 类，`MainActivity` 当前未获取或引用它。 |
 | `gradle/libs.versions.toml` | 集中维护插件与依赖版本。 |
 | `app/build.gradle.kts` | 配置 SDK、构建类型、ABI、Java 版本和应用依赖。 |
@@ -74,7 +74,7 @@ AndroidProject-Compose 是一个基于 Kotlin、Jetpack Compose 和 Navigation 3
 
 | 能力 | 当前实现 |
 | --- | --- |
-| UI | Jetpack Compose、Material 3、Material 3 Adaptive、统一主题与通用组件。 |
+| UI | Jetpack Compose、Miuix Compose、Material 3 Adaptive 窗口信息、统一主题与通用组件。 |
 | 导航 | Navigation 3、类型安全 `NavKey`、模块 Graph、登录拦截、结果回传与页面状态保存。 |
 | 状态 | `StateFlow`、Feature ViewModel、应用级 `UserState` 和示例计数状态。 |
 | 网络 | Retrofit、OkHttp、Kotlinx Serialization、统一网络响应与数据源。 |

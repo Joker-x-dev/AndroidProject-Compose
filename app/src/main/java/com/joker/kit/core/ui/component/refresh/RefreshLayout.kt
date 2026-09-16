@@ -1,9 +1,8 @@
 package com.joker.kit.core.ui.component.refresh
 
-import com.joker.kit.core.designsystem.theme.AppColors
-import top.yukonga.miuix.kmp.basic.Text
-import androidx.compose.foundation.gestures.animateScrollBy
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
@@ -12,49 +11,52 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridScope
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.joker.kit.R
+import com.joker.kit.core.designsystem.theme.AppColors
+import com.joker.kit.core.designsystem.theme.SpaceHorizontalMedium
+import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
-import com.king.ultraswiperefresh.UltraSwipeRefresh
-import com.king.ultraswiperefresh.UltraSwipeRefreshState
-import com.king.ultraswiperefresh.indicator.classic.ClassicRefreshFooter
-import com.king.ultraswiperefresh.indicator.classic.ClassicRefreshHeader
-import com.king.ultraswiperefresh.rememberUltraSwipeRefreshState
+import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
+import com.joker.kit.core.ui.component.scaffold.LocalMiuixScrollBehavior
+import kotlinx.coroutines.flow.distinctUntilChanged
+import top.yukonga.miuix.kmp.basic.InfiniteProgressIndicator
+import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
+import top.yukonga.miuix.kmp.basic.PullToRefresh
+import top.yukonga.miuix.kmp.basic.ScrollBehavior
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.rememberPullToRefreshState
 
 /**
- * 基于 UltraSwipeRefresh 的刷新布局
+ * Miuix 刷新布局。
  *
- * 统一封装下拉刷新与上拉加载，并兼容列表与网格两种内容展示模式。
+ * 下拉刷新使用 [PullToRefresh]，加载更多使用列表滚动状态接近末尾时的响应式检测。
  *
- * @param modifier 修饰符
+ * @param modifier 内容修饰符
  * @param list 列表数据
- * @param isGrid 是否为网格模式
+ * @param isGrid 是否使用瀑布网格
  * @param listState 列表滚动状态
  * @param gridState 网格滚动状态
- * @param isRefreshing 是否正在刷新
- * @param isLoadingMore 是否正在加载更多
- * @param hasMoreData 是否还有更多数据
- * @param scrollBehavior 顶部导航栏滚动行为
+ * @param isRefreshing 下拉刷新状态
+ * @param isLoadingMore 加载更多状态
+ * @param hasMoreData 是否存在更多数据
+ * @param scrollBehavior 顶部栏滚动行为
+ * @param contentPadding Scaffold 提供的安全区内边距
+ * @param pagePadding 列表页面的统一内容内边距
  * @param onRefresh 下拉刷新回调
- * @param onLoadMore 上拉加载回调
- * @param headerIndicator 刷新头部指示器
- * @param noMoreContent 没有更多数据时的底部指示器内容
- * @param gridContent 网格内容构建器
- * @param content 列表内容构建器
- * @author Joker.X
+ * @param onLoadMore 加载更多回调
+ * @param gridContent 网格内容
+ * @param content 列表内容
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> RefreshLayout(
     modifier: Modifier = Modifier,
@@ -65,85 +67,99 @@ fun <T> RefreshLayout(
     isRefreshing: Boolean = false,
     isLoadingMore: Boolean = false,
     hasMoreData: Boolean = false,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
+    scrollBehavior: ScrollBehavior? = null,
+    contentPadding: PaddingValues = PaddingValues(),
+    pagePadding: PaddingValues = PaddingValues(
+        horizontal = SpaceHorizontalMedium,
+        vertical = SpaceVerticalMedium,
+    ),
     onRefresh: () -> Unit = {},
     onLoadMore: () -> Unit = {},
-    headerIndicator: @Composable (UltraSwipeRefreshState) -> Unit = { state ->
-        ClassicRefreshHeader(state)
-    },
-    noMoreContent: @Composable () -> Unit = {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stringResource(R.string.load_more_no_more),
-                color = AppColors.onSurfaceSecondary,
-                modifier = Modifier.padding(vertical = SpaceVerticalLarge)
-            )
-        }
-    },
     gridContent: LazyStaggeredGridScope.() -> Unit = {},
     content: LazyListScope.() -> Unit = {},
 ) {
+    // 列表状态默认由刷新布局持有，页面只在需要跨组件控制滚动时显式传入。
     val actualListState = listState ?: rememberLazyListState()
     val actualGridState = gridState ?: rememberLazyStaggeredGridState()
-    val refreshState = rememberUltraSwipeRefreshState(
-        isRefreshing = isRefreshing,
-        isLoading = isLoadingMore
-    )
-    var footerHasMoreData by remember { mutableStateOf(hasMoreData) }
+    // 优先复用 AppScaffold 提供的滚动行为，脱离页面骨架时自动创建独立行为。
+    val actualScrollBehavior = scrollBehavior
+        ?: LocalMiuixScrollBehavior.current
+        ?: MiuixScrollBehavior()
+    val pullToRefreshState = rememberPullToRefreshState()
+    var requestedItemCount by remember { mutableIntStateOf(-1) }
 
-    LaunchedEffect(hasMoreData, isLoadingMore, refreshState.isFinishing) {
-        footerHasMoreData = when {
-            hasMoreData -> true
-            isLoadingMore -> true
-            refreshState.isFinishing -> true
-            else -> false
-        }
-    }
-
-    val loadMoreEnabled = remember(list) {
-        list.isNotEmpty()
-    }
-
-    UltraSwipeRefresh(
-        state = refreshState,
-        onRefresh = onRefresh,
-        onLoadMore = onLoadMore,
-        vibrationEnabled = true,
-        modifier = modifier.then(
-            if (scrollBehavior != null) {
-                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+    LaunchedEffect(actualListState, actualGridState, isGrid, list.size, hasMoreData, isLoadingMore) {
+        snapshotFlow {
+            if (isGrid) {
+                val layoutInfo = actualGridState.layoutInfo
+                val lastVisible = layoutInfo.visibleItemsInfo.maxOfOrNull { it.index } ?: -1
+                lastVisible >= 0 && lastVisible >= layoutInfo.totalItemsCount - 3
             } else {
-                Modifier
+                val layoutInfo = actualListState.layoutInfo
+                val lastVisible = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
+                lastVisible >= 0 && lastVisible >= layoutInfo.totalItemsCount - 3
             }
-        ),
-        loadMoreEnabled = loadMoreEnabled,
-        onCollapseScroll = { offset ->
-            if (offset > 0f) {
-                if (isGrid) {
-                    actualGridState.animateScrollBy(offset)
-                } else {
-                    actualListState.animateScrollBy(offset)
+        }
+            .distinctUntilChanged()
+            .collect { nearEnd ->
+                if (nearEnd && hasMoreData && !isLoadingMore && requestedItemCount != list.size) {
+                    requestedItemCount = list.size
+                    onLoadMore()
                 }
             }
-        },
-        headerIndicator = headerIndicator,
-        footerIndicator = { state ->
-            if (footerHasMoreData) {
-                ClassicRefreshFooter(state)
-            } else {
-                noMoreContent()
-            }
-        }
+    }
+
+    PullToRefresh(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = modifier,
+        pullToRefreshState = pullToRefreshState,
+        // 下拉指示器使用 Scaffold 安全区，列表页面间距由 MiuixPageLazyColumn 处理。
+        contentPadding = contentPadding,
+        topAppBarScrollBehavior = actualScrollBehavior,
+        refreshTexts = listOf(
+            stringResource(R.string.refresh_pull_down),
+            stringResource(R.string.refresh_release),
+            stringResource(R.string.refresh_refreshing),
+            stringResource(R.string.refresh_complete),
+        ),
     ) {
         RefreshContent(
             isGrid = isGrid,
             listState = actualListState,
             gridState = actualGridState,
+            contentPadding = contentPadding,
+            pagePadding = pagePadding,
             gridContent = gridContent,
-            content = content
+            content = {
+                content()
+                if (isLoadingMore) {
+                    item(key = "refresh-loading-more") {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = SpaceVerticalLarge),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            InfiniteProgressIndicator()
+                        }
+                    }
+                } else if (!hasMoreData && list.isNotEmpty()) {
+                    item(key = "refresh-no-more") {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = SpaceVerticalLarge),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.load_more_no_more),
+                                color = AppColors.onSurfaceSecondary,
+                            )
+                        }
+                    }
+                }
+            },
         )
     }
 }

@@ -6,7 +6,7 @@ AndroidProject-Compose 是一个基于 Kotlin、Jetpack Compose 和 Navigation 3
 
 | 领域 | 技术与用途 |
 | --- | --- |
-| 语言与 UI | Kotlin、Jetpack Compose、Material 3 |
+| 语言与 UI | Kotlin、Jetpack Compose、Miuix Compose |
 | 页面与状态 | Route → Screen → Content、ViewModel、StateFlow |
 | 依赖注入 | Hilt |
 | 网络与模型 | Retrofit、OkHttp、Kotlin Serialization |
@@ -32,7 +32,8 @@ AndroidProject-Compose 是一个基于 Kotlin、Jetpack Compose 和 Navigation 3
 | 开发任务 | 必读章节 |
 | --- | --- |
 | 项目架构与模块拆分 | [项目架构与职责](docs/android-project-compose/简介/architecture.md) → [工程组织与模块边界](docs/android-project-compose/简介/modularization.md) |
-| 主题、布局与公共 UI | [设计系统](docs/android-project-compose/框架核心/designsystem.md) → [主题系统](docs/android-project-compose/框架核心/theme.md) → [UI 组件](docs/android-project-compose/框架核心/ui.md) |
+| 主题、布局与公共 UI | [Miuix Compose](docs/android-project-compose/框架核心/miuix.md) → [设计系统](docs/android-project-compose/框架核心/designsystem.md) → [主题系统](docs/android-project-compose/框架核心/theme.md) → [UI 组件](docs/android-project-compose/框架核心/ui.md) |
+| Miuix 组件参数与组件选择 | [Miuix 组件索引](docs/miuix/components/index.md) → [Miuix Compose 接入规范](docs/android-project-compose/框架核心/miuix.md) |
 | 编写 Route、Screen、Content | [Feature 概览](docs/android-project-compose/业务功能/index.md) → [View 规范](docs/android-project-compose/业务功能/view.md) |
 | 编写 ViewModel 与页面状态 | [ViewModel 规范](docs/android-project-compose/业务功能/viewmodel.md) → [ViewModel 基类](docs/android-project-compose/框架核心/base.md) |
 | 接入网络、数据与分页 | [数据模型](docs/android-project-compose/框架核心/model.md) → [请求结果处理](docs/android-project-compose/框架核心/result.md) → [网络请求](docs/android-project-compose/框架核心/network.md) → [数据层](docs/android-project-compose/框架核心/data.md) → [非分页网络基类](docs/android-project-compose/框架核心/network-base.md)或[分页列表](docs/android-project-compose/框架核心/pagination.md) |
@@ -61,6 +62,36 @@ AndroidProject-Compose 是一个基于 Kotlin、Jetpack Compose 和 Navigation 3
 - 页面中的大部分业务逻辑通过 View 回调进入 ViewModel；页面顶部栏的普通返回操作直接调用 `navigateBack()`，不为它额外创建只转发返回的方法。
 - ViewModel 负责状态、请求、Repository 调用和导航副作用；View 不负责业务判断、网络请求或持久化。
 - 完整页面至少提供 `@ScreenPreview` 与 `@ScreenPreviewDark`；组件使用 `@ComponentPreview`、`@ComponentPreviewDark` 或组合注解。复杂页面通过 `@PreviewParameter` 注入静态预览数据，Preview 不发起真实请求。
+
+## UI、主题与 Miuix
+
+- 所有业务 UI 优先组合 Miuix 官方组件，并使用 `AppColors`、`AppTextStyles`、`Size.kt`、`Shape.kt` 和现有 `core/ui` 封装；禁止硬编码颜色、间距、圆角或重复实现 Miuix 组件。
+- 新建或修改布局前必须阅读 [Miuix Compose 接入规范](docs/android-project-compose/框架核心/miuix.md)、[设计系统](docs/android-project-compose/框架核心/designsystem.md)、[主题系统](docs/android-project-compose/框架核心/theme.md) 和 [UI 组件](docs/android-project-compose/框架核心/ui.md)。
+- Miuix 组件参数先查阅 [Miuix 组件索引](docs/miuix/components/index.md) 及对应组件页面，再核对当前依赖源码；不得根据其他平台组件名称或记忆猜测 Kotlin API。
+- Miuix 组件运行在 `AppTheme` 提供的 `MiuixTheme` 组合环境中。页面优先读取 `AppColors`、`AppTextStyles` 或 `MiuixTheme`，不能创建局部主题对象。
+- `AppScaffold`、`MiuixPageLazyColumn`、`RefreshLayout`、网络状态容器和空态组件属于项目级页面语义封装；通用 Button、Text、Card、Preference、Navigation 和弹窗优先直接使用 Miuix 官方实现。
+
+### Miuix 组件索引
+
+写 UI 前至少扫描对应分类，组件的完整说明和参数以 [docs/miuix/components/index.md](docs/miuix/components/index.md) 及具体组件文档为准。
+
+| 分类 | 组件列表 |
+| --- | --- |
+| 脚手架 | Scaffold |
+| 基础容器与导航 | Surface、TopAppBar、NavigationBar、NavigationRail、TabRow、BreadcrumbBar、Card、BasicComponent |
+| 基础操作 | Button、IconButton、Text、SmallTitle、TextField、Switch、Checkbox、RadioButton、Slider、NumberPicker |
+| 状态与反馈 | ProgressIndicator、Snackbar、Tooltip、Badge、Icon、FloatingActionButton、FloatingToolbar、Divider、PullToRefresh |
+| 搜索与颜色 | SearchBar、ColorPalette、ColorPicker |
+| Preference | ArrowPreference、SwitchPreference、CheckboxPreference、RadioButtonPreference、SliderPreference、RangeSliderPreference |
+| Overlay 弹层 | OverlayListPopup、OverlayCascadingListPopup、OverlayDropdownPreference、OverlaySpinnerPreference、OverlayDropdownMenu、OverlayIconDropdownMenu、OverlayIconCascadingDropdownMenu、OverlayBottomSheet、OverlayDialog |
+| Window 弹层 | WindowListPopup、WindowCascadingListPopup、WindowDropdownPreference、WindowSpinnerPreference、WindowDropdownMenu、WindowIconDropdownMenu、WindowIconCascadingDropdownMenu、WindowBottomSheet、WindowDialog |
+
+### UI 开发固定检查顺序
+
+1. 在 Miuix 组件索引中确认是否已有对应组件，优先组合官方 Miuix API。
+2. 在 `core/designsystem` 和 `core/ui` 中确认是否已有主题令牌、布局封装或页面状态容器。
+3. 查阅具体组件文档和当前依赖源码，确认构造参数、默认值、回调类型、Insets 和状态行为。
+4. 使用 Miuix 主题语义完成组合，再补充浅色、深色和必要的窗口 Preview。
 
 ## Kotlin、命名与注释
 

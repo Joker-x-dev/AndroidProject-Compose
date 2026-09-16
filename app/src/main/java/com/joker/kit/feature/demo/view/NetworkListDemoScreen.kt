@@ -1,14 +1,18 @@
 package com.joker.kit.feature.demo.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import top.yukonga.miuix.kmp.basic.Text
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
+import top.yukonga.miuix.kmp.basic.BasicComponent
+import top.yukonga.miuix.kmp.basic.Card
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.annotation.ScreenPreview
@@ -16,7 +20,6 @@ import com.joker.kit.core.annotation.ScreenPreviewDark
 import com.joker.kit.core.base.state.BaseNetWorkListUiState
 import com.joker.kit.core.data.preview.GoodsPreviewParameterProvider
 import com.joker.kit.core.designsystem.theme.AppTheme
-import com.joker.kit.core.designsystem.theme.ShapeMedium
 import com.joker.kit.core.model.entity.Goods
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.network.BaseNetWorkListView
@@ -71,7 +74,6 @@ internal fun NetworkListDemoRoute(
  * @param onRetry 重试回调
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NetworkListDemoScreen(
     uiState: BaseNetWorkListUiState = BaseNetWorkListUiState.Loading,
@@ -84,17 +86,20 @@ internal fun NetworkListDemoScreen(
     onRetry: () -> Unit = {},
 ) {
     AppScaffold(
-        titleText = "Network List Demo",
-        onBackClick = { navigateBack() }
-    ) {
+        titleText = stringResource(R.string.network_list_title),
+        onBackClick = { navigateBack() },
+        contentShouldConsumePadding = true,
+        nestedScrollInScaffold = false,
+    ) { paddingValues ->
         BaseNetWorkListView(
             uiState = uiState,
             onRetry = onRetry,
             customLoading = {
-                NetworkListLoadingSkeleton()
+                NetworkListLoadingSkeleton(contentPadding = paddingValues)
             }
         ) {
             NetworkListDemoContent(
+                contentPadding = paddingValues,
                 list = list,
                 isRefreshing = isRefreshing,
                 isLoadingMore = isLoadingMore,
@@ -117,9 +122,9 @@ internal fun NetworkListDemoScreen(
  * @param onLoadMore 加载更多回调
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NetworkListDemoContent(
+    contentPadding: PaddingValues,
     list: List<Goods>,
     isRefreshing: Boolean,
     isLoadingMore: Boolean,
@@ -132,10 +137,11 @@ private fun NetworkListDemoContent(
         isRefreshing = isRefreshing,
         isLoadingMore = isLoadingMore,
         hasMoreData = hasMoreData,
+        contentPadding = contentPadding,
         onRefresh = onRefresh,
-        onLoadMore = onLoadMore
+        onLoadMore = onLoadMore,
     ) {
-        itemsIndexed(list) { _, item ->
+        items(list, key = { it.id }) { item ->
             GoodsListItem(goods = item)
         }
     }
@@ -149,14 +155,13 @@ private fun NetworkListDemoContent(
  */
 @Composable
 private fun GoodsListItem(goods: Goods) {
-    ListItem(
-        modifier = Modifier.clip(ShapeMedium),
-        headlineContent = { Text(text = goods.title.ifBlank { "未命名商品" }) },
-        supportingContent = {
-            Text(text = goods.subTitle?.ifBlank { "暂无描述" } ?: "暂无描述")
-        },
-        trailingContent = { Text(text = "¥${goods.price}") },
-    )
+    Card(modifier = Modifier.fillMaxWidth()) {
+        BasicComponent(
+            title = goods.title.ifBlank { "未命名商品" },
+            summary = goods.subTitle?.ifBlank { "暂无描述" } ?: "暂无描述",
+            endActions = { Text(text = stringResource(R.string.goods_price_format, goods.price)) },
+        )
+    }
 }
 
 /**

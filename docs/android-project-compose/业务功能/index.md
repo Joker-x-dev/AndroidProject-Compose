@@ -14,7 +14,8 @@ Feature 层承载应用业务页面，并把页面注册、Compose UI、ViewMode
 | --- | --- | --- | --- |
 | `auth` | `feature/auth/` | `AuthRoutes.Login` | 登录与退出登录示例 |
 | `demo` | `feature/demo/` | `NetworkDemo`、`NetworkListDemo`、`Database`、`LocalStorage`、`StateManagement`、`NetworkRequest`、`NavigationWithArgs`、`NavigationResult`、`ScreenAdaptDemo` | 网络、分页、数据库、本地存储、状态和导航示例 |
-| `main` | `feature/main/` | `MainRoutes.Main` 与其内部页面入口 | 应用首页与底部导航，聚合 Core、Navigation、Expand、About 页面 |
+| `main` | `feature/main/` | `MainRoutes.Main` 与其内部页面入口 | 应用首页与底部导航，聚合 Core、Navigation、Expand 页面 |
+| `common` | `feature/common/` | About 页面 | 独立的应用信息、开发者、项目地址和相关资源页面 |
 | `user` | `feature/user/` | `UserRoutes.Info` | 用户信息与登录态操作 |
 
 每个功能域按需创建 `navigation/`、`view/`、`viewmodel/` 和 `component/`。`component/`、`data/`、`model/`、`skeleton/` 不是所有功能域都必须具备；当前 `demo` 使用了 `component/`、`skeleton/`，`main` 还包含 `data/` 与 `model/`。

@@ -2,9 +2,10 @@ package com.joker.kit.feature.user.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.joker.kit.core.base.viewmodel.BaseViewModel
+import com.joker.kit.R
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.state.UserState
-import com.joker.kit.core.util.toast.ToastUtils
+import com.joker.kit.core.state.AppSnackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class UserInfoViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             userState.logout()
-            ToastUtils.show("已退出登录")
+            AppSnackbar.show(R.string.logout_success)
             navigateBack()
         }
     }

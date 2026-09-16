@@ -1,27 +1,31 @@
 package com.joker.kit.feature.demo.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Button
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
-import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
+import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.model.entity.Goods
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.feature.demo.viewmodel.NetworkRequestViewModel
+import top.yukonga.miuix.kmp.basic.BasicComponent
 
 /**
  * 网络请求示例路由
@@ -49,17 +53,18 @@ internal fun NetworkRequestRoute(
  * @param onRequestClick 请求按钮回调
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NetworkRequestScreen(
     goods: Goods? = null,
     onRequestClick: () -> Unit = {},
 ) {
     AppScaffold(
-        titleText = "网络请求",
-        onBackClick = { navigateBack() }
-    ) {
+        titleText = stringResource(R.string.network_request_title),
+        onBackClick = { navigateBack() },
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
         NetworkRequestContent(
+            contentPadding = paddingValues,
             goods = goods,
             onRequestClick = onRequestClick
         )
@@ -75,25 +80,39 @@ internal fun NetworkRequestScreen(
  */
 @Composable
 private fun NetworkRequestContent(
+    contentPadding: PaddingValues,
     goods: Goods?,
     onRequestClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(SpacePaddingLarge),
-        verticalArrangement = Arrangement.spacedBy(SpacePaddingMedium),
-        horizontalAlignment = Alignment.CenterHorizontally
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+        pagePadding = PaddingValues(SpacePaddingLarge),
+        verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium),
     ) {
-        Button(
-            onClick = onRequestClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "发起网络请求")
+        item {
+            Card(modifier = Modifier.fillMaxWidth()) {
+                BasicComponent(
+                    title = stringResource(R.string.network_request_operation),
+                    summary = stringResource(R.string.network_request_operation_summary),
+                    bottomAction = {
+                        Button(
+                            onClick = onRequestClick,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = SpaceVerticalMedium),
+                        ) {
+                            Text(text = stringResource(R.string.network_request_action))
+                        }
+                    },
+                )
+            }
         }
 
         if (goods != null) {
-            CardResult(goods = goods)
+            item {
+                CardResult(goods = goods)
+            }
         }
     }
 }
@@ -109,12 +128,10 @@ private fun CardResult(goods: Goods) {
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(SpacePaddingMedium)) {
-            Text(text = "商品名称：${goods.title}")
-            Text(text = "副标题：${goods.subTitle ?: "暂无"}")
-            Text(text = "价格：¥${goods.price}")
-            Text(text = "已售：${goods.sold} 件")
-        }
+        BasicComponent(title = stringResource(R.string.product_name), summary = goods.title)
+        BasicComponent(title = stringResource(R.string.product_subtitle), summary = goods.subTitle ?: stringResource(R.string.no_content))
+        BasicComponent(title = stringResource(R.string.product_price), summary = stringResource(R.string.product_price_format, goods.price))
+        BasicComponent(title = stringResource(R.string.product_sold), summary = stringResource(R.string.product_sold_format, goods.sold))
     }
 }
 

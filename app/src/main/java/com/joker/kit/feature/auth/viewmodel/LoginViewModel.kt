@@ -2,11 +2,12 @@ package com.joker.kit.feature.auth.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.joker.kit.core.base.viewmodel.BaseViewModel
+import com.joker.kit.R
 import com.joker.kit.core.model.entity.Auth
 import com.joker.kit.core.model.entity.User
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.state.UserState
-import com.joker.kit.core.util.toast.ToastUtils
+import com.joker.kit.core.state.AppSnackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class LoginViewModel @Inject constructor(
 
     /**
      * 模拟登录：构造假的 Auth/User，写入 UserState，演示路由拦截放行。
-     * 真实项目中，这里会是网络请求，登录成功后会有 token 等信息返回。
+     * 登录请求成功后保存认证信息并发布登录状态。
      *
      * @author Joker.X
      */
@@ -44,7 +45,7 @@ class LoginViewModel @Inject constructor(
                 phone = "18800000000",
             )
             userState.updateUserState(fakeAuth, fakeUser)
-            ToastUtils.show("登录成功")
+            AppSnackbar.show(R.string.login_success)
             navigateBack()
         }
     }
@@ -57,7 +58,7 @@ class LoginViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             userState.logout()
-            ToastUtils.show("已退出登录")
+            AppSnackbar.show(R.string.logout_success)
             navigateBack()
         }
     }

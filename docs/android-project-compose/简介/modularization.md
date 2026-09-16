@@ -50,7 +50,7 @@ AndroidProject-Compose 当前采用单 Gradle 模块与包级分层结合的工�
 
 ### 应用入口
 
-- `Application.kt` 初始化 Toast、Timber、MMKV、下拉刷新配置和 `UserState`。
+- `Application.kt` 初始化 Toast、Timber、MMKV 和 `UserState`；Miuix 下拉刷新状态由页面 `RefreshLayout` 管理。
 - `MainActivity.kt` 安装启动页、启用 edge-to-edge，并在 `AppTheme` 中挂载 `AppNavHost`。
 - 应用入口负责组装，不放置具体页面内容或数据请求。
 

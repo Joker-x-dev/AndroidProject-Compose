@@ -11,7 +11,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -22,9 +21,11 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import com.joker.kit.core.designsystem.theme.SpaceHorizontalMedium
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 
 /**
  * 刷新内容区域组件
@@ -35,7 +36,8 @@ import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
  * @param modifier 修饰符
  * @param listState 列表滚动状态
  * @param gridState 网格滚动状态
- * @param listContentPadding 列表内容内边距
+ * @param contentPadding Scaffold 提供的安全区内边距
+ * @param pagePadding 页面统一内容内边距
  * @param listVerticalArrangement 列表项纵向排列方式
  * @param gridColumns 网格列数配置
  * @param gridContentPadding 网格内容内边距
@@ -51,15 +53,16 @@ fun RefreshContent(
     modifier: Modifier = Modifier,
     listState: LazyListState? = null,
     gridState: LazyStaggeredGridState? = null,
-    listContentPadding: PaddingValues = PaddingValues(
+    contentPadding: PaddingValues = PaddingValues(),
+    pagePadding: PaddingValues = PaddingValues(
         horizontal = SpaceHorizontalMedium,
-        vertical = SpaceVerticalMedium
+        vertical = SpaceVerticalMedium,
     ),
     listVerticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(SpaceVerticalMedium),
     gridColumns: StaggeredGridCells = StaggeredGridCells.Fixed(2),
     gridContentPadding: PaddingValues = PaddingValues(SpacePaddingMedium),
     gridHorizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(SpacePaddingMedium),
-    gridVerticalItemSpacing: androidx.compose.ui.unit.Dp = SpacePaddingMedium,
+    gridVerticalItemSpacing: Dp = SpacePaddingMedium,
     gridContent: LazyStaggeredGridScope.() -> Unit = {},
     content: LazyListScope.() -> Unit = {},
 ) {
@@ -95,7 +98,8 @@ fun RefreshContent(
             RefreshListContent(
                 modifier = modifier,
                 listState = listState,
-                contentPadding = listContentPadding,
+                contentPadding = contentPadding,
+                pagePadding = pagePadding,
                 verticalArrangement = listVerticalArrangement,
                 content = content
             )
@@ -109,6 +113,7 @@ fun RefreshContent(
  * @param modifier 修饰符
  * @param listState 列表滚动状态
  * @param contentPadding 内容内边距
+ * @param pagePadding 页面统一内容内边距
  * @param verticalArrangement 列表项纵向排列方式
  * @param content 列表内容构建器
  * @author Joker.X
@@ -118,15 +123,15 @@ private fun RefreshListContent(
     modifier: Modifier = Modifier,
     listState: LazyListState? = null,
     contentPadding: PaddingValues,
+    pagePadding: PaddingValues,
     verticalArrangement: Arrangement.Vertical,
     content: LazyListScope.() -> Unit,
 ) {
-    val actualListState = listState ?: rememberLazyListState()
-
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        state = actualListState,
+    MiuixPageLazyColumn(
+        modifier = modifier,
+        state = listState ?: rememberLazyListState(),
         contentPadding = contentPadding,
+        pagePadding = pagePadding,
         verticalArrangement = verticalArrangement,
         content = content
     )
@@ -151,7 +156,7 @@ private fun RefreshGridContent(
     columns: StaggeredGridCells,
     contentPadding: PaddingValues,
     horizontalArrangement: Arrangement.Horizontal,
-    verticalItemSpacing: androidx.compose.ui.unit.Dp,
+    verticalItemSpacing: Dp,
     content: LazyStaggeredGridScope.() -> Unit,
 ) {
     val actualGridState = gridState ?: rememberLazyStaggeredGridState()

@@ -1,0 +1,261 @@
+<resources>
+    <string name="app_name">AndroidProject-Compose</string>
+    <string name="about_title">关于</string>
+    <string name="login_success">登录成功</string>
+    <string name="logout_success">已退出登录</string>
+    <string name="about_app_name">应用名称</string>
+    <string name="about_version_name">版本名称</string>
+    <string name="about_version_code">版本号</string>
+    <string name="about_developer">开发者</string>
+    <string name="about_project_links">项目地址</string>
+    <string name="about_resources">相关资源</string>
+    <string name="about_copyright">© 2026 Joker.X &amp; %1$s Contributors</string>
+    <string name="about_background_effect">背景效果</string>
+    <string name="about_effect_variant">效果变体</string>
+    <string name="about_dynamic_background">动态背景</string>
+    <string name="about_fullscreen_background">全屏背景</string>
+    <string name="about_project_documentation">项目文档</string>
+    <string name="about_cool_mall_github">青商城 GitHub</string>
+    <string name="about_cool_mall_gitee">青商城 Gitee</string>
+
+    <!-- Expand Demo -->
+    <string name="snackbar_demo_title">全局 Snackbar</string>
+    <string name="snackbar_demo_card_description">全局轻量消息提示，支持操作按钮、关闭按钮与展示时长。</string>
+    <string name="snackbar_demo_dismiss_oldest">关闭最旧</string>
+    <string name="snackbar_demo_dismiss_newest">关闭最新</string>
+    <string name="snackbar_demo_show_short">短提示（4 秒）</string>
+    <string name="snackbar_demo_show_long">长提示（10 秒）</string>
+    <string name="snackbar_demo_show_custom">自定义（2 秒）</string>
+    <string name="snackbar_demo_show_action">操作</string>
+    <string name="snackbar_demo_show_dismissible">可关闭</string>
+    <string name="snackbar_demo_show_indefinite">常驻</string>
+    <string name="snackbar_demo_show_stack">连续触发三条</string>
+    <string name="snackbar_demo_action_running">操作: 进行中</string>
+    <string name="snackbar_demo_action_undo">操作: 撤销</string>
+    <string name="snackbar_demo_action_expired">操作: 已过期</string>
+    <string name="snackbar_demo_message_short">这是一条短提示</string>
+    <string name="snackbar_demo_message_long">这是一条长提示，用于展示更多文本内容</string>
+    <string name="snackbar_demo_message_custom">这条提示会持续 2 秒</string>
+    <string name="snackbar_demo_message_action">这条提示带有操作按钮</string>
+    <string name="snackbar_demo_message_dismissible">这条提示可通过关闭按钮移除</string>
+    <string name="snackbar_demo_message_indefinite">常驻提示，需要手动关闭</string>
+    <string name="snackbar_demo_message_stack_one">第一条堆叠消息</string>
+    <string name="snackbar_demo_message_stack_two">第二条堆叠消息</string>
+    <string name="snackbar_demo_message_stack_three">第三条堆叠消息</string>
+    <string name="snackbar_demo_action_label">撤销</string>
+
+    <!-- Dialog Demo -->
+    <string name="dialog_demo_title">全局 Dialog</string>
+    <string name="dialog_demo_card_description">全局对话框与确认框示例，覆盖浮层、窗口级与大屏样式。</string>
+    <string name="dialog_demo_wide_title">Wide Dialog</string>
+    <string name="dialog_demo_section_title">Dialog</string>
+    <string name="dialog_demo_overlay_title">Dialog (O)</string>
+    <string name="dialog_demo_overlay_summary">点击显示 OverlayDialog</string>
+    <string name="dialog_demo_window_title">Dialog (W)</string>
+    <string name="dialog_demo_window_summary">点击显示 WindowDialog</string>
+    <string name="dialog_demo_wide_overlay_title">Wide Dialog (O)</string>
+    <string name="dialog_demo_wide_window_title">Wide Dialog (W)</string>
+    <string name="dialog_demo_wide_summary">竖屏为普通 Dialog；横屏展示左右两列内容</string>
+    <string name="dialog_demo_centered_title">Centered Dialog (O)</string>
+    <string name="dialog_demo_centered_summary">通过 largeScreen = true 强制大屏居中样式</string>
+    <string name="dialog_demo_overlay_dialog_summary">位于 MiuixPopupHost 内的对话框组件。</string>
+    <string name="dialog_demo_window_dialog_summary">窗口级对话框，不依赖 MiuixPopupHost。</string>
+    <string name="dialog_demo_centered_dialog_summary">largeScreen = true 在任意窗口尺寸下强制居中呈现。</string>
+    <string name="dialog_demo_wide_dialog_summary">Rotate to landscape to see the effect.</string>
+    <string name="dialog_demo_confirm_section_title">全局确认框</string>
+    <string name="dialog_demo_confirm_hint">AppDialogState.confirm(title, summary, onConfirm) 一行触发，全局宿主统一渲染。</string>
+    <string name="dialog_demo_show_confirm">确认退出（确定 / 取消）</string>
+    <string name="dialog_demo_show_single_action">仅确定按钮（onCancel = null）</string>
+    <string name="dialog_demo_show_custom_action">自定义按钮文字与颜色</string>
+    <string name="dialog_demo_confirm_exit_title">确认退出</string>
+    <string name="dialog_demo_confirm_exit_summary">确定要退出登录吗？</string>
+    <string name="dialog_demo_done_title">操作完成</string>
+    <string name="dialog_demo_done_summary">数据已同步到服务器。</string>
+    <string name="dialog_demo_delete_title">删除确认</string>
+    <string name="dialog_demo_delete_summary">删除后无法恢复。</string>
+    <string name="dialog_demo_action_delete">删除</string>
+    <string name="dialog_demo_action_rethink">再想想</string>
+    <string name="dialog_demo_action_cancel">取消</string>
+    <string name="dialog_demo_action_confirm">确定</string>
+    <string name="dialog_demo_action_deny">拒绝</string>
+    <string name="dialog_demo_action_allow_once">仅允许一次</string>
+    <string name="dialog_demo_action_always_allow">始终允许</string>
+
+    <!-- Empty States -->
+    <string name="empty_data">暂无数据</string>
+    <string name="empty_data_subtitle">暂时没有相关内容</string>
+    <string name="empty_error">加载失败</string>
+    <string name="empty_error_subtitle">页面加载出现了问题</string>
+    <string name="empty_network">网络连接失败</string>
+    <string name="empty_network_subtitle">请检查网络连接后重试</string>
+    <string name="click_retry">重新加载</string>
+
+    <!-- Loading States -->
+    <string name="loading">加载中…</string>
+    <string name="load_more_no_more">没有更多了</string>
+    <string name="refresh_pull_down">下拉刷新</string>
+    <string name="refresh_release">松开刷新</string>
+    <string name="refresh_refreshing">刷新中…</string>
+    <string name="refresh_complete">刷新完成</string>
+
+    <string name="nav_core">核心</string>
+    <string name="nav_navigation">导航</string>
+    <string name="nav_expand">扩展</string>
+    <string name="nav_settings">设置</string>
+    <string name="settings_theme">主题</string>
+    <string name="settings_about">关于</string>
+    <string name="auth_login">登录</string>
+    <string name="auth_login_action">一键登录</string>
+    <string name="storage_title">本地存储</string>
+    <string name="storage_demo_title">UserInfoStoreDataSource 示例</string>
+    <string name="storage_demo_description">保存用户 ID、昵称和头像，并可随时清理与重读。</string>
+    <string name="storage_user_id">用户 ID（数字）</string>
+    <string name="storage_nickname">昵称</string>
+    <string name="storage_avatar_url">头像链接（可选）</string>
+    <string name="storage_reload">重新读取</string>
+    <string name="storage_clear">清除</string>
+    <string name="storage_save">保存用户</string>
+    <string name="network_request_title">网络请求</string>
+    <string name="network_request_action">发起网络请求</string>
+    <string name="network_demo_title">网络演示</string>
+    <string name="network_demo_description">网络状态切换，包含加载、错误和重试流程。</string>
+    <string name="network_list_title">网络列表演示</string>
+    <string name="network_list_description">下拉刷新与分页加载的统一列表模板，内置空状态与重试。</string>
+    <string name="database_card_description">Room 的增删改查示例，含列表展示与数据观察。</string>
+    <string name="storage_card_description">DataStore / MMKV 的写入与清除示例，演示单值增删改查。</string>
+    <string name="state_card_description">全局计数器共享示例，展示跨页面 StateFlow 同步。</string>
+    <string name="network_request_card_description">结合 ResultHandler 的通用接口请求、加载状态与错误提示。</string>
+    <string name="navigation_args_card_description">类型安全路由参数，包含必填、可选参数与目标页接收方式。</string>
+    <string name="navigation_result_card_description">NavigationResultKey 返回数据，包含刷新信号与数据实体回传。</string>
+    <string name="navigation_guard_title">导航拦截</string>
+    <string name="navigation_guard_card_description">登录拦截流程：未登录跳转登录页，登录后进入用户详情。</string>
+    <string name="screen_adaptation_card_description">展示断点与窗口宽度，便于响应式布局适配。</string>
+    <string name="demo_card_preview_title">示例组件</string>
+    <string name="demo_card_preview_description">预览展示 Demo 卡片默认样式。</string>
+    <string name="user_info_title">用户信息</string>
+    <string name="user_logout">退出登录</string>
+    <string name="navigation_login_status">登录状态：已登录</string>
+    <string name="navigation_result_format">回传结果：id=%1$d，message=%2$s</string>
+    <string name="navigation_result_title">结果回传</string>
+    <string name="navigation_result_action">回传结果并返回</string>
+    <string name="navigation_args_title">带参跳转</string>
+    <string name="screen_adaptation_title">屏幕适配示例</string>
+    <string name="state_management_title">状态管理</string>
+    <string name="core_counter_format">全局计数器：%1$d</string>
+    <string name="database_title">数据库</string>
+    <string name="database_count_format">Demo 表当前 %1$d 条</string>
+    <string name="database_crud_title">用 DemoRepository 做增删改查</string>
+    <string name="database_crud_description">输入标题即可新增一条记录，描述可选；列表来自 DemoRepository.observeItems() 的 Flow。</string>
+    <string name="database_title_required">标题（必填）</string>
+    <string name="database_description_optional">描述（可选）</string>
+    <string name="database_add">新增记录</string>
+    <string name="database_empty">列表为空，请先添加一条记录</string>
+    <string name="database_delete">删除</string>
+    <string name="database_clear_all">清空全部</string>
+    <string name="state_intro_title">为什么要有 DemoCounterState？</string>
+    <string name="state_intro_description">它是一个 @Singleton + ApplicationScope 的 StateFlow，任意页面都能订阅同一份 count 并保持同步。计数器示例演示状态持有者与 UI 的职责分离。</string>
+    <string name="state_counter_title">全局计数器</string>
+    <string name="state_reset">重置</string>
+    <string name="state_counter_description">操作委托给 DemoCounterState，UI 不直接改值，多个页面可以共享同一份状态。</string>
+    <string name="screen_adaptation_grid_description">根据屏幕大小调整列数</string>
+    <string name="screen_adaptation_list_description">小屏一列，大屏两列</string>
+    <string name="screen_adaptation_text_title">适配文本</string>
+    <string name="screen_adaptation_text_description">示例文字会随屏幕变化</string>
+    <string name="screen_adaptation_size_description">通过 bp 设置不同断点尺寸</string>
+    <string name="screen_adaptation_size_format">示例尺寸：%1$ddp</string>
+    <string name="goods_price_format">¥%1$d</string>
+    <string name="network_request_operation">请求操作</string>
+    <string name="network_request_operation_summary">点击按钮请求商品信息，结果会显示在下方卡片中。</string>
+    <string name="product_name">商品名称</string>
+    <string name="product_subtitle">副标题</string>
+    <string name="product_price">价格</string>
+    <string name="product_sold">已售</string>
+    <string name="product_price_format">¥%1$d</string>
+    <string name="product_sold_format">%1$d 件</string>
+    <string name="no_content">暂无</string>
+    <string name="navigation_result_operation_summary">点击按钮向上一个页面发送示例结果，并返回上一页。</string>
+    <string name="navigation_goods_id">传递的商品 ID</string>
+    <string name="database_no_description">暂无描述</string>
+    <string name="database_unnamed_record">未命名记录</string>
+    <string name="database_updated_format">%1$s · 更新于 %2$s</string>
+    <string name="storage_no_nickname">未设置昵称</string>
+    <string name="storage_no_avatar">无头像</string>
+    <string name="storage_user_info_format">当前用户：id=%1$d，昵称=%2$s\n头像=%3$s</string>
+    <string name="storage_empty_user">暂无本地用户信息</string>
+    <string name="screen_adaptation_grid_title">网格布局示例</string>
+    <string name="screen_adaptation_list_title">列表布局示例</string>
+    <string name="screen_adaptation_text_section_title">文本/大小适配</string>
+    <string name="screen_adaptation_size_title">大小适配</string>
+    <string name="screen_adaptation_breakpoint_title">当前断点</string>
+    <string name="screen_adaptation_grid_item">网格项 %1$d</string>
+    <string name="screen_adaptation_list_item">列表项 %1$d</string>
+    <string name="screen_adaptation_size_change_title">尺寸随屏幕变化</string>
+    <string name="settings_theme_mode">主题模式</string>
+    <string name="settings_theme_mode_summary">选择系统、浅色、深色或动态颜色模式</string>
+    <string name="settings_key_color">主色</string>
+    <string name="settings_key_color_summary">选择动态主题的主色</string>
+    <string name="settings_palette_style">调色板样式</string>
+    <string name="settings_palette_style_summary">选择动态颜色的调色板样式</string>
+    <string name="settings_color_spec">颜色规范</string>
+    <string name="settings_color_spec_summary">选择动态颜色的颜色规范</string>
+    <string name="settings_fps">显示帧率监控</string>
+    <string name="settings_fps_summary">显示实时帧率和低帧率数据</string>
+    <string name="settings_squircle">启用超椭圆形状</string>
+    <string name="settings_squircle_summary">启用 Miuix 超椭圆圆角效果</string>
+    <string name="settings_blur">启用模糊效果</string>
+    <string name="settings_blur_summary">启用页面和顶部栏的模糊效果</string>
+    <string name="settings_haptic">启用滚动边缘触觉反馈</string>
+    <string name="settings_haptic_summary">滑动到顶部或底部时触发震动</string>
+    <string name="settings_top_bar_blur">顶部栏模糊样式</string>
+    <string name="settings_top_bar_blur_summary">选择高斯或渐进式模糊</string>
+    <string name="settings_navigation_style">导航栏样式</string>
+    <string name="settings_navigation_mode">导航栏模式</string>
+    <string name="settings_floating_style">悬浮导航栏样式</string>
+    <string name="settings_floating_position">悬浮导航栏位置</string>
+    <string name="settings_about_summary">应用信息、开发者与项目资源</string>
+    <string-array name="settings_theme_items">
+        <item>跟随系统</item>
+        <item>浅色</item>
+        <item>深色</item>
+        <item>动态跟随系统</item>
+        <item>动态浅色</item>
+        <item>动态深色</item>
+    </string-array>
+    <string-array name="settings_navigation_style_items">
+        <item>固定导航栏</item>
+        <item>悬浮导航栏</item>
+    </string-array>
+    <string-array name="settings_navigation_items">
+        <item>图标和文字</item>
+        <item>仅图标</item>
+        <item>仅显示选中标签</item>
+    </string-array>
+    <string-array name="settings_floating_style_items">
+        <item>普通悬浮</item>
+        <item>液态玻璃</item>
+    </string-array>
+    <string-array name="settings_floating_position_items">
+        <item>居中</item>
+        <item>左侧</item>
+        <item>右侧</item>
+    </string-array>
+    <string-array name="settings_key_color_items">
+        <item>默认</item>
+        <item>紫色</item>
+        <item>青色</item>
+        <item>橙色</item>
+    </string-array>
+    <string-array name="settings_palette_style_items">
+        <item>TonalSpot（色调点缀）</item>
+        <item>Neutral（中性）</item>
+        <item>Vibrant（鲜艳）</item>
+    </string-array>
+    <string-array name="settings_color_spec_items">
+        <item>Spec2021（2021 规范）</item>
+        <item>Spec2025（2025 规范）</item>
+    </string-array>
+    <string-array name="settings_blur_style_items">
+        <item>高斯模糊</item>
+        <item>渐进式模糊</item>
+    </string-array>
+</resources>

@@ -74,7 +74,7 @@ class GoodsDetailViewModel @Inject constructor() : BaseViewModel()
 ```kotlin
 package com.joker.kit.feature.demo.view
 
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.annotation.ScreenPreview
@@ -82,6 +82,7 @@ import com.joker.kit.core.annotation.ScreenPreviewDark
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import top.yukonga.miuix.kmp.basic.Text
 import com.joker.kit.feature.demo.viewmodel.GoodsDetailViewModel
 
@@ -101,14 +102,15 @@ internal fun GoodsDetailRoute(
 /**
  * 商品详情页面骨架
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun GoodsDetailScreen() {
     AppScaffold(
         titleText = "商品详情",
         onBackClick = { navigateBack() },
-    ) {
-        GoodsDetailContent()
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
+        // 由 Content 消费 Scaffold 提供的系统栏和顶部栏内边距。
+        GoodsDetailContent(contentPadding = paddingValues)
     }
 }
 
@@ -116,8 +118,17 @@ internal fun GoodsDetailScreen() {
  * 商品详情页面内容
  */
 @Composable
-private fun GoodsDetailContent() {
-    Text(text = "商品详情")
+private fun GoodsDetailContent(
+    contentPadding: PaddingValues,
+) {
+    MiuixPageLazyColumn(
+        contentPadding = contentPadding,
+    ) {
+        item {
+            // Content 只负责成功状态下的最终业务布局。
+            Text(text = "商品详情")
+        }
+    }
 }
 
 /** 商品详情页面浅色预览。 */

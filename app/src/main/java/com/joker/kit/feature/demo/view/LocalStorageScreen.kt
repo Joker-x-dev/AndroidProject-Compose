@@ -1,23 +1,24 @@
 package com.joker.kit.feature.demo.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import com.joker.kit.core.designsystem.theme.AppColors
 import com.joker.kit.core.designsystem.theme.AppTextStyles
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import com.joker.kit.core.designsystem.component.AppColumn
+import com.joker.kit.core.designsystem.component.AppRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.OutlinedTextField
+import top.yukonga.miuix.kmp.basic.HorizontalDivider
 import top.yukonga.miuix.kmp.basic.Text
-import androidx.compose.material3.TextButton
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,7 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
-import com.joker.kit.core.designsystem.theme.ShapeMedium
+import com.joker.kit.core.designsystem.theme.RadiusMedium
 import com.joker.kit.core.designsystem.theme.SpaceHorizontalSmall
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
@@ -36,6 +37,7 @@ import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.model.entity.User
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import com.joker.kit.feature.demo.viewmodel.LocalStorageViewModel
 
 /**
@@ -86,7 +88,6 @@ internal fun LocalStorageRoute(
  * @param onReloadUser 重新读取用户信息
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun LocalStorageScreen(
     userId: String = "",
@@ -101,10 +102,12 @@ internal fun LocalStorageScreen(
     onReloadUser: () -> Unit = {},
 ) {
     AppScaffold(
-        titleText = "本地存储",
+        titleText = stringResource(R.string.storage_title),
         onBackClick = { navigateBack() },
-    ) {
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
         LocalStorageContent(
+            contentPadding = paddingValues,
             userId = userId,
             nickName = nickName,
             avatar = avatar,
@@ -136,6 +139,7 @@ internal fun LocalStorageScreen(
  */
 @Composable
 private fun LocalStorageContent(
+    contentPadding: PaddingValues,
     userId: String,
     nickName: String,
     avatar: String,
@@ -147,25 +151,26 @@ private fun LocalStorageContent(
     onClearUser: () -> Unit,
     onReloadUser: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(SpacePaddingMedium),
-        verticalArrangement = Arrangement.spacedBy(SpaceVerticalLarge)
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+        pagePadding = PaddingValues(SpacePaddingMedium),
+        verticalArrangement = Arrangement.spacedBy(SpaceVerticalLarge),
     ) {
-        UserCard(
-            userId = userId,
-            nickName = nickName,
-            avatar = avatar,
-            user = user,
-            onUserIdChange = onUserIdChange,
-            onNickNameChange = onNickNameChange,
-            onAvatarChange = onAvatarChange,
-            onSaveUser = onSaveUser,
-            onClearUser = onClearUser,
-            onReloadUser = onReloadUser
-        )
+        item {
+            UserCard(
+                userId = userId,
+                nickName = nickName,
+                avatar = avatar,
+                user = user,
+                onUserIdChange = onUserIdChange,
+                onNickNameChange = onNickNameChange,
+                onAvatarChange = onAvatarChange,
+                onSaveUser = onSaveUser,
+                onClearUser = onClearUser,
+                onReloadUser = onReloadUser,
+            )
+        }
     }
 }
 
@@ -199,54 +204,54 @@ private fun UserCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = ShapeMedium
+        cornerRadius = RadiusMedium
     ) {
-        Column(
+        AppColumn(
             modifier = Modifier.padding(SpacePaddingLarge),
             verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
         ) {
-            Text(text = "UserInfoStoreDataSource 示例", style = AppTextStyles.headline2)
+            Text(text = stringResource(R.string.storage_demo_title), style = AppTextStyles.headline2)
             Text(
-                text = "保存用户 id / 昵称 / 头像，并可随时清理与重读。",
+                text = stringResource(R.string.storage_demo_description),
                 color = AppColors.onSurfaceContainerVariant,
                 style = AppTextStyles.body2
             )
 
-            OutlinedTextField(
+            TextField(
                 value = userId,
                 onValueChange = onUserIdChange,
-                label = { Text("用户 ID (数字)") },
+                label = stringResource(R.string.storage_user_id),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            OutlinedTextField(
+            TextField(
                 value = nickName,
                 onValueChange = onNickNameChange,
-                label = { Text("昵称") },
+                label = stringResource(R.string.storage_nickname),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            OutlinedTextField(
+            TextField(
                 value = avatar,
                 onValueChange = onAvatarChange,
-                label = { Text("头像链接 (可选)") },
+                label = stringResource(R.string.storage_avatar_url),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Row(
+            AppRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(SpaceHorizontalSmall, Alignment.End)
             ) {
-                TextButton(onClick = onReloadUser) { Text("重新读取") }
-                TextButton(onClick = onClearUser) { Text("清除") }
+                TextButton(text = stringResource(R.string.storage_reload), onClick = onReloadUser)
+                TextButton(text = stringResource(R.string.storage_clear), onClick = onClearUser)
                 Button(onClick = onSaveUser, enabled = userId.isNotBlank()) {
-                    Text("保存用户")
+                    Text(stringResource(R.string.storage_save))
                 }
             }
 
@@ -255,11 +260,11 @@ private fun UserCard(
             // 本地用户信息展示文案
             val userText = user?.let {
                 // 昵称为空时使用的展示文案
-                val name = it.nickName ?: "未设置昵称"
+                val name = it.nickName ?: stringResource(R.string.storage_no_nickname)
                 // 头像为空时使用的展示文案
-                val avatarUrl = it.avatarUrl ?: "无头像"
-                "当前用户: id=${it.id}, 昵称=$name\n头像=$avatarUrl"
-            } ?: "暂无本地用户信息"
+                val avatarUrl = it.avatarUrl ?: stringResource(R.string.storage_no_avatar)
+                stringResource(R.string.storage_user_info_format, it.id, name, avatarUrl)
+            } ?: stringResource(R.string.storage_empty_user)
 
             Text(
                 text = userText,

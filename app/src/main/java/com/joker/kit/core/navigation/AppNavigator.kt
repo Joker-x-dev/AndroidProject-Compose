@@ -53,6 +53,7 @@ class AppNavigator @Inject constructor(
     /**
      * 注册导航控制器
      *
+     * @param navigationController 当前宿主导航控制器
      * @author Joker.X
      */
     internal fun attachController(navigationController: NavigationController) {
@@ -67,6 +68,7 @@ class AppNavigator @Inject constructor(
     /**
      * 注销导航控制器
      *
+     * @param navigationController 待注销的宿主导航控制器
      * @author Joker.X
      */
     internal fun detachController(navigationController: NavigationController) {
@@ -148,6 +150,7 @@ class AppNavigator @Inject constructor(
     /**
      * 执行导航命令（若控制器未注册则先缓存）
      *
+     * @param command 待执行或缓存的导航命令
      * @author Joker.X
      */
     private fun executeOrEnqueue(command: NavigationCommand) {

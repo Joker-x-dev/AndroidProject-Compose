@@ -274,7 +274,7 @@ Provider 的泛型必须与预览函数参数类型一致。本例返回 `List<G
 ## 边界规则
 
 - ViewModel 不直接调用 `GoodsService`、`DemoDao` 或 `MMKVUtils`。
-- Repository 不创建 Compose 状态、不调用 `ToastUtils`、不处理导航。
+- Repository 不创建 Compose 状态、不调用 `AppSnackbar`、不处理导航。
 - DataSource 不读取 UI 参数或修改页面状态。
 - Preview Provider 不参与应用运行时的数据链路。
 - 网络错误统一交给 `ResultHandler` 或上层明确处理，Repository 不吞掉异常。

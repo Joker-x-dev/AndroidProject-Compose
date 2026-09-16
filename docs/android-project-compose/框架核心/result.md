@@ -141,7 +141,7 @@ executeRequest()
 | `IOException` | 网络 IO 异常 |
 | 其他异常 | 未知异常类型 |
 
-`showToast = true` 时还会调用 `ToastUtils.showError(errorMsg)`。`BaseNetWorkViewModel` 和分页基类默认传入 `false`，避免通用基类自动弹 Toast。
+`showToast = true` 时还会调用 `AppSnackbar.show(errorMsg)`。`BaseNetWorkViewModel` 和分页基类默认传入 `false`，避免通用基类自动弹出全局提示。
 
 ## 何时使用哪个入口
 

@@ -92,7 +92,7 @@ Screen 接收可预览的状态和回调，按页面需要负责 `Scaffold`、�
 ```kotlin
 package com.joker.kit.feature.demo.view
 
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import com.joker.kit.core.base.state.BaseNetWorkListUiState
 import com.joker.kit.core.model.entity.Goods
@@ -113,7 +113,6 @@ import com.joker.kit.feature.demo.skeleton.NetworkListLoadingSkeleton
  * @param onLoadMore 加载更多回调
  * @param onRetry 重试回调
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NetworkListDemoScreen(
     uiState: BaseNetWorkListUiState = BaseNetWorkListUiState.Loading,
@@ -128,15 +127,19 @@ internal fun NetworkListDemoScreen(
     AppScaffold(
         titleText = "Network List Demo",
         onBackClick = { navigateBack() },
-    ) {
+        contentShouldConsumePadding = true,
+        nestedScrollInScaffold = false,
+    ) { paddingValues ->
+        // Content 使用 MiuixPageLazyColumn 或 RefreshLayout 消费 Scaffold 内边距。
         BaseNetWorkListView(
             uiState = uiState,
             onRetry = onRetry,
             customLoading = {
-                NetworkListLoadingSkeleton()
+                NetworkListLoadingSkeleton(contentPadding = paddingValues)
             },
         ) {
             NetworkListDemoContent(
+                contentPadding = paddingValues,
                 list = list,
                 isRefreshing = isRefreshing,
                 isLoadingMore = isLoadingMore,
@@ -161,6 +164,8 @@ Content 是每个页面必须保留的最终内容层。网络页面只在 Succe
 package com.joker.kit.feature.demo.view
 
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import com.joker.kit.core.model.entity.Goods
 import com.joker.kit.core.ui.component.refresh.RefreshLayout
@@ -168,6 +173,7 @@ import com.joker.kit.core.ui.component.refresh.RefreshLayout
 /**
  * Network List Demo 内容
  *
+ * @param contentPadding Scaffold 提供的安全区内边距
  * @param list 商品列表数据
  * @param isRefreshing 是否正在刷新
  * @param isLoadingMore 是否正在加载更多
@@ -177,6 +183,7 @@ import com.joker.kit.core.ui.component.refresh.RefreshLayout
  */
 @Composable
 private fun NetworkListDemoContent(
+    contentPadding: PaddingValues,
     list: List<Goods>,
     isRefreshing: Boolean,
     isLoadingMore: Boolean,
@@ -189,6 +196,7 @@ private fun NetworkListDemoContent(
         isRefreshing = isRefreshing,
         isLoadingMore = isLoadingMore,
         hasMoreData = hasMoreData,
+        contentPadding = contentPadding,
         onRefresh = onRefresh,
         onLoadMore = onLoadMore,
     ) {
@@ -279,4 +287,4 @@ Preview 不能依赖真实 Hilt 容器或网络请求。单页数据可以紧贴
 - [项目数据层：预览数据](../框架核心/data.md#预览数据)
 - [Jetpack Compose 状态](https://developer.android.com/develop/ui/compose/state)
 - [Compose 预览工具](https://developer.android.com/develop/ui/compose/tooling)
-- [Compose Material 3 Scaffold](https://developer.android.com/develop/ui/compose/components/scaffold)
+- [Miuix 官方组件文档](https://compose-miuix-ui.github.io/miuix/zh_CN/components/)

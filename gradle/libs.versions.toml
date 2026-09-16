@@ -91,10 +91,6 @@ customActivityOnCrash = "2.4.0"
 # 说明: SQLite 的抽象层，提供流畅的数据库访问
 room = "2.8.5"
 
-# Toast 相关版本
-# Toaster 吐司框架: https://github.com/getActivity/Toaster
-toaster = "15.0"
-
 # 权限
 # XXPermissions 权限框架: https://github.com/getActivity/XXPermissions
 xxpermissions = "28.3"
@@ -102,10 +98,6 @@ xxpermissions = "28.3"
 # 数据存储
 # 腾讯 MMKV 高性能存储: https://github.com/Tencent/MMKV
 mmkv = "2.4.2"
-
-# 下拉刷新
-# UltraSwipeRefresh Compose 刷新组件: https://github.com/jenly1314/UltraSwipeRefresh
-ultraSwipeRefresh = "1.6.0"
 
 # 骨架屏
 # https://github.com/valentinilk/compose-shimmer
@@ -126,7 +118,6 @@ androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material3-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "androidxComposeMaterial3Adaptive" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
@@ -179,18 +170,11 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 
-# Toast
-toaster = { group = "com.github.getActivity", name = "Toaster", version.ref = "toaster" }
-
 # 数据存储相关库
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 
 # 权限相关库
 xxpermissions = { module = "com.github.getActivity:XXPermissions", version.ref = "xxpermissions" }
-
-# 下拉刷新
-ultra-swipe-refresh = { module = "com.github.jenly1314.UltraSwipeRefresh:refresh", version.ref = "ultraSwipeRefresh" }
-ultra-swipe-refresh-indicator-classic = { module = "com.github.jenly1314.UltraSwipeRefresh:refresh-indicator-classic", version.ref = "ultraSwipeRefresh" }
 
 # 骨架屏
 compose-shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "composeShimmer" }

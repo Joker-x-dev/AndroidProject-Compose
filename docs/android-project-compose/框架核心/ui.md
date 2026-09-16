@@ -1,145 +1,142 @@
 # UI 组件
 
-## 介绍
+## 定位
 
-`core/ui` 是页面级公共组件库。它建立在[设计系统](./designsystem.md)和[主题系统](./theme.md)之上，提供 Scaffold、AppBar、文本、列表项、空态、加载态、网络状态、刷新容器、骨架屏和响应式断点。
+`core/ui` 是页面级公共组件层，建立在 Miuix 和[设计系统](./designsystem.md)之上。它提供页面骨架、返回按钮、滚动列表、网络状态、空态、加载态、刷新和自适应断点。
 
-与 `core/designsystem` 的区别是：Design System 只统一颜色、尺寸和基础布局；`core/ui` 可以理解“页面标题”“网络错误”“加载中”“空数据”等 UI 语义，但仍然不直接访问 ViewModel、Repository 或数据源。
+与 `core/designsystem` 的区别：设计系统提供颜色、文字、尺寸、形状和基础布局；`core/ui` 理解“页面标题”“加载中”“网络错误”“空数据”等页面语义，但不获取 ViewModel、Repository 或数据源。
 
 ## 组件清单
 
-| 目录 | 主要组件 | 解决的问题 |
+| 目录 | 组件 | 职责 |
 | --- | --- | --- |
-| `component/scaffold` | `AppScaffold` | 统一页面背景、AppBar、Snackbar、底部栏、FAB 和安全区内边距 |
-| `component/appbar` | `CenterTopAppBar`、`LargeTopAppBar`、`BackButton` | 普通标题、大标题和返回操作 |
-| `component/text` | Miuix `Text`、`AppColors`、`AppTextStyles` | 使用 Miuix 官方颜色和文字样式 |
-| `component/list` | `AppListItem`、`GroupAppListItem`、`StaticAppListItem` | 设置项、分组列表和只读列表项 |
-| `component/network` | `BaseNetWorkView`、`BaseNetWorkListView` | 单对象三态和分页列表四态 |
-| `component/refresh` | `RefreshLayout`、`RefreshContent` | 下拉刷新、上拉加载、普通列表和瀑布流 |
-| `component/empty` | `Empty`、`EmptyData`、`EmptyError`、`EmptyNetwork` | 无数据、业务错误和网络错误 |
-| `component/loading` | `PageLoading`、`MiLoadingWeb`、`MiLoadingMobile` | 页面或局部加载反馈 |
-| `component/skeleton` | `Skeleton`、`SkeletonShowcase` | 内容加载前的结构占位 |
-| `component/title`、`divider` | `TitleWithLine`、`Divider` | 分组标题和统一分割线 |
-| `adaptive` | `bp`、`isXS`、`isSM`、`isMD`、`isLG` | 根据当前窗口宽度选择布局值 |
+| `component/scaffold` | `AppScaffold`、`MiuixPageLazyColumn` | Miuix 页面骨架、顶部栏、背景、Insets 和统一页面滚动 |
+| `component/snackbar` | `AppSnackbarHost` | 消费全局 `AppSnackbar` 消息的 Miuix Snackbar 宿主 |
+| `component/dialog` | `AppWindowDialog`、`AppOverlayDialog`、`AppDialogHost`、`AppDialogActionRow` | 窗口级弹窗、浮层弹窗和全局 Dialog 宿主 |
+| `component/appbar` | `BackButton` | Miuix 返回按钮封装 |
+| `component/network` | `BaseNetWorkView`、`BaseNetWorkListView` | 单对象三态和分页列表状态容器 |
+| `component/refresh` | `RefreshLayout`、`RefreshContent` | Miuix 下拉刷新、加载更多和列表内容组合 |
+| `component/empty` | `Empty`、`EmptyData`、`EmptyError`、`EmptyNetwork` | 无数据、业务错误和网络错误反馈 |
+| `component/loading` | `PageLoading` | 页面级加载反馈 |
+| `component/skeleton` | `Skeleton` | 内容加载前的结构占位 |
+| `adaptive` | `BreakpointInfo`、`BreakpointModel` | 根据窗口宽度选择响应式布局值 |
+| `component/fps` | `FpsMonitor` | 开发和设置页面中的帧率信息展示 |
+
+Button、Text、Card、TopAppBar、Preference、Navigation、Divider 等交互组件直接使用 Miuix 官方实现；项目只在页面语义或布局边界上提供封装。
+
+`AppSnackbarHost` 与 `AppDialogHost` 由 `MainActivity` 在 `AppTheme` 内统一挂载，页面不需要声明弹窗状态，也不需要重复接入宿主。`AppWindowDialog` 基于窗口级 `WindowDialog`，不依赖 `Scaffold`；`AppOverlayDialog` 基于 `OverlayDialog`，必须位于 `AppScaffold` 提供的 `Scaffold` 作用域内。
 
 ## 页面骨架：`AppScaffold`
 
-大多数带标题页面从 `AppScaffold` 开始。它内部使用 Material 3 `Scaffold`，可以选择居中标题或大标题，并统一处理页面背景、Snackbar、BottomBar 和 FAB。
+`AppScaffold` 使用 Miuix `Scaffold`，统一处理页面背景、Miuix `TopAppBar`、Snackbar、底部栏、FAB、系统栏 Insets、顶部栏嵌套滚动和可选的顶部栏模糊效果。
 
-| 关键参数 | 默认行为 | 什么时候修改 |
+| 参数 | 默认值 | 说明 |
 | --- | --- | --- |
-| `title` / `titleText` | 标题为空时不显示文字 | 标题来自资源或运行时字符串 |
-| `showBackIcon` | `true` | 顶级页面不需要返回按钮时设为 `false` |
-| `onBackClick` | 空回调 | 普通页面传入 `{ navigateBack() }` |
-| `useLargeTopBar` | `false` | 需要可折叠大标题时设为 `true` |
-| `contentShouldConsumePadding` | `false` | 内容需要自己处理 Insets 时设为 `true` |
-| `bottomBar` / `floatingActionButton` | 空内容 | 页面需要底部导航或 FAB 时传入 |
-
-文件位置：`feature/<domain>/view/<PageName>Screen.kt`。下面的 Screen 不获取 ViewModel，顶部栏直接执行统一返回操作，并把最终业务布局交给 Content。
+| `title` / `titleText` | `null` | 资源 ID 或运行时标题；两者同时传入时优先使用 `titleText` |
+| `showBackIcon` | `true` | 是否显示 `BackButton` |
+| `onBackClick` | 空回调 | 返回按钮回调，普通页面传入 `navigateBack()` |
+| `useLargeTopBar` | `true` | 是否启用 Miuix 大标题和默认滚动行为 |
+| `blurEnabled` | `true` | 是否允许顶部栏模糊；仍受应用设置和运行时 Shader 能力影响 |
+| `contentShouldConsumePadding` | `false` | `false` 时骨架自动消费 `PaddingValues`；`true` 时由内容自行处理 |
+| `topBarActions` / `bottomBar` / `floatingActionButton` | 空内容 | 顶部操作、底部导航和浮动操作区域 |
 
 ```kotlin
-import androidx.compose.runtime.Composable
-import com.joker.kit.core.navigation.navigateBack
-import com.joker.kit.core.ui.component.scaffold.AppScaffold
-import top.yukonga.miuix.kmp.basic.Text
-
 /**
- * 设置页面骨架。
+ * 设置页面骨架，统一处理 Miuix 顶部栏、返回操作和页面安全区。
  */
 @Composable
 internal fun SettingsScreen() {
     AppScaffold(
         titleText = "设置",
         onBackClick = { navigateBack() },
-    ) {
-        // 默认模式下，AppScaffold 的根容器已经消费顶部栏产生的 PaddingValues。
+    ) { _ ->
+        // contentShouldConsumePadding=false 时，AppScaffold 已自动消费页面内边距。
         SettingsContent()
     }
 }
 
 /**
- * 设置页面内容。
+ * 设置页面成功状态的可滚动内容。
  */
 @Composable
 private fun SettingsContent() {
-    Text(text = "设置内容")
+    MiuixPageLazyColumn {
+        item {
+            Text(
+                text = "设置内容",
+                color = AppColors.onBackground,
+                style = AppTextStyles.body1,
+            )
+        }
+    }
 }
 ```
 
-`contentShouldConsumePadding = false` 时不要再次对根内容调用 `Modifier.padding(paddingValues)`，否则顶部间距会叠加。只有显式设为 `true` 时，内容才需要消费传入的 `PaddingValues`。
+默认模式下，`AppScaffold` 已对根内容应用 Scaffold 产生的内边距，内容不要再次对根容器调用 `padding(paddingValues)`。需要自行合并 Insets 时才设置 `contentShouldConsumePadding = true`。
 
-## 文本：`Text`
+## 页面列表：`MiuixPageLazyColumn`
 
-Miuix `Text` 直接使用 Miuix 官方文字样式和颜色角色：
+复杂页面优先使用 `MiuixPageLazyColumn`。它在 `LazyColumn` 之上统一提供：
 
-- `AppColors.onBackground`、`AppColors.onSurfaceSecondary`、`AppColors.onSurfaceContainerVariant`：正文层级。
-- `AppColors.primary`、`AppColors.tertiaryContainer`、`AppColors.primaryVariant`、`AppColors.error`：操作与状态颜色。
-- 页面文字直接使用 `AppTextStyles` 或 `MiuixTheme.textStyles` 中的官方样式。
-- `onClick`：存在回调时文本才可点击。
-- `selectable`：需要复制文本时启用选择容器。
-- `style`：需要直接传入 `TextStyle` 时覆盖默认尺寸映射。
+- `contentPadding` 与 `pagePadding` 的四方向合并。
+- `fillMaxSize` 页面滚动视口。
+- Miuix 越界回弹和滚动结束触感反馈（由应用设置控制）。
+- `LazyListState`、`verticalArrangement` 和 `LazyListScope` 的直接传递。
 
-页面优先选择 `AppColors` 和 `AppTextStyles`，只有组件确实需要特殊样式时才传入 `color`、`fontWeight` 或完整 `style`。
+```kotlin
+AppScaffold(titleText = "个人资料") { contentPadding ->
+    MiuixPageLazyColumn(
+        contentPadding = contentPadding,
+        pagePadding = PaddingValues(horizontal = SpaceHorizontalLarge),
+        verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium),
+    ) {
+        item { ProfileHeader() }
+        items(items = rows) { row ->
+            ProfileRow(row)
+        }
+    }
+}
+```
+
+页面间距使用设计系统令牌，不在每个列表页面重复声明裸 `dp`。
 
 ## 网络状态容器
 
-网络页面不要自己写多组 `when`。Core 已将两类页面状态分开：
+网络页面使用已有状态容器，不在 Screen 中重复编写多组 `when`：
 
 | 页面类型 | 状态 | 组件 |
 | --- | --- | --- |
 | 单对象请求 | Loading、Success、Error | `BaseNetWorkView<T>` |
 | 分页列表 | Loading、Success、Error、Empty | `BaseNetWorkListView` |
 
-`BaseNetWorkView` 的成功分支会把 `T` 交给 `content`；`BaseNetWorkListView` 的 Success 分支通常继续组合 `RefreshLayout`。具体 ViewModel、Route 和 View 分层示例参见[非分页网络基类](./network-base.md)和[分页列表](./pagination.md)。
+成功分支只接收可渲染数据和回调；请求、重试、分页和 Repository 调用由 ViewModel 负责。单对象基类不自动推断 `data == null` 为 Empty，详情页需要空态时应在业务状态中显式表达。
 
-::: warning Empty 不是单对象网络状态
-`BaseNetWorkUiState` 没有 Empty。按照当前响应模型，详情接口满足业务成功规则但 `data == null` 时，`ResultHandler` 也不会自动转换为空态。需要业务空态时应根据真实响应结构，在模型或页面状态中显式设计，不要假定基类已经处理。
-:::
+## 刷新、加载和空态
 
-## 刷新和加载更多
+`RefreshLayout` 基于 Miuix `PullToRefresh`，负责刷新手势、加载更多和列表内容组合。普通列表由 `RefreshContent` 内部复用 `MiuixPageLazyColumn`，列表状态和顶部栏滚动行为默认由刷新布局管理，调用方只需传入 Scaffold 的 `contentPadding`；瀑布流继续使用 `LazyVerticalStaggeredGrid`。组件接收来自分页 ViewModel 的刷新和加载状态。
 
-`RefreshLayout` 基于 UltraSwipeRefresh，负责把刷新手势、加载更多状态和列表内容组合在一起：
-
-- 默认使用 `LazyColumn`；`isGrid = true` 时使用 `LazyVerticalStaggeredGrid`。
-- `isRefreshing` 和 `isLoadingMore` 来自分页 ViewModel，UI 不自行维护第二份状态。
-- 列表非空时才启用加载更多，避免空页面继续请求下一页。
-- `hasMoreData = false` 时底部进入无更多内容状态。
-- 传入 `scrollBehavior` 时与大标题 AppBar 的嵌套滚动联动。
-
-应用启动时，`Application.initRefresh()` 将 header 和 footer 的 `NestedScrollMode` 配置为 `Translate`。如果更换刷新库或动画，需要同步检查 Application 配置、分页基类和本页文档。
-
-## 空态、加载态和骨架屏怎么选
-
-| 场景 | 推荐组件 | 说明 |
+| 场景 | 组件 | 说明 |
 | --- | --- | --- |
-| 首次进入网络页 | `PageLoading` 或业务 Skeleton | Skeleton 应尽量接近最终内容结构 |
-| 请求失败且没有旧数据 | `EmptyNetwork` 或 `EmptyError` | 通过 `onRetryClick` 连接重试 |
-| 第一页成功但列表为空 | `EmptyData` | 仅分页四态使用 |
-| 局部操作等待 | `MiLoadingWeb` / `MiLoadingMobile` | 不替换整页内容 |
-| 复杂页面占位 | `Skeleton` | 骨架只负责绘制，不触发请求 |
+| 首次进入页面 | `PageLoading` 或 Feature Skeleton | Skeleton 尽量接近最终内容结构 |
+| 请求失败且无旧数据 | `EmptyNetwork` / `EmptyError` | 通过重试回调重新请求 |
+| 第一页成功但无列表项 | `EmptyData` | 仅在分页列表的 Empty 状态展示 |
+| 复杂内容占位 | `Skeleton` | 只绘制占位，不触发请求 |
 
-空态组件不决定何时显示，它们只接收文案、图片和事件。状态判断仍由 Screen 的状态容器完成。
+空态和加载组件只负责绘制与回调，不决定业务状态何时切换。
 
-## 屏幕适配入口
+## 设计和实现边界
 
-`core/ui/adaptive` 位于 UI 包中，但它解决的是窗口断点和响应式布局，不属于本页的公共组件说明。断点规则、`bp()` 回退顺序、结构切换、Preview 和分屏验证统一参见[屏幕适配](./screen-adaptation.md)，本页不重复定义这些行为。
-
-## 新增公共组件
-
-1. 先确认组件在两个或更多 Feature 中重复；只服务一个业务域时留在 `feature/<domain>/component`。
-2. 通过参数接收状态和回调，不在组件内部获取 Hilt ViewModel 或调用 Repository。
-3. 颜色、文字、圆角和间距读取 Design System，不创建同义常量。
-4. 为公开 Composable 和参数添加 KDoc，为非直观状态分支添加中文行内注释。
-5. 提供浅色、深色以及必要的窄屏 Preview，再在至少一个真实 Screen 中验证。
+- 公共组件通过参数接收数据和事件，不在内部获取 Hilt ViewModel、Repository 或导航实例。
+- 颜色和文字使用 `AppColors`、`AppTextStyles` 或 `MiuixTheme`；间距使用 `Size.kt`；圆角优先使用 Miuix `Defaults` 或 `Shape.kt`。
+- 业务专用卡片、Preference 组合和列表项留在对应 Feature，不为单个页面扩展 `core/ui`。
+- 新增公共组件前确认至少有两个 Feature 的稳定复用场景，并补充浅色、深色和必要的窄屏 Preview。
+- 自适应断点规则统一参见[屏幕适配](./screen-adaptation.md)，不要在组件内部假设固定设备型号。
 
 ## 相关链接
 
-- [设计系统](./designsystem.md)：基础布局和视觉令牌。
-- [主题系统](./theme.md)：颜色、Typography、Shapes 和四张规范图。
-- [非分页网络基类](./network-base.md)：单对象三态页面。
-- [分页列表](./pagination.md)：列表四态、刷新和加载更多。
-- [屏幕适配](./screen-adaptation.md)：窗口断点、`bp()` 回退规则和响应式页面示例。
-- [Compose 状态](https://developer.android.com/develop/ui/compose/state)
-- [Material 3 Scaffold](https://developer.android.com/develop/ui/compose/components/scaffold)
-- [Material 3 Adaptive](https://developer.android.com/develop/ui/compose/layouts/adaptive)
-- [UltraSwipeRefresh 官方仓库](https://github.com/jenly1314/UltraSwipeRefresh)
+- [设计系统](./designsystem.md)
+- [主题系统](./theme.md)
+- [非分页网络基类](./network-base.md)
+- [分页列表](./pagination.md)
+- [屏幕适配](./screen-adaptation.md)
+- [Miuix 中文组件文档](https://compose-miuix-ui.github.io/miuix/zh_CN/components/)

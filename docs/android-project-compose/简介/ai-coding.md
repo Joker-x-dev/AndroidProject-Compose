@@ -15,6 +15,7 @@ AndroidProject-Compose 将项目级规则、专项 Skill、框架文档、源码
 | `apc-setup` | 修改应用名称、项目名、包名、`applicationId`、Logo、图标和启动页 | `使用 $apc-setup 初始化新的应用项目` |
 | `apc-feature` | 创建或重构 Feature、Route、Screen、Content、ViewModel、Graph 和页面目录 | `使用 $apc-feature 创建商品详情页面` |
 | `apc-ui` | 编写 Compose 布局、复用设计系统、公共组件、屏幕适配和安全区 | `使用 $apc-ui 重构个人中心布局` |
+| `apc-miuix` | 查阅和使用 Miuix 组件、Preference、Overlay、Navigation、刷新、Blur 和 Squircle | `使用 $apc-miuix 接入设置页 Preference` |
 | `apc-data` | 接入模型、网络、Repository、Room、本地存储、结果处理和分页 | `使用 $apc-data 接入商品分页接口` |
 | `apc-nav` | 配置路由、模块级 Navigator、参数、结果回传和登录拦截 | `使用 $apc-nav 接入商品详情路由` |
 | `apc-preview` | 编写页面与组件 Preview、静态预览数据和 `PreviewParameter` | `使用 $apc-preview 为列表页补充预览` |
@@ -48,7 +49,8 @@ AndroidProject-Compose/
 
 Skill 将通用规则收敛为某类任务的执行流程。例如：
 
-- `apc-ui` 要求先读取设计系统、主题、UI、屏幕适配文档，并检查真实组件源码，不能凭记忆创建颜色、间距或布局 API。
+- `apc-ui` 要求先读取 Miuix、设计系统、主题、UI、屏幕适配文档，并检查真实组件源码，不能凭记忆创建颜色、间距或布局 API。
+- `apc-miuix` 要求先查阅 Miuix 组件索引，再核对当前依赖源码和相邻页面，确认组件参数、宿主要求和项目封装边界。
 - `apc-data` 要求沿着 Model → NetworkDataSource → Repository → ViewModel 的链路工作，不能让页面直接访问网络、DAO 或本地存储实现。
 - `apc-nav` 在创建导航页面时还要读取页面模板和创建页面流程，确认 Routes、Graph、Route、Screen、Content、ViewModel 和模块级 Navigator 都已接入。
 - `apc-preview` 要求使用静态预览数据和 `PreviewParameter`，Preview 不发起真实网络请求。
@@ -83,7 +85,7 @@ Skill 负责“如何执行任务”，项目文档负责解释“能力如何�
 以下文本可以直接作为支持 Skill 的 AI 工具的任务输入，示例中的业务名称和验收条件需要替换为实际需求。
 
 ```text
-使用 $apc-feature、$apc-data、$apc-ui、$apc-nav 和 $apc-preview。
+使用 $apc-feature、$apc-miuix、$apc-data、$apc-ui、$apc-nav 和 $apc-preview。
 
 目标：新增商品分页列表页面，并支持进入商品详情。
 范围：仅修改目标 Feature、对应 Routes、Graph、Navigator 和相关测试。
@@ -98,9 +100,9 @@ Skill 负责“如何执行任务”，项目文档负责解释“能力如何�
 | 开发目标 | 推荐 Skill | 主要阅读内容 |
 | --- | --- | --- |
 | 初始化应用项目 | `apc-setup`、`apc-build` | 环境要求、快速开始、构建配置和应用资源 |
-| 新增普通业务页面 | `apc-feature`、`apc-ui`、`apc-nav`、`apc-preview` | Feature 目录、View、ViewModel、页面模板和导航 |
+| 新增普通业务页面 | `apc-feature`、`apc-miuix`、`apc-ui`、`apc-nav`、`apc-preview` | Feature 目录、Miuix 组件、View、ViewModel、页面模板和导航 |
 | 新增网络分页页面 | `apc-feature`、`apc-data`、`apc-ui`、`apc-nav`、`apc-preview` | 数据层、结果处理、分页基类、页面状态和预览 |
-| 修改主题或布局规范 | `apc-theme`、`apc-ui` | 设计系统、主题、UI 组件和屏幕适配 |
+| 修改主题或布局规范 | `apc-theme`、`apc-miuix`、`apc-ui` | Miuix 组件、设计系统、主题、UI 组件和屏幕适配 |
 | 增加 Preview 数据 | `apc-preview`、`apc-data` | 注解、数据层预览数据和 View 预览规范 |
 | 修改路由或结果回传 | `apc-nav` | 导航概览、路由、流程、拦截和结果回传 |
 | 发布前检查工程质量 | `apc-audit`、`apc-build` | 架构、代码、测试、Gradle 和发布配置 |

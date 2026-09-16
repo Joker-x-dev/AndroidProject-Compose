@@ -142,7 +142,6 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.adaptive)
     implementation(libs.coil.compose)
 
@@ -164,9 +163,6 @@ dependencies {
 
     // 权限
     implementation(libs.xxpermissions)
-
-    // toast
-    implementation(libs.toaster)
 
     // 数据存储
     implementation(libs.mmkv)
@@ -190,10 +186,6 @@ dependencies {
     kspAndroidTest(libs.androidx.room.compiler)
     testImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.room.testing)
-
-    // 下拉刷新
-    implementation(libs.ultra.swipe.refresh)
-    implementation(libs.ultra.swipe.refresh.indicator.classic)
 
     // 骨架屏
     implementation(libs.compose.shimmer)

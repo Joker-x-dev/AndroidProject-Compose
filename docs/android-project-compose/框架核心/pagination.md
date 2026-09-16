@@ -32,7 +32,7 @@ feature/demo/
 Route 收集 uiState/listData/刷新 Flow
   → BaseNetWorkListView 切换 Loading / Empty / Error / Success
   → Success 内容交给 RefreshLayout
-  → UltraSwipeRefresh 触发 onRefresh 或 onLoadMore
+  → Miuix PullToRefresh 触发 onRefresh，列表接近末尾时触发 onLoadMore
   → ViewModel 请求当前页并合并列表
 ```
 
@@ -133,13 +133,13 @@ class NetworkListDemoViewModel @Inject constructor(
 
 文件位置：`feature/demo/view/NetworkListDemoScreen.kt`
 
-Route 收集五个状态流，Screen 接收状态和事件，Content 再把列表交给 `RefreshLayout`。ViewModel 与 View 分开后，列表也能通过预览数据单独预览。
+Route 收集五个状态流，Screen 接收状态和事件，Content 将 Scaffold 的 `contentPadding` 交给 `RefreshLayout`。列表状态和顶部栏滚动行为都由刷新布局默认创建或从 `AppScaffold` 自动复用；列表页面间距由内部的 `MiuixPageLazyColumn` 统一叠加，调用方不再手写四方向 `PaddingValues`。
 
 ```kotlin
 package com.joker.kit.feature.demo.view
 
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -201,7 +201,6 @@ Route 只收集状态并传递事件。下面的 Screen 负责页面骨架和四
  * @param onLoadMore 加载更多回调
  * @param onRetry 重试回调
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NetworkListDemoScreen(
     uiState: BaseNetWorkListUiState = BaseNetWorkListUiState.Loading,
@@ -211,24 +210,30 @@ internal fun NetworkListDemoScreen(
     hasMoreData: Boolean = false,
     onRefresh: () -> Unit = {},
     onLoadMore: () -> Unit = {},
-    onRetry: () -> Unit = {}
+    onRetry: () -> Unit = {},
 ) {
     AppScaffold(
         titleText = "Network List Demo",
-        onBackClick = { navigateBack() }
-    ) {
+        onBackClick = { navigateBack() },
+        contentShouldConsumePadding = true,
+        nestedScrollInScaffold = false,
+    ) { paddingValues ->
+        // BaseNetWorkListView 只处理 Loading、Empty、Error 和 Success 状态切换。
         BaseNetWorkListView(
             uiState = uiState,
             onRetry = onRetry,
-            customLoading = { NetworkListLoadingSkeleton() }
+            customLoading = {
+                NetworkListLoadingSkeleton(contentPadding = paddingValues)
+            },
         ) {
             NetworkListDemoContent(
+                contentPadding = paddingValues,
                 list = list,
                 isRefreshing = isRefreshing,
                 isLoadingMore = isLoadingMore,
                 hasMoreData = hasMoreData,
                 onRefresh = onRefresh,
-                onLoadMore = onLoadMore
+                onLoadMore = onLoadMore,
             )
         }
     }
@@ -243,6 +248,7 @@ internal fun NetworkListDemoScreen(
 /**
  * Network List Demo 成功态内容
  *
+ * @param contentPadding Scaffold 提供的安全区内边距
  * @param list 商品列表数据
  * @param isRefreshing 是否正在刷新
  * @param isLoadingMore 是否正在加载更多
@@ -250,23 +256,24 @@ internal fun NetworkListDemoScreen(
  * @param onRefresh 刷新回调
  * @param onLoadMore 加载更多回调
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NetworkListDemoContent(
+    contentPadding: PaddingValues,
     list: List<Goods>,
     isRefreshing: Boolean,
     isLoadingMore: Boolean,
     hasMoreData: Boolean,
     onRefresh: () -> Unit,
-    onLoadMore: () -> Unit
+    onLoadMore: () -> Unit,
 ) {
     RefreshLayout(
         list = list,
         isRefreshing = isRefreshing,
         isLoadingMore = isLoadingMore,
         hasMoreData = hasMoreData,
+        contentPadding = contentPadding,
         onRefresh = onRefresh,
-        onLoadMore = onLoadMore
+        onLoadMore = onLoadMore,
     ) {
         itemsIndexed(list) { _, goods ->
             // 列表项只负责展示单条商品
@@ -280,16 +287,16 @@ private fun NetworkListDemoContent(
 
 | 参数或机制 | 当前实现 |
 | --- | --- |
-| 手势容器 | `UltraSwipeRefresh` |
-| 列表模式 | 默认 `LazyColumn`，通过 `content` 构建 |
-| 网格模式 | `isGrid = true`，通过 `gridContent` 构建 `LazyVerticalStaggeredGrid` |
-| 加载更多开关 | `list.isNotEmpty()` 为 `true` 时启用 |
-| 头部指示器 | 默认 `ClassicRefreshHeader` |
-| 底部指示器 | `hasMoreData` 或加载动画；无更多时调用 `noMoreContent` |
-| 震动反馈 | `vibrationEnabled = true` |
-| 顶部栏联动 | 传入 `scrollBehavior` 后连接 `nestedScroll` |
+| 手势容器 | Miuix `PullToRefresh`，由 `rememberPullToRefreshState()` 管理手势状态 |
+| 列表模式 | 默认 `MiuixPageLazyColumn`，由 `RefreshContent` 通过 `content` 构建 |
+| 网格模式 | `isGrid = true`，由 `RefreshContent` 通过 `gridContent` 构建 `LazyVerticalStaggeredGrid` |
+| 加载更多触发 | 列表或网格滚动接近末尾 3 个条目时触发，并由 `hasMoreData`、`isLoadingMore` 和列表长度去重 |
+| 头部文案 | 使用 `R.string.refresh_*` 资源传递给 Miuix `PullToRefresh` |
+| 底部状态 | `isLoadingMore` 显示 `InfiniteProgressIndicator`；无更多且列表非空时显示无更多文案 |
+| 滚动触感 | `RefreshContent` 根据 `LocalAppSettings.enableScrollEndHaptic` 控制边缘触感 |
+| 顶部栏联动 | 传入 `scrollBehavior` 后交给 Miuix `PullToRefresh.topAppBarScrollBehavior` |
 
-`RefreshContent` 为列表提供默认内边距和间距，并在列表与瀑布流切换时使用 300 ms 淡入缩放动画。应用启动时 `Application.initRefresh()` 将头部和底部的 `NestedScrollMode` 统一设为 `Translate`。
+`RefreshContent` 的普通列表复用 `MiuixPageLazyColumn`，由 `contentPadding` 接收 Scaffold 安全区，由 `pagePadding` 统一提供水平和垂直页面间距；调用方只需传递 Scaffold 的 `contentPadding`。列表状态默认由 `RefreshLayout` 持有，顶部栏滚动行为优先复用 `AppScaffold` 提供的实例，脱离页面骨架时自动创建。列表与瀑布流切换仍使用 300 ms 淡入缩放动画。刷新组件不需要额外的 Application 初始化；刷新文案、手势状态和顶部栏滚动行为都在 `RefreshLayout` 内完成。
 
 ## 刷新、加载更多与重试
 
@@ -326,4 +333,4 @@ private fun NetworkListDemoContent(
 - [Compose LazyColumn](https://developer.android.com/develop/ui/compose/lists)
 - [Compose LazyVerticalStaggeredGrid](https://developer.android.com/develop/ui/compose/lists#lazy-staggered-grid)
 - [Kotlin StateFlow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/)
-- [UltraSwipeRefresh 官方仓库](https://github.com/jenly1314/UltraSwipeRefresh)
+- [Miuix 官方 PullToRefresh 文档](https://compose-miuix-ui.github.io/miuix/zh_CN/components/pulltorefresh)

@@ -1,11 +1,16 @@
 package com.joker.kit.feature.auth.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import top.yukonga.miuix.kmp.basic.Text
-import androidx.compose.foundation.layout.Column
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Button
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,6 +20,7 @@ import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.feature.auth.viewmodel.LoginViewModel
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 
 /**
  * 登录页面路由入口
@@ -37,16 +43,17 @@ internal fun LoginRoute(
  * @param onLoginClick 登录按钮回调
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun LoginScreen(
     onLoginClick: () -> Unit = {},
 ) {
     AppScaffold(
-        titleText = "登录",
+        titleText = stringResource(R.string.auth_login),
         onBackClick = { navigateBack() },
-    ) {
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
         LoginContent(
+            contentPadding = paddingValues,
             onLoginClick = onLoginClick
         )
     }
@@ -60,16 +67,21 @@ internal fun LoginScreen(
  */
 @Composable
 private fun LoginContent(
+    contentPadding: PaddingValues,
     onLoginClick: () -> Unit = {},
 ) {
-    Column(
-        modifier = Modifier.padding(SpacePaddingLarge),
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+        pagePadding = PaddingValues(SpacePaddingLarge),
     ) {
-        Button(
-            onClick = onLoginClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "一键登录")
+        item {
+            Button(
+                onClick = onLoginClick,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(text = stringResource(R.string.auth_login_action))
+            }
         }
     }
 }

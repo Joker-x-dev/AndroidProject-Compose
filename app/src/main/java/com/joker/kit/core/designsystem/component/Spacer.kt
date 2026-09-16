@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.joker.kit.core.designsystem.theme.SpaceHorizontalLarge
 import com.joker.kit.core.designsystem.theme.SpaceHorizontalMedium
 import com.joker.kit.core.designsystem.theme.SpaceHorizontalSmall
 import com.joker.kit.core.designsystem.theme.SpaceHorizontalXLarge
@@ -107,7 +108,7 @@ fun SpaceHorizontalXLarge() {
  */
 @Composable
 fun SpaceHorizontalLarge() {
-    Spacer(modifier = Modifier.width(SpaceHorizontalXLarge))
+    Spacer(modifier = Modifier.width(SpaceHorizontalLarge))
 }
 
 /**

@@ -1,25 +1,29 @@
 package com.joker.kit.feature.demo.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import com.joker.kit.core.designsystem.theme.AppColors
 import com.joker.kit.core.designsystem.theme.AppTextStyles
 import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import com.joker.kit.core.designsystem.component.AppRow
+import com.joker.kit.core.designsystem.component.AppColumn
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Card
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.SmallTitle
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -37,11 +41,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.ShapeSmall
+import com.joker.kit.core.designsystem.theme.SpaceHorizontalMedium
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
 import com.joker.kit.core.designsystem.theme.SpacePaddingSmall
-import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
-import com.joker.kit.core.designsystem.theme.SpaceVerticalSmall
+import com.joker.kit.core.designsystem.component.SpaceVerticalMedium
+import com.joker.kit.core.designsystem.component.SpaceVerticalSmall
+import com.joker.kit.core.designsystem.component.SpaceHorizontalSmall
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.adaptive.bp
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
@@ -69,20 +75,22 @@ internal fun ScreenAdaptDemoRoute(
 @Composable
 internal fun ScreenAdaptDemoScreen() {
     AppScaffold(
-        titleText = "屏幕适配示例",
-        onBackClick = { navigateBack() }
-    ) {
-        ScreenAdaptDemoContent()
+        titleText = stringResource(R.string.screen_adaptation_title),
+        onBackClick = { navigateBack() },
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
+        ScreenAdaptDemoContent(contentPadding = paddingValues)
     }
 }
 
 /**
  * 屏幕适配示例页面内容
  *
+ * @param contentPadding 页面脚手架提供的安全区内边距
  * @author Joker.X
  */
 @Composable
-private fun ScreenAdaptDemoContent() {
+private fun ScreenAdaptDemoContent(contentPadding: PaddingValues) {
     // 当前窗口断点编码
     val breakpointCode = bp(xs = "xs", sm = "sm", md = "md", lg = "lg")
     // 网格示例在当前断点使用的列数
@@ -103,53 +111,76 @@ private fun ScreenAdaptDemoContent() {
     // 列表示例数据
     val listItems = listOf(1, 2, 3, 4)
 
-    LazyColumn(
-        contentPadding = PaddingValues(SpacePaddingLarge),
-        verticalArrangement = Arrangement.spacedBy(SpaceVerticalLarge)
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+        // 保留 Miuix 页面可推动尾部空间。
+        pagePadding = PaddingValues(
+            top = SpacePaddingLarge,
+            bottom = SpacePaddingLarge,
+        ),
     ) {
         item {
-            AdaptSectionTitle(title = "当前断点")
-        }
-        item {
             BreakpointCard(
-                breakpointCode = breakpointCode
+                breakpointCode = breakpointCode,
+                modifier = Modifier.padding(horizontal = SpaceHorizontalMedium),
             )
         }
         item {
-            AdaptSectionTitle(title = "网格布局示例")
+            SpaceVerticalMedium()
+        }
+        item {
+            AdaptSectionTitle(title = stringResource(R.string.screen_adaptation_grid_title))
         }
         item {
             AdaptiveGridSection(
                 columns = gridColumns,
-                items = gridItems
+                items = gridItems,
+                modifier = Modifier.padding(horizontal = SpaceHorizontalMedium),
             )
         }
         item {
-            AdaptSectionTitle(title = "列表布局示例")
+            SpaceVerticalMedium()
+        }
+        item {
+            AdaptSectionTitle(title = stringResource(R.string.screen_adaptation_list_title))
         }
         item {
             AdaptiveListSection(
                 columns = listColumns,
-                items = listItems
+                items = listItems,
+                modifier = Modifier.padding(horizontal = SpaceHorizontalMedium),
             )
         }
         item {
-            AdaptSectionTitle(title = "文本/大小适配")
+            SpaceVerticalMedium()
         }
         item {
-            TextAdaptSection(sampleTextStyle = sampleTextStyle)
+            AdaptSectionTitle(title = stringResource(R.string.screen_adaptation_text_section_title))
         }
         item {
-            AdaptSectionTitle(title = "大小适配")
+            TextAdaptSection(
+                sampleTextStyle = sampleTextStyle,
+                modifier = Modifier.padding(horizontal = SpaceHorizontalMedium),
+            )
         }
         item {
-            SizeAdaptSection(sampleBoxSize = sampleBoxSize)
+            SpaceVerticalMedium()
+        }
+        item {
+            AdaptSectionTitle(title = stringResource(R.string.screen_adaptation_size_title))
+        }
+        item {
+            SizeAdaptSection(
+                sampleBoxSize = sampleBoxSize,
+                modifier = Modifier.padding(horizontal = SpaceHorizontalMedium),
+            )
         }
     }
 }
 
 /**
- * 区块标题
+ * 使用 Miuix SmallTitle 展示区块标题。
  *
  * @param title 标题
  * @author Joker.X
@@ -158,34 +189,34 @@ private fun ScreenAdaptDemoContent() {
 private fun AdaptSectionTitle(
     title: String
 ) {
-    Text(
-        text = title,
-        style = AppTextStyles.title3
-    )
+    SmallTitle(text = title)
 }
 
 /**
  * 断点信息卡片
  *
  * @param breakpointCode 当前断点编码
+ * @param modifier 卡片修饰符
  * @author Joker.X
  */
 @Composable
 private fun BreakpointCard(
-    breakpointCode: String
+    breakpointCode: String,
+    modifier: Modifier = Modifier,
 ) {
     AdaptiveCard(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CardTitle(
-            title = "当前断点",
+            title = stringResource(R.string.screen_adaptation_breakpoint_title),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
         CardDesc(
             text = breakpointCode,
             modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -195,14 +226,17 @@ private fun BreakpointCard(
  *
  * @param columns 列数
  * @param items 数据项
+ * @param modifier 内容区域修饰符
  * @author Joker.X
  */
 @Composable
 private fun AdaptiveGridSection(
     columns: Int,
-    items: List<Int>
+    items: List<Int>,
+    modifier: Modifier = Modifier,
 ) {
     MeasuredGrid(
+        modifier = modifier,
         columns = columns,
         items = items
     ) { item, modifier ->
@@ -211,13 +245,13 @@ private fun AdaptiveGridSection(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CardTitle(
-                title = "网格项 $item",
+                title = stringResource(R.string.screen_adaptation_grid_item, item),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(SpaceVerticalSmall))
+            SpaceVerticalSmall()
             CardDesc(
-                text = "根据屏幕大小调整列数",
+                text = stringResource(R.string.screen_adaptation_grid_description),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -230,14 +264,17 @@ private fun AdaptiveGridSection(
  *
  * @param columns 列数
  * @param items 数据项
+ * @param modifier 内容区域修饰符
  * @author Joker.X
  */
 @Composable
 private fun AdaptiveListSection(
     columns: Int,
-    items: List<Int>
+    items: List<Int>,
+    modifier: Modifier = Modifier,
 ) {
     MeasuredGrid(
+        modifier = modifier,
         columns = columns,
         items = items
     ) { item, modifier ->
@@ -246,13 +283,13 @@ private fun AdaptiveListSection(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CardTitle(
-                title = "列表项 $item",
+                title = stringResource(R.string.screen_adaptation_list_item, item),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(SpaceVerticalSmall))
+            SpaceVerticalSmall()
             CardDesc(
-                text = "小屏一列，大屏两列",
+                text = stringResource(R.string.screen_adaptation_list_description),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -264,27 +301,30 @@ private fun AdaptiveListSection(
  * 文本适配示例
  *
  * @param sampleTextStyle 示例文字大小
+ * @param modifier 卡片修饰符
  * @author Joker.X
  */
 @Composable
 private fun TextAdaptSection(
-    sampleTextStyle: TextStyle
+    sampleTextStyle: TextStyle,
+    modifier: Modifier = Modifier,
 ) {
     AdaptiveCard(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
+        AppRow(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             CardDesc(
-                text = "适配文本",
+                text = stringResource(R.string.screen_adaptation_text_title),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.size(SpacePaddingSmall))
+            SpaceHorizontalSmall()
             Text(
-                text = "示例文字会随屏幕变化",
+                text = stringResource(R.string.screen_adaptation_text_description),
                 style = sampleTextStyle,
                 textAlign = TextAlign.Center
             )
@@ -296,29 +336,31 @@ private fun TextAdaptSection(
  * 尺寸适配示例
  *
  * @param sampleBoxSize 示例尺寸
+ * @param modifier 卡片修饰符
  * @author Joker.X
  */
 @Composable
 private fun SizeAdaptSection(
-    sampleBoxSize: Dp
+    sampleBoxSize: Dp,
+    modifier: Modifier = Modifier,
 ) {
-    AdaptiveCard {
+    AdaptiveCard(modifier = modifier) {
         CardTitle(
-            title = "尺寸随屏幕变化",
+            title = stringResource(R.string.screen_adaptation_size_change_title),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
         CardDesc(
-            text = "通过 bp 设置不同断点尺寸",
+            text = stringResource(R.string.screen_adaptation_size_description),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
-        Row(
+        AppRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpacePaddingSmall)
         ) {
             CardDesc(
-                text = "示例尺寸：${sampleBoxSize.value.toInt()}dp",
+            text = stringResource(R.string.screen_adaptation_size_format, sampleBoxSize.value.toInt()),
                 modifier = Modifier.weight(1f)
             )
             Box(
@@ -335,6 +377,7 @@ private fun SizeAdaptSection(
  *
  * @param columns 列数
  * @param items 数据项
+ * @param modifier 网格修饰符
  * @param itemContent 子项内容
  * @author Joker.X
  */
@@ -342,6 +385,7 @@ private fun SizeAdaptSection(
 private fun <T> MeasuredGrid(
     columns: Int,
     items: List<T>,
+    modifier: Modifier = Modifier,
     itemContent: @Composable (item: T, modifier: Modifier) -> Unit
 ) {
     // 当前屏幕密度
@@ -363,6 +407,7 @@ private fun <T> MeasuredGrid(
 
     LazyVerticalGrid(
         modifier = Modifier
+            .then(modifier)
             .fillMaxWidth()
             .height(gridHeight),
         columns = GridCells.Fixed(safeColumns),
@@ -400,7 +445,7 @@ private fun AdaptiveCard(
     Card(
         modifier = modifier.fillMaxWidth()
     ) {
-        Column(
+        AppColumn(
             modifier = Modifier.padding(SpacePaddingMedium),
             horizontalAlignment = horizontalAlignment
         ) {
@@ -448,7 +493,7 @@ private fun CardDesc(
     Text(
         text = text,
         style = AppTextStyles.body2,
-        color = AppColors.onBackgroundVariant,
+        color = AppColors.onSurfaceVariantSummary,
         modifier = modifier,
         textAlign = textAlign
     )

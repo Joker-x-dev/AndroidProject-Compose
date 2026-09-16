@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,6 +41,8 @@ fun <T> BaseNetWorkView(
 ) {
     Box(
         modifier = modifier
+            // 为成功内容和缺省状态提供与页面一致的滚动视口约束。
+            .fillMaxSize()
             .padding(padding),
     ) {
         AnimatedContent(

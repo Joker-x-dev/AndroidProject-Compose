@@ -1,5 +1,6 @@
 package com.joker.kit.feature.main.data
 
+import com.joker.kit.R
 import com.joker.kit.core.navigation.demo.DemoNavigator
 import com.joker.kit.core.navigation.user.UserNavigator
 import com.joker.kit.feature.main.model.DemoCardInfo
@@ -17,33 +18,33 @@ object DemoCardData {
      */
     val coreCards: List<DemoCardInfo> = listOf(
         DemoCardInfo(
-            title = "Network Demo",
-            description = "网络状态切换，包含加载、错误、重试等流程。",
+            titleResId = R.string.network_demo_title,
+            descriptionResId = R.string.network_demo_description,
             navigateAction = { DemoNavigator.toNetworkDemo() }
         ),
         DemoCardInfo(
-            title = "Network List Demo",
-            description = "下拉刷新与分页加载的统一列表模板，内置空状态与重试。",
+            titleResId = R.string.network_list_title,
+            descriptionResId = R.string.network_list_description,
             navigateAction = { DemoNavigator.toNetworkListDemo() }
         ),
         DemoCardInfo(
-            title = "数据库",
-            description = "Room 的增删改查示例，含简单的列表展示与数据观察。",
+            titleResId = R.string.database_title,
+            descriptionResId = R.string.database_card_description,
             navigateAction = { DemoNavigator.toDatabase() }
         ),
         DemoCardInfo(
-            title = "本地存储",
-            description = "DataStore / MMKV 的写入与清除示例，演示单值增删改查。",
+            titleResId = R.string.storage_title,
+            descriptionResId = R.string.storage_card_description,
             navigateAction = { DemoNavigator.toLocalStorage() }
         ),
         DemoCardInfo(
-            title = "状态管理",
-            description = "全局 DemoCounterState 计数器共享示例，展示跨页面 StateFlow 同步。",
+            titleResId = R.string.state_management_title,
+            descriptionResId = R.string.state_card_description,
             navigateAction = { DemoNavigator.toStateManagement() }
         ),
         DemoCardInfo(
-            title = "网络请求",
-            description = "结合 ResultHandler 的通用接口请求、加载状态与错误提示。",
+            titleResId = R.string.network_request_title,
+            descriptionResId = R.string.network_request_card_description,
             navigateAction = { DemoNavigator.toNetworkRequest() }
         )
     )
@@ -55,18 +56,18 @@ object DemoCardData {
      */
     val navigationCards: List<DemoCardInfo> = listOf(
         DemoCardInfo(
-            title = "带参跳转",
-            description = "类型安全路由参数，包含必填/可选参数与目标页接收方式。",
+            titleResId = R.string.navigation_args_title,
+            descriptionResId = R.string.navigation_args_card_description,
             navigateAction = { DemoNavigator.toNavigationWithArgs(goodsId = 123) }
         ),
         DemoCardInfo(
-            title = "结果回传",
-            description = "NavigationResultKey 返回数据，包含刷新信号与数据实体回传。",
+            titleResId = R.string.navigation_result_title,
+            descriptionResId = R.string.navigation_result_card_description,
             navigateAction = { DemoNavigator.toNavigationResult() }
         ),
         DemoCardInfo(
-            title = "导航拦截",
-            description = "登录拦截流程：未登录跳登录页，登录成功后才能进入用户详情。",
+            titleResId = R.string.navigation_guard_title,
+            descriptionResId = R.string.navigation_guard_card_description,
             navigateAction = { UserNavigator.toUserInfo() }
         )
     )
@@ -78,9 +79,19 @@ object DemoCardData {
      */
     val expandCards: List<DemoCardInfo> = listOf(
         DemoCardInfo(
-            title = "屏幕适配",
-            description = "展示断点与窗口宽度，便于响应式布局适配。",
+            titleResId = R.string.screen_adaptation_title,
+            descriptionResId = R.string.screen_adaptation_card_description,
             navigateAction = { DemoNavigator.toScreenAdaptDemo() }
+        ),
+        DemoCardInfo(
+            titleResId = R.string.snackbar_demo_title,
+            descriptionResId = R.string.snackbar_demo_card_description,
+            navigateAction = { DemoNavigator.toSnackbarDemo() }
+        ),
+        DemoCardInfo(
+            titleResId = R.string.dialog_demo_title,
+            descriptionResId = R.string.dialog_demo_card_description,
+            navigateAction = { DemoNavigator.toDialogDemo() }
         )
     )
 }

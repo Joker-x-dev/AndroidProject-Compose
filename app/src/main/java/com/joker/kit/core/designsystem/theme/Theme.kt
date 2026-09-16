@@ -2,6 +2,8 @@ package com.joker.kit.core.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import top.yukonga.miuix.kmp.theme.ColorSchemeMode
@@ -9,6 +11,32 @@ import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.theme.ThemeColorSpec
 import top.yukonga.miuix.kmp.theme.ThemeController
 import top.yukonga.miuix.kmp.theme.ThemePaletteStyle
+
+private val LocalAppDarkTheme = compositionLocalOf { false }
+
+/**
+ * 当前应用主题是否为深色。
+ */
+@Composable
+fun isInDarkTheme(): Boolean = LocalAppDarkTheme.current
+
+/**
+ * 解析配色模式对应的实际明暗状态。
+ *
+ * @param mode 当前 Miuix 配色模式
+ * @param systemDarkTheme 系统是否处于深色模式
+ * @param isDark 显式指定的明暗状态，未设置时以系统状态为准
+ * @return 主题是否采用深色方案
+ */
+fun resolveDarkTheme(
+    mode: ColorSchemeMode,
+    systemDarkTheme: Boolean,
+    isDark: Boolean? = null,
+): Boolean = when (mode) {
+    ColorSchemeMode.Dark, ColorSchemeMode.MonetDark -> true
+    ColorSchemeMode.Light, ColorSchemeMode.MonetLight -> false
+    else -> isDark ?: systemDarkTheme
+}
 
 /**
  * 应用主题入口。
@@ -53,5 +81,9 @@ fun AppTheme(
         )
     }
 
-    MiuixTheme(controller = controller, content = content)
+    // 统一由配色模式解析实际明暗状态，供主题与系统栏外观复用。
+    val resolvedDarkTheme = resolveDarkTheme(mode, darkTheme, isDark)
+    CompositionLocalProvider(LocalAppDarkTheme provides resolvedDarkTheme) {
+        MiuixTheme(controller = controller, content = content)
+    }
 }

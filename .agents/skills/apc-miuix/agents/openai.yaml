@@ -1,0 +1,4 @@
+interface:
+  display_name: "APC Miuix"
+  short_description: "查阅并使用项目 Miuix Compose 组件与封装"
+  default_prompt: "使用 $apc-miuix 按项目规范选择并实现 Miuix Compose 组件。"

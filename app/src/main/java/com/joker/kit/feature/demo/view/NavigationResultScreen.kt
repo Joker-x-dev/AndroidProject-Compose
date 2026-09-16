@@ -1,20 +1,28 @@
 package com.joker.kit.feature.demo.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import top.yukonga.miuix.kmp.basic.Text
-import androidx.compose.foundation.layout.Column
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Button
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
+import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
 import com.joker.kit.feature.demo.viewmodel.NavigationResultViewModel
+import top.yukonga.miuix.kmp.basic.BasicComponent
 
 /**
  * 结果回传示例路由
@@ -37,16 +45,16 @@ internal fun NavigationResultRoute(
  * @param onSendResult 发送结果并返回回调
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NavigationResultScreen(
     onSendResult: () -> Unit = {},
 ) {
     AppScaffold(
-        titleText = "结果回传",
-        onBackClick = { navigateBack() }
-    ) {
-        NavigationResultContent(onSendResult = onSendResult)
+        titleText = stringResource(R.string.navigation_result_title),
+        onBackClick = { navigateBack() },
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
+        NavigationResultContent(contentPadding = paddingValues, onSendResult = onSendResult)
     }
 }
 
@@ -57,13 +65,29 @@ internal fun NavigationResultScreen(
  * @author Joker.X
  */
 @Composable
-private fun NavigationResultContent(onSendResult: () -> Unit) {
-    Column(modifier = Modifier.padding(SpacePaddingLarge)) {
-        Button(
-            onClick = onSendResult,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "回传结果并返回")
+private fun NavigationResultContent(contentPadding: PaddingValues, onSendResult: () -> Unit) {
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+        pagePadding = PaddingValues(SpacePaddingLarge),
+    ) {
+        item {
+            Card(modifier = Modifier.fillMaxWidth()) {
+                BasicComponent(
+                    title = stringResource(R.string.navigation_result_title),
+                    summary = stringResource(R.string.navigation_result_operation_summary),
+                    bottomAction = {
+                        Button(
+                            onClick = onSendResult,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = SpaceVerticalMedium),
+                        ) {
+                            Text(text = stringResource(R.string.navigation_result_action))
+                        }
+                    },
+                )
+            }
         }
     }
 }

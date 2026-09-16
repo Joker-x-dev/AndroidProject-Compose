@@ -78,13 +78,14 @@ core/navigation/demo/
 package com.joker.kit.feature.catalog.view
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -135,6 +136,7 @@ import androidx.compose.runtime.Composable
 import com.joker.kit.core.ui.adaptive.isLG
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 
 /**
  * 根据窗口宽度选择单栏或主从栏结构。
@@ -150,8 +152,10 @@ internal fun CatalogScreen(
     AppScaffold(
         titleText = "商品目录",
         onBackClick = { navigateBack() },
-    ) {
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
         CatalogContent(
+            contentPadding = paddingValues,
             selectedId = selectedId,
             onSelect = onSelect,
         )
@@ -161,22 +165,28 @@ internal fun CatalogScreen(
 /**
  * 根据窗口宽度显示目录业务内容。
  *
+ * @param contentPadding Scaffold 提供的安全区内边距
  * @param selectedId 当前选中项 ID
  * @param onSelect 选中项回调
  */
 @Composable
 private fun CatalogContent(
+    contentPadding: PaddingValues,
     selectedId: Long?,
     onSelect: (Long) -> Unit,
 ) {
-    if (isLG()) {
-        // 宽窗口同时展示列表与详情，避免不必要的页面跳转。
-        CatalogListDetailPane(
-            selectedId = selectedId,
-            onSelect = onSelect,
-        )
-    } else {
-        CatalogListPane(onSelect = onSelect)
+    MiuixPageLazyColumn(contentPadding = contentPadding) {
+        item {
+            if (isLG()) {
+                // 宽窗口同时展示列表与详情，避免不必要的页面跳转。
+                CatalogListDetailPane(
+                    selectedId = selectedId,
+                    onSelect = onSelect,
+                )
+            } else {
+                CatalogListPane(onSelect = onSelect)
+            }
+        }
     }
 }
 ```

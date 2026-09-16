@@ -1,11 +1,21 @@
 package com.joker.kit.feature.demo.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import top.yukonga.miuix.kmp.basic.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
+import top.yukonga.miuix.kmp.basic.BasicComponent
+import top.yukonga.miuix.kmp.basic.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
+import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.navigation.demo.DemoRoutes
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
@@ -38,16 +48,16 @@ internal fun NavigationWithArgsRoute(
  * @param goodsId 传入的商品 ID
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NavigationWithArgsScreen(
     goodsId: Long = 0,
 ) {
     AppScaffold(
-        titleText = "带参跳转",
-        onBackClick = { navigateBack() }
-    ) {
-        NavigationWithArgsContent(goodsId = goodsId)
+        titleText = stringResource(R.string.navigation_args_title),
+        onBackClick = { navigateBack() },
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
+        NavigationWithArgsContent(contentPadding = paddingValues, goodsId = goodsId)
     }
 }
 
@@ -58,8 +68,21 @@ internal fun NavigationWithArgsScreen(
  * @author Joker.X
  */
 @Composable
-private fun NavigationWithArgsContent(goodsId: Long) {
-    Text(text = "传递的商品ID：$goodsId")
+private fun NavigationWithArgsContent(contentPadding: PaddingValues, goodsId: Long) {
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+        pagePadding = PaddingValues(SpacePaddingLarge),
+    ) {
+        item {
+            Card(modifier = Modifier.fillMaxWidth()) {
+                BasicComponent(
+                    title = stringResource(R.string.navigation_goods_id),
+                    summary = goodsId.toString(),
+                )
+            }
+        }
+    }
 }
 
 /**

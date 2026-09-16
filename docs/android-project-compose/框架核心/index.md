@@ -20,7 +20,7 @@
 | --- | --- | --- |
 | `base/` | `BaseViewModel`、网络请求基类和 UI 状态 | [ViewModel 基类](./base.md) |
 | `annotation/` | 项目级通用注解；当前已实现 Compose 预览注解 | [注解](./annotation.md) |
-| `designsystem/` | Miuix Miuix 颜色、TextStyles、圆角、尺寸和布局封装 | [设计系统](./designsystem.md)、[主题系统](./theme.md) |
+| `designsystem/` | Miuix 颜色、TextStyles、圆角、尺寸和布局封装 | [Miuix Compose](./miuix.md)、[设计系统](./designsystem.md)、[主题系统](./theme.md) |
 | `ui/` | Scaffold、AppBar、网络容器、空态、加载态和窗口断点 | [UI 组件](./ui.md)、[屏幕适配](./screen-adaptation.md) |
 | `model/` | 网络响应、分页、请求、实体和通用 ID 模型 | [数据模型](./model.md) |
 | `result/` | Flow 结果转换、业务成功码和错误回调 | [请求结果处理](./result.md) |
@@ -58,7 +58,7 @@ BaseNetWorkListView → RefreshLayout → Compose 列表
 
 第一次阅读建议按下面顺序进行，不要直接跳到页面模板：
 
-1. [设计系统](./designsystem.md)和[主题系统](./theme.md)：先知道页面的颜色、文字、间距和基础布局从哪里来。
+1. [Miuix Compose](./miuix.md)、[设计系统](./designsystem.md)和[主题系统](./theme.md)：先了解组件库、页面颜色、文字、间距和基础布局。
 2. [UI 组件](./ui.md)：了解 `AppScaffold`、网络容器、空态和刷新组件。
 3. [注解](./annotation.md)和[屏幕适配](./screen-adaptation.md)：了解项目级注解边界，并学习当前已有的主题、多设备预览和窗口断点。
 4. [ViewModel 基类](./base.md)：理解页面状态由谁持有。

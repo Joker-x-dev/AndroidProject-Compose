@@ -1,0 +1,193 @@
+# PullToRefresh
+
+`PullToRefresh` 是 Miuix 中的下拉刷新组件，可为列表和其他可滚动内容提供刷新功能。它采用“状态提升”模式，提供了带动画的交互式刷新指示器，适用于需要刷新数据的各种场景。
+
+::: warning 注意
+此组件仅适用于支持触控的环境!
+:::
+
+如需示例，请查看 <a href="https://compose-miuix-ui.github.io/miuix-jsCanvas/" target="_blank">Miuix Example</a> 的 DropDowns 页。
+
+## 引入
+
+```kotlin
+import top.yukonga.miuix.kmp.basic.PullToRefresh
+import top.yukonga.miuix.kmp.basic.rememberPullToRefreshState
+```
+
+## 基本用法
+
+PullToRefresh 组件可以包裹任何可滚动的内容，采用“状态提升”模式：
+
+```kotlin
+var isRefreshing by rememberSaveable { mutableStateOf(false) }
+val pullToRefreshState = rememberPullToRefreshState()
+var items by remember { mutableStateOf(1) }
+
+LaunchedEffect(isRefreshing) {
+    if (isRefreshing) {
+        delay(500)
+        items += 6
+        isRefreshing = false
+    }
+}
+
+Surface {
+    PullToRefresh(
+        isRefreshing = isRefreshing,
+        onRefresh = { isRefreshing = true },
+        pullToRefreshState = pullToRefreshState,
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(items) { index ->
+                ArrowPreference(
+                    title = "Item $index",
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    onClick = { /* 点击事件 */ }
+                )
+            }
+        }
+    }
+}
+```
+
+::: tip `isRefreshing` 契约
+`isRefreshing` 是刷新操作的唯一事实来源，且为双向同步：在指示器空闲时将其置为 `true` 会程序化地展示刷新指示器（见下文），置回 `false` 则结束刷新。请在 `onRefresh` 中尽快将其置为 `true`——同步设置（如上例），或在 UI 作用域启动的协程中于首个挂起点之前设置。若指示器收回进入刷新状态时它仍为（或已重新变回）`false`，刷新会被视为已完成并立即播放完成动画；迟于此时到达的 `true` 会重新展示指示器。
+:::
+
+## 组件状态
+
+PullToRefresh 组件有以下几种状态：
+
+1. `Idle`：初始状态，无交互
+2. `Pulling`：用户正在下拉但尚未达到刷新阈值
+3. `ThresholdReached`：下拉达到阈值，松开可以刷新
+4. `Refreshing`：正在刷新
+5. `RefreshComplete`：刷新完成，正在回到初始状态
+
+## 属性
+
+### PullToRefresh 属性
+
+| 属性名                  | 类型                   | 说明                     | 默认值                                 | 是否必须 |
+| ----------------------- | ---------------------- | ------------------------ | -------------------------------------- | -------- |
+| isRefreshing            | Boolean                | 是否正在刷新             | 无                                     | 是       |
+| onRefresh               | () -> Unit             | 刷新触发时的回调函数     | 无                                     | 是       |
+| modifier                | Modifier               | 应用于容器的修饰符       | Modifier                               | 否       |
+| pullToRefreshState      | PullToRefreshState     | 下拉刷新状态控制器       | rememberPullToRefreshState()           | 否       |
+| contentPadding          | PaddingValues          | 内容区的内边距           | PaddingValues(0.dp)                    | 否       |
+| topAppBarScrollBehavior | ScrollBehavior         | 顶部应用栏滚动行为       | null                                   | 否       |
+| color                   | Color                  | 刷新指示器的颜色         | PullToRefreshDefaults.color            | 否       |
+| circleSize              | Dp                     | 刷新指示器圆圈的大小     | PullToRefreshDefaults.circleSize       | 否       |
+| refreshTexts            | List\<String>          | 不同状态下显示的文本列表 | PullToRefreshDefaults.refreshTexts     | 否       |
+| refreshTextStyle        | TextStyle              | 刷新文本的样式           | PullToRefreshDefaults.refreshTextStyle | 否       |
+| onPullProgress          | ((Float) -> Unit)?     | 实时全范围下拉进度（0-1）回调 | null                         | 否       |
+| content                 | @Composable () -> Unit | 可滚动内容的可组合函数   | 无                                     | 是       |
+
+### PullToRefreshState 类
+
+PullToRefreshState 用于管理刷新指示器的 UI 状态，可通过 `rememberPullToRefreshState()` 创建。
+
+`rememberPullToRefreshState()` 接受可选参数 `refreshThreshold`，用于自定义触发刷新的下拉进度百分比：
+
+| 参数             | 类型  | 说明                                                           | 默认值 |
+| ---------------- | ----- | -------------------------------------------------------------- | ------ |
+| refreshThreshold | Float | 下拉进度阈值 (0.0~1.0)。0.25 表示全范围下拉的 25%。0.0 任意下拉即触发；1.0 需拉到最大距离。 | 0.25 |
+
+| 属性名                      | 类型         | 说明                                 |
+| --------------------------- | ------------ | ------------------------------------ |
+| refreshState                | RefreshState | 当前刷新状态                         |
+| pullProgress                | Float        | 相对于有效触发阈值的下拉进度（0-1）   |
+| fullDragProgress            | Float        | 全范围下拉进度（0-1）                 |
+| visualProgress              | Float        | 指示器圆圈的可视缩放进度（0-1）       |
+
+> 注意：PullToRefreshState 仅用于 UI 状态管理，刷新逻辑应通过 `isRefreshing` 和 `onRefresh` 控制。
+
+### PullToRefreshDefaults 对象
+
+PullToRefreshDefaults 提供下拉刷新组件的默认值。
+
+| 属性名           | 类型          | 说明                 | 默认值                                                                                    |
+| ---------------- | ------------- | -------------------- | ----------------------------------------------------------------------------------------- |
+| color            | Color         | 刷新指示器的默认颜色 | Color.Gray                                                                                |
+| circleSize       | Dp            | 指示器圆圈的默认大小 | 20.dp                                                                                     |
+| refreshTexts     | List\<String> | 默认的刷新文本列表   | ["Pull down to refresh", "Release to refresh", "Refreshing...", "Refreshed successfully"] |
+| refreshTextStyle | TextStyle     | 默认的文本样式       | TextStyle(fontSize = 14.sp, fontWeight = Bold, color = color)                             |
+
+## 进阶用法
+
+### 程序化刷新
+
+在指示器空闲时将 `isRefreshing` 置为 `true`，无需手势即可展示刷新指示器——例如进入页面时自动刷新：
+
+```kotlin
+LaunchedEffect(Unit) {
+    isRefreshing = true // 指示器展开并旋转，直到置回 false
+}
+```
+
+注意：指示器展示期间内容的嵌套滚动会被消费，与手势触发的刷新行为一致。
+
+### 自定义刷新指示器颜色
+
+```kotlin
+PullToRefresh(
+    color = Color.Blue,
+    isRefreshing = isRefreshing,
+    onRefresh = { isRefreshing = true },
+    pullToRefreshState = pullToRefreshState
+) {
+    // 内容
+}
+```
+
+### 自定义刷新文本
+
+```kotlin
+PullToRefresh(
+    isRefreshing = isRefreshing,
+    onRefresh = { isRefreshing = true },
+    pullToRefreshState = pullToRefreshState,
+    refreshTexts = listOf(
+        "下拉刷新",
+        "松开刷新",
+        "正在刷新",
+        "刷新成功"
+    )
+) {
+    // 内容
+}
+```
+
+### 自定义刷新阈值
+
+```kotlin
+val pullToRefreshState = rememberPullToRefreshState(
+    refreshThreshold = 0.5f // 全范围下拉的 50%
+)
+
+PullToRefresh(
+    isRefreshing = isRefreshing,
+    onRefresh = { isRefreshing = true },
+    pullToRefreshState = pullToRefreshState,
+) {
+    // 内容
+}
+```
+
+### 实时下拉进度回调
+
+```kotlin
+PullToRefresh(
+    isRefreshing = isRefreshing,
+    onRefresh = { isRefreshing = true },
+    pullToRefreshState = pullToRefreshState,
+    onPullProgress = { progress ->
+        // 实时响应全范围下拉进度（0.0 到 1.0）
+    },
+) {
+    // 内容
+}
+```

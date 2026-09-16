@@ -13,7 +13,7 @@
 | 开发任务 | 建议阅读顺序 |
 | --- | --- |
 | 初次运行项目 | [快速开始](简介/quick-start.md) → [环境要求](简介/environment.md) → [工程组织与模块边界](简介/modularization.md) → [项目架构与职责](简介/architecture.md) |
-| 编写主题与通用 UI | [设计系统](框架核心/designsystem.md) → [主题系统](框架核心/theme.md) → [UI 组件](框架核心/ui.md) |
+| 编写主题与通用 UI | [Miuix Compose](框架核心/miuix.md) → [设计系统](框架核心/designsystem.md) → [主题系统](框架核心/theme.md) → [UI 组件](框架核心/ui.md) |
 | 编写 Route、Screen 与 Content | [Feature 概览](业务功能/index.md) → [View 规范](业务功能/view.md) → [ViewModel 规范](业务功能/viewmodel.md) |
 | 接入接口或分页列表 | [数据模型](框架核心/model.md) → [请求结果处理](框架核心/result.md) → [网络请求](框架核心/network.md) → [数据层](框架核心/data.md) → [非分页网络基类](框架核心/network-base.md)或[分页列表](框架核心/pagination.md) |
 | 使用数据库、本地存储或全局状态 | [数据层](框架核心/data.md) → [Room 数据库](框架核心/database.md)、[本地存储](框架核心/datastore.md)或[全局状态](框架核心/state.md) |
@@ -35,6 +35,7 @@
 ## Core / 框架核心
 
 - [Core 核心能力](框架核心/index.md)
+- [Miuix Compose](框架核心/miuix.md)
 - [设计系统](框架核心/designsystem.md)
 - [主题系统](框架核心/theme.md)
 - [UI 组件](框架核心/ui.md)

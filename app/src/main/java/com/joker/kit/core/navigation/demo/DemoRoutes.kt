@@ -83,4 +83,20 @@ object DemoRoutes {
      */
     @Serializable
     data object ScreenAdaptDemo : NavKey
+
+    /**
+     * 全局 Snackbar 示例页路由
+     *
+     * @author Joker.X
+     */
+    @Serializable
+    data object SnackbarDemo : NavKey
+
+    /**
+     * 全局 Dialog 示例页路由
+     *
+     * @author Joker.X
+     */
+    @Serializable
+    data object DialogDemo : NavKey
 }

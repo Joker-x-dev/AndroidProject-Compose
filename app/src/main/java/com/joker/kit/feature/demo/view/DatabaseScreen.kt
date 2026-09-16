@@ -1,27 +1,24 @@
 package com.joker.kit.feature.demo.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import com.joker.kit.core.designsystem.theme.AppColors
 import com.joker.kit.core.designsystem.theme.AppTextStyles
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.OutlinedTextField
 import top.yukonga.miuix.kmp.basic.Text
-import top.yukonga.miuix.kmp.basic.HorizontalDivider
-import androidx.compose.material3.TextButton
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.Card
+import top.yukonga.miuix.kmp.basic.Button
+import top.yukonga.miuix.kmp.basic.TextField
+import top.yukonga.miuix.kmp.basic.BasicComponent
+import top.yukonga.miuix.kmp.basic.SmallTitle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,21 +26,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import com.joker.kit.core.annotation.ScreenPreview
+import com.joker.kit.core.annotation.ScreenPreviewDark
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.database.entity.DemoEntity
+import com.joker.kit.core.designsystem.component.AppColumn
+import com.joker.kit.core.designsystem.component.AppRow
 import com.joker.kit.core.designsystem.component.CenterColumn
+import com.joker.kit.core.designsystem.component.SpaceVerticalMedium
 import com.joker.kit.core.designsystem.theme.AppTheme
-import com.joker.kit.core.designsystem.theme.ShapeMedium
+import com.joker.kit.core.designsystem.theme.RadiusMedium
+import com.joker.kit.core.designsystem.theme.SpaceHorizontalMedium
 import com.joker.kit.core.designsystem.theme.SpaceHorizontalSmall
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
-import com.joker.kit.core.designsystem.theme.SpacePaddingMedium
-import com.joker.kit.core.designsystem.theme.SpaceVerticalLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
-import com.joker.kit.core.designsystem.theme.SpaceVerticalSmall
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import com.joker.kit.feature.demo.viewmodel.DatabaseViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -91,7 +90,6 @@ internal fun DatabaseRoute(
  * @param onClearAll 清空所有记录
  * @author Joker.X
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DatabaseScreen(
     title: String = "",
@@ -104,10 +102,12 @@ internal fun DatabaseScreen(
     onClearAll: () -> Unit = {},
 ) {
     AppScaffold(
-        titleText = "数据库",
-        onBackClick = { navigateBack() }
-    ) {
+        titleText = stringResource(R.string.database_title),
+        onBackClick = { navigateBack() },
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
         DatabaseContent(
+            contentPadding = paddingValues,
             title = title,
             description = description,
             items = items,
@@ -123,6 +123,7 @@ internal fun DatabaseScreen(
 /**
  * 数据库页面内容
  *
+ * @param contentPadding 页面脚手架提供的系统栏和顶部栏边距
  * @param title 标题输入
  * @param description 描述输入
  * @param items Demo 列表数据
@@ -135,6 +136,7 @@ internal fun DatabaseScreen(
  */
 @Composable
 private fun DatabaseContent(
+    contentPadding: PaddingValues,
     title: String,
     description: String,
     items: List<DemoEntity>,
@@ -144,26 +146,45 @@ private fun DatabaseContent(
     onDeleteItem: (Long) -> Unit,
     onClearAll: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(SpacePaddingMedium),
-        verticalArrangement = Arrangement.spacedBy(SpaceVerticalLarge)
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+        pagePadding = PaddingValues(
+            top = SpacePaddingLarge,
+            bottom = SpacePaddingLarge,
+        ),
     ) {
-        InputCard(
-            title = title,
-            description = description,
-            onTitleChange = onTitleChange,
-            onDescriptionChange = onDescriptionChange,
-            onAddClick = onAddClick,
-            onClearAll = onClearAll,
-            canClear = items.isNotEmpty()
-        )
-
-        DemoListCard(
-            items = items,
-            onDeleteItem = onDeleteItem
-        )
+        item(key = "database-input") {
+            InputCard(
+                title = title,
+                description = description,
+                onTitleChange = onTitleChange,
+                onDescriptionChange = onDescriptionChange,
+                onAddClick = onAddClick,
+                onClearAll = onClearAll,
+                canClear = items.isNotEmpty(),
+            )
+        }
+        item {
+            SpaceVerticalMedium()
+        }
+        item(key = "database-list-title") {
+            SmallTitle(
+                text = stringResource(R.string.database_count_format, items.size),
+            )
+        }
+        if (items.isEmpty()) {
+            item(key = "database-empty") {
+                EmptyDatabaseCard()
+            }
+        } else {
+            items(items, key = { it.id }) { item ->
+                DemoListItem(
+                    item = item,
+                    onDeleteItem = onDeleteItem,
+                )
+            }
+        }
     }
 }
 
@@ -189,108 +210,76 @@ private fun InputCard(
     onClearAll: () -> Unit,
     canClear: Boolean
 ) {
-    Card {
-        Column(
+    Card(
+        modifier = Modifier.padding(horizontal = SpaceHorizontalMedium),
+    ) {
+        AppColumn(
             modifier = Modifier.padding(SpacePaddingLarge),
             verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
         ) {
             Text(
-                text = "用 DemoRepository 做增删改查",
+                text = stringResource(R.string.database_crud_title),
                 style = AppTextStyles.headline2
             )
             Text(
-                text = "输入标题即可新增一条记录，描述可选；列表来自 DemoRepository.observeItems() 的 Flow。",
+                text = stringResource(R.string.database_crud_description),
                 color = AppColors.onSurfaceContainerVariant,
                 style = AppTextStyles.body2
             )
 
-            OutlinedTextField(
+            TextField(
                 value = title,
                 onValueChange = onTitleChange,
-                label = { Text("标题（必填）") },
+                label = stringResource(R.string.database_title_required),
                 singleLine = true,
-                shape = ShapeMedium,
+                cornerRadius = RadiusMedium,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            OutlinedTextField(
+            TextField(
                 value = description,
                 onValueChange = onDescriptionChange,
-                label = { Text("描述（可选）") },
-                shape = ShapeMedium,
+                label = stringResource(R.string.database_description_optional),
+                cornerRadius = RadiusMedium,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Row(
+            AppRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(SpaceHorizontalSmall, Alignment.End),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                TextButton(
-                    onClick = onClearAll,
-                    enabled = canClear
-                ) {
-                    Text("清空全部")
-                }
+                TextButton(text = stringResource(R.string.database_clear_all), onClick = onClearAll, enabled = canClear)
                 Button(
                     onClick = onAddClick,
                     enabled = title.isNotBlank()
                 ) {
-                    Text("新增记录")
+                    Text(stringResource(R.string.database_add))
                 }
             }
         }
     }
 }
 
-/**
- * Demo 列表卡片
- *
- * @param items Demo 数据列表
- * @param onDeleteItem 删除单条记录回调
- * @author Joker.X
- */
+/** 空数据库状态卡片。 */
 @Composable
-private fun DemoListCard(
-    items: List<DemoEntity>,
-    onDeleteItem: (Long) -> Unit
-) {
-    Card {
-        Text(
-            text = "Demo 表当前 ${items.size} 条",
-            style = AppTextStyles.headline2,
-            modifier = Modifier.padding(
-                horizontal = SpacePaddingLarge,
-                vertical = SpacePaddingMedium
+private fun EmptyDatabaseCard() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = SpaceHorizontalMedium),
+    ) {
+        CenterColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(SpacePaddingLarge),
+        ) {
+            Text(
+                text = stringResource(R.string.database_empty),
+                color = AppColors.onSurfaceSecondary,
             )
-        )
-
-        HorizontalDivider()
-
-        if (items.isEmpty()) {
-            CenterColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(SpacePaddingLarge),
-            ) {
-                Text(text = "列表为空，先添加一条吧", color = AppColors.onSurfaceSecondary)
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(SpacePaddingMedium),
-                verticalArrangement = Arrangement.spacedBy(SpaceVerticalSmall)
-            ) {
-                items(items, key = { it.id }) { item ->
-                    DemoListItem(
-                        item = item,
-                        onDeleteItem = onDeleteItem
-                    )
-                }
-                item { Spacer(modifier = Modifier.height(SpaceVerticalLarge)) }
-            }
         }
     }
 }
@@ -312,32 +301,19 @@ private fun DemoListItem(
         SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(Date(item.updatedAt))
     }
 
-    ListItem(
-        headlineContent = {
-            Text(
-                text = item.title.ifBlank { "未命名记录" },
-                style = AppTextStyles.headline2,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        supportingContent = {
-            // 空描述对应的默认展示文案
-            val desc = item.description.ifBlank { "暂无描述" }
-            Text(
-                text = "$desc · 更新于 $formattedTime",
-                color = AppColors.onSurfaceSecondary,
-                style = AppTextStyles.body2,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        trailingContent = {
-            TextButton(onClick = { onDeleteItem(item.id) }) {
-                Text("删除")
-            }
-        }
-    )
+    val desc = item.description.ifBlank { stringResource(R.string.database_no_description) }
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = SpaceHorizontalMedium),
+    ) {
+        BasicComponent(
+            title = item.title.ifBlank { stringResource(R.string.database_unnamed_record) },
+            summary = stringResource(R.string.database_updated_format, desc, formattedTime),
+            endActions = { TextButton(text = stringResource(R.string.database_delete), onClick = { onDeleteItem(item.id) }) },
+            onClick = null,
+        )
+    }
 }
 
 /**
@@ -345,7 +321,7 @@ private fun DemoListItem(
  *
  * @author Joker.X
  */
-@Preview(showBackground = true)
+@ScreenPreview
 @Composable
 private fun DatabasePreview() {
     AppTheme {
@@ -362,7 +338,7 @@ private fun DatabasePreview() {
  *
  * @author Joker.X
  */
-@Preview(showBackground = true)
+@ScreenPreviewDark
 @Composable
 private fun DatabasePreviewDark() {
     AppTheme(darkTheme = true) {

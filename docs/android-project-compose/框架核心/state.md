@@ -2,7 +2,7 @@
 
 ## 介绍
 
-`core/state` 存放需要跨页面共享的应用级状态。当前包含用户状态持有者 `UserState` 和计数示例 `DemoCounterState`：前者集中维护登录标记、用户 ID、认证信息和用户资料，后者只维护 Demo 计数。页面局部状态仍应保留在 Feature ViewModel 中。
+`core/state` 存放需要跨页面共享的应用级状态。当前包含用户状态持有者 `UserState`、计数示例 `DemoCounterState`、全局提示入口 `AppSnackbar` 和全局对话框状态 `AppDialogState`。页面局部状态仍应保留在 Feature ViewModel 中。
 
 全局状态解决的是“多个页面需要观察同一份数据”，不是“任何状态都放到单例”。搜索文本、弹窗开关和一次性加载状态仍应放在对应 ViewModel；只有跨页面且需要应用进程内共享的数据才进入 `core/state`。
 
@@ -140,6 +140,44 @@ internal fun NavigationRoute(
 - 应用级状态使用 `Dispatchers.Default`；具体网络与数据库线程切换仍由 Repository 或 DataSource 负责。
 - `refreshUserInfo()` 只在当前 `isLoggedIn` 为 `true` 时发起请求；网络失败由 `ResultHandler` 记录和提示，旧的 `userInfo` 不会因为失败自动清空。
 - `initialize()` 是异步且无返回值的启动操作；需要等待初始化完成的页面应观察 `isLoggedIn`、`auth` 和 `userInfo` 的变化，不要假设调用后立即完成。
+
+## AppSnackbar 与 AppDialogState
+
+`AppSnackbar` 提供非挂起、非阻塞的全局提示入口，任意线程与任意业务层均可调用：
+
+```kotlin
+AppSnackbar.show("操作成功")
+AppSnackbar.show(
+    message = "删除完成",
+    actionLabel = "撤销",
+    onAction = { restore() },
+)
+```
+
+`Application.onCreate()` 通过 `AppSnackbar.initialize(this)` 绑定应用上下文，用于解析字符串资源；消息由 `MainActivity` 中的 `AppSnackbarHost` 统一展示。宿主不存在时消息丢弃，不会阻塞调用线程。
+
+`AppDialogState` 基于 Miuix Dialog 封装，参数命名与 Miuix 保持一致，以 `StateFlow` 驱动全局对话框，任意业务层一行代码即可触发，页面无需声明任何弹窗状态：
+
+```kotlin
+// 确认框
+AppDialogState.confirm(
+    title = "确认退出",
+    summary = "确定要退出登录吗？",
+    onConfirm = { logout() },
+)
+
+// 自定义内容与按钮的对话框
+AppDialogState.show(
+    title = "Dialog",
+    summary = "点击按钮关闭对话框。",
+    actions = listOf(
+        AppDialogAction(text = "取消", onClick = { AppDialogState.hide() }),
+        AppDialogAction(text = "确定", onClick = { AppDialogState.hide() }, isPrimary = true),
+    ),
+)
+```
+
+`confirm` 的 `onCancel` 为 `null` 时只展示确定按钮；`confirmText`、`cancelText` 与 `confirmColor` 可覆盖按钮文案和颜色。`show` 支持 `actions` 自定义按钮、`maxWidth` 控制宽度、`wide` 在横屏时切换为标题摘要与按钮的双列布局、`largeScreen` 强制居中呈现。`dismissOnClickOutside` 控制点击遮罩或返回键是否关闭。Dialog 组件位于 `core/ui/component/dialog`，本状态对象只维护配置，不直接渲染界面。
 
 ## DemoCounterState
 

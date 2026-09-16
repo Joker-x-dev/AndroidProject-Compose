@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -43,6 +44,8 @@ fun BaseNetWorkListView(
 ) {
     Box(
         modifier = modifier
+            // 统一网络列表状态容器的页面尺寸约束。
+            .fillMaxSize()
             .padding(padding)
     ) {
         AnimatedContent(

@@ -39,6 +39,9 @@ interface NavigationResultKey<T> {
      *
      * 默认实现为透传（即直接存储原始对象），适用于 Boolean、Int、String 等基础类型。
      * 复杂类型可以在具体的 Key 中重写此方法，例如序列化为 JSON 字符串。
+     *
+     * @param value 待序列化的结果对象
+     * @return 可在导航结果流中传递的底层值
      */
     fun serialize(value: T): Any = value as Any
 
@@ -46,6 +49,9 @@ interface NavigationResultKey<T> {
      * 从结果分发流中还原结果对象。
      *
      * 默认实现为简单强转，复杂类型的 Key 需要重写以配合 [serialize]。
+     *
+     * @param raw 结果流中的底层值
+     * @return 还原后的结果对象
      */
     fun deserialize(raw: Any): T = raw as T
 }

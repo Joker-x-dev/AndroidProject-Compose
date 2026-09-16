@@ -2,7 +2,7 @@
 
 ## 介绍
 
-`core/util` 存放与页面无关的轻量工具：Toast、权限、底层 MMKV 封装、应用包信息和时间计算。工具类不承载页面状态；需要在启动阶段准备的能力由 `Application.kt` 初始化。
+`core/util` 存放与页面无关的轻量工具：权限、底层 MMKV 封装、应用包信息和时间计算。工具类不承载页面状态；需要在启动阶段准备的能力由 `Application.kt` 初始化。全局提示与确认框由 `core/state` 和 `core/ui/component` 承载。
 
 工具类适合无业务归属、输入输出明确的重复操作。需要 Repository、页面生命周期或多步业务状态的逻辑不应塞进 `core/util`。
 
@@ -10,7 +10,6 @@
 
 | 文件 | 主要入口 | 依赖/边界 |
 | --- | --- | --- |
-| `toast/ToastUtils.kt` | `init`、`show`、`showSuccess`、`showError`、`showWarning` | Toaster；需在 Application 初始化 |
 | `permission/PermissionUtils.kt` | `request*Permission`、`hasPermission`、`openPermissionSettings` | XXPermissions；需要 Activity 或可解析到 Activity 的 Context |
 | `storage/MMKVUtils.kt` | `init`、`getInstance`、`put*`、`get*` | Tencent MMKV；使用前必须初始化 |
 | `package/PackageUtils.kt` | `getCurrentAppName`、版本信息、签名和安装状态 | Android PackageManager |
@@ -18,14 +17,14 @@
 
 ## 初始化边界
 
-`Application.onCreate()` 当前按顺序初始化 Toast、Timber、MMKV 和 UltraSwipeRefresh，然后初始化依赖 MMKV 的 `UserState`。工具页只说明入口归属，不重复各能力的初始化教程：
+`Application.onCreate()` 当前按顺序初始化全局 Snackbar 上下文、Timber、MMKV 和依赖应用设置的通用能力，然后初始化依赖 MMKV 的 `UserState`。Miuix `PullToRefresh` 在 `RefreshLayout` 内按页面状态使用，不需要单独初始化。工具页只说明入口归属，不重复各能力的初始化教程：
 
 | 能力 | 初始化入口 | 详细说明 |
 | --- | --- | --- |
-| Toast | `Application.initToast()` | 本页的 Toast 工具清单 |
+| 全局提示 | `AppSnackbar.initialize(this)` | [全局状态](./state.md) 与 MainActivity 中的 `AppSnackbarHost` |
 | Timber | `Application.initLog()` | Debug 构建种植 `DebugTree` |
 | MMKV | `Application.initMMKV()` | [本地存储](./datastore.md#初始化顺序) |
-| 刷新组件 | `Application.initRefresh()` | [UI 组件](./ui.md#刷新和加载更多) |
+| 刷新组件 | `RefreshLayout` / Miuix `PullToRefresh` | [分页列表](./pagination.md#refreshlayout-行为) |
 | 用户状态 | `userState.initialize()` | [全局状态](./state.md#userstate-初始化与写入) |
 
 不要另建第二个 `Application` 类。新增必须全局初始化的工具时，接入现有入口并确认初始化顺序；领域存储、页面刷新和全局状态的完整行为由对应章节负责。
@@ -64,7 +63,7 @@ fun requestNotification(context: Context) {
 private fun startNotificationWork() = Unit
 ```
 
-传入的 `Context` 必须是 Activity，或能够通过 `ContextWrapper` 解析到 Activity。解析失败时工具会显示错误 Toast、回调 `false` 并停止申请。永久拒绝时工具会打开权限设置页；普通拒绝只提示失败。
+传入的 `Context` 必须是 Activity，或能够通过 `ContextWrapper` 解析到 Activity。解析失败时工具会显示错误提示、回调 `false` 并停止申请。永久拒绝时工具会打开权限设置页；普通拒绝只提示失败。
 
 ## 包信息与时间工具
 
@@ -100,7 +99,7 @@ fun startupInfo(context: Context, startTime: Long): Pair<String, Long> {
 
 | 需求 | 使用入口 | 失败时 |
 | --- | --- | --- |
-| 显示短暂操作反馈 | `ToastUtils.show*` | 先确认 Application 已初始化 Toaster |
+| 显示短暂操作反馈 | `AppSnackbar.show*` | 交由 MainActivity 全局宿主展示，无宿主时消息丢弃 |
 | 请求运行时权限 | `PermissionUtils.request*` | 回调 `false`，不要继续受保护操作 |
 | 保存小型键值或序列化对象 | 对应 Store Repository；底层才使用 `MMKVUtils` | 未初始化会抛异常，解析失败返回空值 |
 | 读取版本与签名 | `PackageUtils` | 处理空字符串、`0L` 或 `null` |
@@ -118,7 +117,6 @@ fun startupInfo(context: Context, startTime: Long): Pair<String, Long> {
 
 ## 相关链接
 
-- [Toaster](https://github.com/getActivity/Toaster)
 - [XXPermissions](https://github.com/getActivity/XXPermissions)
 - [MMKV](https://github.com/Tencent/MMKV)
 - [Android 权限请求](https://developer.android.com/training/permissions/requesting)

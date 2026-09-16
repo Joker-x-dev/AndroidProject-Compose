@@ -13,7 +13,7 @@ AndroidProject-Compose 在单个 `:app` 模块内组织应用入口、Feature UI
 - **UI 单向传递**：Route 获取 ViewModel 和状态，Screen 处理外层框架与页面状态，Content 绘制最终业务布局。
 - **数据入口统一**：ViewModel 调用 Repository，Repository 再访问网络、数据库或本地存储数据源。
 - **导航集中组装**：应用宿主统一维护回退栈、动画、页面状态和模块 Graph。
-- **全局能力集中初始化**：Hilt、日志、存储、Toast、刷新配置和用户状态由 `Application` 管理。
+- **全局能力集中初始化**：Hilt、日志、存储、Toast 和用户状态由 `Application` 管理；Miuix 刷新状态由页面 `RefreshLayout` 管理。
 
 ## 整体链路
 
@@ -39,7 +39,7 @@ flowchart TD
 
 | 顺序 | 文件 | 职责 |
 | --- | --- | --- |
-| 1 | `Application.kt` | 初始化 Toast、Timber、MMKV、刷新组件和 `UserState`。 |
+| 1 | `Application.kt` | 初始化 Toast、Timber、MMKV 和 `UserState`；页面刷新状态由 `RefreshLayout` 管理。 |
 | 2 | `MainActivity.kt` | 安装启动页、启用 edge-to-edge，并创建 Compose 内容。 |
 | 3 | `core/navigation/AppNavHost.kt` | 创建以 `MainRoutes.Main` 开始的回退栈，绑定导航控制器。 |
 | 4 | `AppNavHost.kt` 的 `appEntryProvider` | 聚合 `mainGraph`、`demoGraph`、`authGraph` 与 `userGraph`。 |

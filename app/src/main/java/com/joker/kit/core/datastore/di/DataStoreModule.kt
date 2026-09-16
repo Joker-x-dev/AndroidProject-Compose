@@ -2,6 +2,8 @@ package com.joker.kit.core.datastore.di
 
 import com.joker.kit.core.datastore.datasource.auth.AuthStoreDataSource
 import com.joker.kit.core.datastore.datasource.auth.AuthStoreDataSourceImpl
+import com.joker.kit.core.datastore.datasource.settings.AppSettingsStoreDataSource
+import com.joker.kit.core.datastore.datasource.settings.AppSettingsStoreDataSourceImpl
 import com.joker.kit.core.datastore.datasource.userinfo.UserInfoStoreDataSource
 import com.joker.kit.core.datastore.datasource.userinfo.UserInfoStoreDataSourceImpl
 import dagger.Binds
@@ -19,6 +21,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataStoreModule {
+
+    /**
+     * 绑定应用设置数据源
+     *
+     * @param impl 应用设置数据源实现
+     * @return 应用设置数据源
+     */
+    @Binds
+    @Singleton
+    abstract fun bindAppSettingsStoreDataSource(
+        impl: AppSettingsStoreDataSourceImpl,
+    ): AppSettingsStoreDataSource
 
     /**
      * 提供认证数据源接口实现
@@ -45,4 +59,4 @@ abstract class DataStoreModule {
     abstract fun bindUserInfoStoreDataSource(
         impl: UserInfoStoreDataSourceImpl
     ): UserInfoStoreDataSource
-} 
+}

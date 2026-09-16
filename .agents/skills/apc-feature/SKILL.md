@@ -29,7 +29,7 @@ description: 创建、修改和重构 AndroidProject-Compose 业务功能域与 
 - 分页列表页：`feature/demo/view/NetworkListDemoScreen.kt`、`feature/demo/viewmodel/NetworkListDemoViewModel.kt`。
 - 顶级容器：`feature/main/view/MainScreen.kt`，只用于理解无 `Scaffold` 的特例，不把它复制到普通页面。
 - 页面注册：目标功能域的 `*Graph.kt`、`core/navigation/<domain>/*Routes.kt` 与 `*Navigator.kt`。
-- 页面布局：先扫描 `core/designsystem/theme/Color.kt`、`Size.kt`、`Shape.kt`、`Type.kt` 和 `core/designsystem/component/` 的真实声明，再完整读取准备使用的布局封装与 `core/ui` 组件。
+- 页面布局：先扫描 `core/designsystem/theme/Color.kt`、`Size.kt`、`Shape.kt`、`TextStyles.kt` 和 `core/designsystem/component/` 的真实声明，再完整读取准备使用的 Miuix、布局封装与 `core/ui` 组件。
 
 相邻页面和 Demo 只用于确认当前调用链，不自动视为规范模板。复制前必须按本 Skill 与 `apc-ui` 的固定规则检查其分层、设计令牌、布局封装和注释；已有页面不合规时不能继续传播。
 

@@ -1,48 +1,61 @@
 package com.joker.kit.feature.main.view
 
+import androidx.compose.ui.res.stringResource
+import com.joker.kit.R
+
 import top.yukonga.miuix.kmp.basic.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.joker.kit.core.annotation.ScreenPreview
+import com.joker.kit.core.annotation.ScreenPreviewDark
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.designsystem.theme.SpacePaddingLarge
 import com.joker.kit.core.designsystem.theme.SpaceVerticalMedium
 import com.joker.kit.feature.main.component.DemoCard
+import com.joker.kit.feature.main.component.mainPageContentPadding
+import com.joker.kit.core.ui.component.scaffold.AppScaffold
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import com.joker.kit.feature.main.data.DemoCardData
 import com.joker.kit.feature.main.model.DemoCardInfo
 import com.joker.kit.feature.main.viewmodel.CoreViewModel
+import top.yukonga.miuix.kmp.basic.Card
 
 /**
  * Core 页面路由
  *
+ * @param bottomInnerPadding 主页面底部导航栏占用高度
  * @param viewModel Core 页面 ViewModel
  * @author Joker.X
  */
 @Composable
 internal fun CoreRoute(
+    bottomInnerPadding: Dp = 0.dp,
     viewModel: CoreViewModel = hiltViewModel()
 ) {
-    // 收集 Demo 卡片列表
+    // 收集 Core 页面 Demo 卡片列表。
     val cards by viewModel.cards.collectAsState()
-    // 收集全局计数器状态
+    // 收集全局计数器状态。
     val count by viewModel.count.collectAsState()
 
     CoreScreen(
         cards = cards,
+        bottomInnerPadding = bottomInnerPadding,
         counter = count,
         onCardClick = viewModel::onCardClick
     )
@@ -51,6 +64,7 @@ internal fun CoreRoute(
 /**
  * Core 页面
  *
+ * @param bottomInnerPadding 主页面底部导航栏占用高度
  * @param cards Demo 卡片列表
  * @param counter 全局计数器值，大于 0 时在列表顶部展示
  * @param onCardClick 卡片点击回调
@@ -58,15 +72,25 @@ internal fun CoreRoute(
  */
 @Composable
 internal fun CoreScreen(
+    bottomInnerPadding: Dp = 0.dp,
     cards: List<DemoCardInfo> = emptyList(),
     counter: Int = 0,
     onCardClick: (DemoCardInfo) -> Unit = {}
 ) {
-    CoreContent(
-        cards = cards,
-        counter = counter,
-        onCardClick = onCardClick
-    )
+    AppScaffold(
+        titleText = stringResource(R.string.nav_core),
+        showBackIcon = false,
+        contentWindowInsets = WindowInsets.systemBars.union(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal),
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
+        CoreContent(
+            cards = cards,
+            counter = counter,
+            onCardClick = onCardClick,
+            contentPadding = paddingValues,
+            bottomInnerPadding = bottomInnerPadding,
+        )
+    }
 }
 
 /**
@@ -75,19 +99,21 @@ internal fun CoreScreen(
  * @param cards Demo 卡片列表
  * @param counter 全局计数器值，大于 0 时在列表顶部展示
  * @param onCardClick 卡片点击回调
+ * @param contentPadding 页面 Scaffold 内容边距
+ * @param bottomInnerPadding 主页面底部导航栏占用高度
  * @author Joker.X
  */
 @Composable
 private fun CoreContent(
     cards: List<DemoCardInfo>,
     counter: Int,
-    onCardClick: (DemoCardInfo) -> Unit
+    onCardClick: (DemoCardInfo) -> Unit,
+    contentPadding: PaddingValues,
+    bottomInnerPadding: Dp,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding(),
-        contentPadding = PaddingValues(SpacePaddingLarge),
+    MiuixPageLazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = mainPageContentPadding(contentPadding, bottomInnerPadding),
         verticalArrangement = Arrangement.spacedBy(SpaceVerticalMedium)
     ) {
         // 大于 0 才展示计数器
@@ -97,11 +123,12 @@ private fun CoreContent(
             }
         }
 
-        itemsIndexed(cards) { _, info ->
-            DemoCard(
-                info = info,
-                onClick = { onCardClick(info) }
-            )
+        item(key = "core-cards") {
+            Card {
+                cards.forEach { info ->
+                    DemoCard(info = info, onClick = { onCardClick(info) })
+                }
+            }
         }
     }
 }
@@ -117,7 +144,7 @@ private fun CounterBanner(counter: Int) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier.padding(SpacePaddingLarge),
-            text = "全局计数器：$counter",
+            text = stringResource(R.string.core_counter_format, counter),
         )
     }
 }
@@ -127,13 +154,11 @@ private fun CounterBanner(counter: Int) {
  *
  * @author Joker.X
  */
-@Preview(showBackground = true)
+@ScreenPreview
 @Composable
 private fun CorePreview() {
     AppTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            CoreScreen(cards = DemoCardData.coreCards, counter = 3)
-        }
+        CoreScreen(cards = DemoCardData.coreCards, counter = 3)
     }
 }
 
@@ -142,12 +167,10 @@ private fun CorePreview() {
  *
  * @author Joker.X
  */
-@Preview(showBackground = true)
+@ScreenPreviewDark
 @Composable
 private fun CorePreviewDark() {
     AppTheme(darkTheme = true) {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            CoreScreen(cards = DemoCardData.coreCards, counter = 3)
-        }
+        CoreScreen(cards = DemoCardData.coreCards, counter = 3)
     }
 }

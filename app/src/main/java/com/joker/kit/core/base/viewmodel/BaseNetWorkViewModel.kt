@@ -32,7 +32,7 @@ abstract class BaseNetWorkViewModel<T> : BaseViewModel() {
      * 刷新结果监听任务
      *
      * 用于保证只注册一次刷新结果监听，避免重复 collect 导致重复请求。
-     * 当该任务不为 null 时，表示当前 ViewModel 已经建立监听。
+     * 任务不为 null 时表示 ViewModel 持有刷新结果监听。
      */
     private var refreshObserveJob: Job? = null
 
@@ -96,7 +96,9 @@ abstract class BaseNetWorkViewModel<T> : BaseViewModel() {
     }
 
     /**
-     * 处理成功结果，子类可重写此方法自定义处理逻辑
+     * 处理成功结果，子类可重写此方法自定义处理逻辑。
+     *
+     * @param data 请求返回的数据
      */
     protected open fun onRequestSuccess(data: T) {
         if (enableMinLoadingTime) {
@@ -119,7 +121,10 @@ abstract class BaseNetWorkViewModel<T> : BaseViewModel() {
     }
 
     /**
-     * 处理错误结果，子类可重写此方法自定义处理逻辑
+     * 处理错误结果，子类可重写此方法自定义处理逻辑。
+     *
+     * @param message 错误信息
+     * @param exception 请求异常；无异常对象时为空
      */
     protected open fun onRequestError(message: String, exception: Throwable?) {
         setErrorState(message, exception)

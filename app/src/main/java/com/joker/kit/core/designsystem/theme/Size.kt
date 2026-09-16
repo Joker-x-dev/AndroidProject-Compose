@@ -73,8 +73,8 @@ val SpaceHorizontalMedium = 12.dp
 val SpaceHorizontalSmall = 8.dp
 
 /**
- * 超小平间间距：4dp
- * 适用场景：最小的平间间隔，如紧凑排列的元素间距
+ * 超小水平间距：4dp
+ * 适用场景：最小的水平间隔，如紧凑排列的元素间距
  */
 val SpaceHorizontalXSmall = 4.dp
 

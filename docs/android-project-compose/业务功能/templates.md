@@ -49,7 +49,7 @@ Android Studio 会在创建文件时要求填写未定义的自定义变量。�
 ```kotlin
 package com.joker.kit.feature.${FEATURE_NAME}.view
 
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.joker.kit.core.annotation.ScreenPreview
@@ -57,6 +57,7 @@ import com.joker.kit.core.annotation.ScreenPreviewDark
 import com.joker.kit.core.designsystem.theme.AppTheme
 import com.joker.kit.core.navigation.navigateBack
 import com.joker.kit.core.ui.component.scaffold.AppScaffold
+import com.joker.kit.core.ui.component.scaffold.MiuixPageLazyColumn
 import top.yukonga.miuix.kmp.basic.Text
 import com.joker.kit.feature.${FEATURE_NAME}.viewmodel.${PAGE_NAME}ViewModel
 
@@ -76,14 +77,15 @@ internal fun ${PAGE_NAME}Route(
 /**
  * ${CN_NAME}页面骨架
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ${PAGE_NAME}Screen() {
     AppScaffold(
         titleText = "${CN_NAME}",
         onBackClick = { navigateBack() },
-    ) {
-        ${PAGE_NAME}Content()
+        contentShouldConsumePadding = true,
+    ) { paddingValues ->
+        // 由 Content 消费 Scaffold 提供的系统栏和顶部栏内边距。
+        ${PAGE_NAME}Content(contentPadding = paddingValues)
     }
 }
 
@@ -91,9 +93,17 @@ internal fun ${PAGE_NAME}Screen() {
  * ${CN_NAME}页面内容
  */
 @Composable
-private fun ${PAGE_NAME}Content() {
-    // Content 只负责成功后的业务布局。
-    Text(text = "${CN_NAME}")
+private fun ${PAGE_NAME}Content(
+    contentPadding: PaddingValues,
+) {
+    MiuixPageLazyColumn(
+        contentPadding = contentPadding,
+    ) {
+        item {
+            // Content 只负责成功状态下的最终业务布局。
+            Text(text = "${CN_NAME}")
+        }
+    }
 }
 
 /**
